@@ -1,0 +1,21 @@
+<div class='row' id='calendar-wrapper'>
+  <h3 id="month" class="text-center">
+    <%= link_to calendar_path(date: @date.prev_month) do %>
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    <% end %>
+    <%= @date.strftime("%B %Y") %>
+    <%= link_to calendar_path(date: @date.next_month) do %>
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    <% end %>
+  </h2>
+  <%= calendar @date do |date| %>
+    <span class="pull-right"><%= date.day %></span>
+    <% if @events_by_date[date.to_s] %>
+      <ul>
+        <% @events_by_date[date.to_s].each do |event| %>
+          <li><%= link_to event.title, event %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>

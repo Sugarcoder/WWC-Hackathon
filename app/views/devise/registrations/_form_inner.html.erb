@@ -1,0 +1,53 @@
+<div class="form-group">
+  <div class="col-sm-4">
+    <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email", reuiqred: true %>
+  </div>  
+</div>
+
+<div class="form-group">
+  <div class="col-sm-4">
+    <%= f.text_field :username, autofocus: true, class: "form-control", placeholder: "Username", reuiqred: true %>
+  </div>  
+</div>
+
+<div class="form-group">
+  <div class=" col-sm-4">
+    <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password" %>
+    <% if type == 'edit' %>
+      <span class="help-block">Leave it blank if you do not want to change password</span>
+    <% end %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-sm-4">
+    <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "Password Confirmation" %>
+    <% if type == 'edit' %>
+      <span class="help-block">Leave it blank if you do not want to change password</span>
+    <% end %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class=" col-sm-4">
+    <%= f.text_field :firstname, autocomplete: "off", class: "form-control", placeholder: "Firstname" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class=" col-sm-4">
+    <%= f.text_field :lastname, autocomplete: "off", class: "form-control", placeholder: "Lastname" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class=" col-sm-4">
+    <%= f.text_field :telephone, autocomplete: "off", class: "form-control", placeholder: "Phone" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class=" col-sm-4">
+    <%= f.text_field :organization, autocomplete: "off", class: "form-control", placeholder: "Organization" %>
+  </div>
+</div>

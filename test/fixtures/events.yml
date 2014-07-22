@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  starting_time: 2014-07-18 22:41:02
+  ending_time: 2014-07-18 22:41:02
+  date: 2014-07-18
+  slot: 1
+  slot_remaing: 1
+  address: MyString
+  location_id: 1
+  description: MyText
+  is_recurring: false
+  category_id: MyString
+
+two:
+  title: MyString
+  starting_time: 2014-07-18 22:41:02
+  ending_time: 2014-07-18 22:41:02
+  date: 2014-07-18
+  slot: 1
+  slot_remaing: 1
+  address: MyString
+  location_id: 1
+  description: MyText
+  is_recurring: false
+  category_id: MyString
