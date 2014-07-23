@@ -18,3 +18,22 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
+
+var ready = function(){
+
+  //Automatically close (fade away) the alert message after 5 seconds
+  window.setTimeout(function() {
+    $(".alert").fadeTo(1500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+  }, 5000);
+
+  //remove hidden bootstrap modal
+  $('body').on('hidden.bs.modal', '.modal', function () {
+    $(this).removeData('bs.modal');
+  });
+
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);

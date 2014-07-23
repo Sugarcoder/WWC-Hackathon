@@ -1,0 +1,60 @@
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h4 class="modal-title" id="myModalLabel"><%= @event.title %></h4>
+</div>
+<div class="modal-body">
+  <ul id='event-content' class="list-unstyled">
+    <li id='event-date'>
+      <label> Date: </label>
+      <div>  <strong><%= @event.starting_time.strftime('%A, %B %e, %Y') %></strong> </div>
+    </li>
+
+    <li id='event-date'>
+      <label> Time: </label>
+      <div>  <strong><%= @event.starting_time.strftime('%H:%M %p') %></strong> </div>
+    </li>
+
+    <li id='event-location'>
+      <label> Location: </label>
+      <div>  <strong><%= @event.address %></strong> </div>
+    </li>
+
+    <li id='event-description'>
+      <label> Description: </label>
+      <div>  <strong><%= @event.description %></strong> </div>
+    </li>
+
+    <li id='event-slot'>
+      <label> Event space: </label>
+      <div>  <strong> <span id='event-attending-count'><%= @event.attending_user_count.to_i %></span> / <%= @event.slot %></strong> </div>
+    </li>
+  </ul>
+</div>
+<div class="modal-footer">
+  
+  <div class='button-groups'>
+      <% if user_signed_in? %>
+        <% if current_user.attending_events.include?(@event) %>
+          <%= link_to 'Cancel', cancel_event_path(@event, 'attend'), id: 'cancel_event', class: 'btn btn-danger' %>
+        <% elsif current_user.waiting_events.include?(@event) %>
+          <%= link_to 'Cancel', cancel_event_path(@event, 'wait'), id: 'cancel_event', class: 'btn btn-danger' %>
+        <% elsif  @event.attending_user_count.to_i < @event.slot.to_i %>
+          <%= link_to 'Attend Event', attend_event_path(@event, 'attend'), id: 'attend_event', class: 'btn btn-success' %>
+        <% else %>
+          <%= link_to 'Waiting List', attend_event_path(@event, 'wait'), id: 'attend_event', class: 'btn btn-info' %>
+        <% end %>
+
+        <% if can? :update, @event %>
+          <%= link_to 'Edit', edit_event_path(@event), class: 'btn btn-primary' %>
+        <% end %>
+
+        <% if can? :destroy, @event %>
+          <%= link_to 'Destroy', event_path(@event), method: 'delete', class: 'btn btn-danger' %>
+        <% end %>
+      <% end %>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+ 

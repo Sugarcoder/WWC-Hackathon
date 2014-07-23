@@ -12,6 +12,9 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    respond_to do |format|
+      format.js { render partial: 'event_modal' }
+    end
   end
 
   # GET /events/new

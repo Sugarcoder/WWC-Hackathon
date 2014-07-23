@@ -7,7 +7,6 @@ var ready = function(){
   });
   $('.selectpicker').selectpicker();
 
-
 };
 
 $(document).ready(ready);
