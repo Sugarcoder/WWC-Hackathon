@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  enum role: [ :normal, :admin, :super_admin ]
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
   has_many :users_events, :foreign_key => 'user_id', :class_name => "UsersEvents"
   has_many :attending_events, -> { where "status = 1" }, through: :users_events, source: :event
@@ -21,4 +22,5 @@ class User < ActiveRecord::Base
         ""
     end
   end
+
 end

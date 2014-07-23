@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
+  skip_authorize_resource :only => :calendar
   before_action :authenticate_user!, only: [:attend, :cancel]
 
   # GET /events
