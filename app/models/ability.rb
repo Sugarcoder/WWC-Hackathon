@@ -9,7 +9,9 @@ class Ability
         can :manage, :all
     elsif user.normal?
         can :read, Event
-        can [:attend, :cancel], Event 
+        can [:attend, :cancel], Event
+    else
+        can :read, Event
     end
     #
     # The first argument to `can` is the action you are giving the user permission to do.
