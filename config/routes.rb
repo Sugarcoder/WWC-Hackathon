@@ -23,5 +23,6 @@ Rails.application.routes.draw do
   #cancel event
     get '/events/cancel/:event_id/:status' => 'events#cancel', as: 'cancel_event'
 
-    root :to => 'high_voltage/pages#show', id: 'home'
+    #root :to => 'high_voltage/pages#show', id: 'home'
+    root :to => 'events#calendar'
 end

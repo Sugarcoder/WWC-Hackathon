@@ -28,7 +28,7 @@ var ready = function(){
     });
   }, 5000);
 
-  //remove hidden bootstrap modal
+  //remove hidden bootstrap modal in calendar page
   $('body').on('hidden.bs.modal', '.modal', function () {
     $(this).removeData('bs.modal');
   });
