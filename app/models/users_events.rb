@@ -6,8 +6,8 @@ class UsersEvents < ActiveRecord::Base
    belongs_to :event
    belongs_to :user
 
-   after_create :increment_attending_user_count
-   after_destroy :decrease_attending_user_count
+   after_create :increment_user_count
+   after_destroy :decrease_user_count
 
   def event_validation
     event = Event.find_by_id(event_id)
@@ -15,6 +15,9 @@ class UsersEvents < ActiveRecord::Base
       errors[:base] << "Event not found"
       if event.attending_user_count.to_i >= event.slot.to_i && self.status == 'attending'
         errors[:base] << "Event is full"
+      end
+      if event.waiting_user_count.to_i  >= (event.slot.to_i/2 + 1) && self.status == 'waiting'
+        errors[:base] << "Waiting list is full"
       end
     end
   end
@@ -34,16 +37,22 @@ class UsersEvents < ActiveRecord::Base
     end
   end
 
-  def increment_attending_user_count
-    if self.status == 'attending' 
+  def increment_user_count
+    if self.attending?
       event.attending_user_count += 1
+      event.save
+    elsif self.waiting?
+      event.waiting_user_count += 1
       event.save
     end
   end
 
-  def decrease_attending_user_count
-    if self.status == 'attending' && event.attending_user_count > 0
+  def decrease_user_count
+    if self.attending? && event.attending_user_count > 0
       event.attending_user_count -= 1
+      event.save
+    elsif self.waiting? && event.waiting_user_count > 0
+      event.waiting_user_count -= 1
       event.save
     end
   end

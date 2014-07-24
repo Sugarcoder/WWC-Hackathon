@@ -30,7 +30,7 @@ body {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto -40px;
+  margin: 0 auto -10px;
 }
 
 .sign_in_wrapper{
@@ -39,6 +39,12 @@ body {
 
 .register-notice{
   margin-right: 24px;
+}
+
+.word-crop{
+  overflow: hidden;
+  white-space: nowrap; /* Don't forget this one */
+  text-overflow: ellipsis;
 }
 
 

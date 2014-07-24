@@ -44,8 +44,8 @@
 }
 
 #calendar-wrapper ul {
-  font-size: 11px;
-  padding-left: 20px;
+  font-size: 13px;
+  padding-left: 5px;
 }
 
 #event-block{
@@ -63,5 +63,15 @@
     div{
       display: inline-block;
     }
+  }
+}
+
+.event-list{
+  li{
+    width: 100px;
+    padding: 5px 0px;
+  }
+  .event-time{
+    font-size: 9px;
   }
 } 

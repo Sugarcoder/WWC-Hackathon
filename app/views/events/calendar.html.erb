@@ -13,7 +13,17 @@
     <% if @events_by_date[date.to_s] %>
       <ul class="event-list list-unstyled">
         <% @events_by_date[date.to_s].each do |event| %>
-          <li><%= link_to event.title, event, 'data-toggle'=>'modal', 'data-target'=>'#eventModal', href: event_path(event.id) %></li>
+          <li class='word-crop'>
+            <%= link_to event.title, event, remote: true, class: 'event-link' %>
+            <div class='event-time'> 
+              <span class='start-time'> <%= event.starting_hour %> </span>
+              <% if event.ending_time %>
+                ' - '
+                <span class='start-time'> <%= event.ending_hour %> </span>
+              <% end %>
+            </div>
+
+          </li>
         <% end %>
       </ul>
     <% end %>

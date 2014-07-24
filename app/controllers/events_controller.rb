@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource 
   skip_authorize_resource :only => :calendar
   before_action :authenticate_user!, only: [:attend, :cancel]
 
@@ -13,7 +13,8 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     respond_to do |format|
-      format.js { render partial: 'event_modal' }
+      format.js { render  'show' }
+      format.html { render 'show' }
     end
   end
 
@@ -33,7 +34,11 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-   
+    p '****************'
+    p params
+    if params['event']['date'].present? and params['event']['starting_time'].present?
+      params['event']['starting_time'] = parse_event_date(params['event']['date'], params['event']['starting_time'])
+    end
     @event = Event.new(event_params)
 
     respond_to do |format|
@@ -50,6 +55,9 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
+    if params['event']['date'].present? and params['event']['starting_time'].present?
+      params['event']['starting_time'] = parse_event_date(params['event']['date'], params['event']['starting_time'])
+    end
     respond_to do |format|
       if @event.update(event_params)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
@@ -128,9 +136,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      if params['event']['date'].present? and params['event']['starting_time'].present?
-        params['event']['starting_time'] = parse_event_date(params['event']['date'], params['event']['starting_time'])
-      end
       params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :is_recurring, :category_id)
     end
 
