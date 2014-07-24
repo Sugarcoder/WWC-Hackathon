@@ -25,8 +25,8 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     if @event.starting_time
-      @date = @event.starting_time.strftime('%m/%d/%Y') 
-      @time = @event.starting_time.strftime('%I:%M %p')
+      @date = @event.starting_date
+      @time = @event.starting_hour
     end
   end
 

@@ -1,0 +1,26 @@
+<ul id='event-content' class="list-unstyled">
+  <li id='event-date'>
+    <label> Date: </label>
+    <div>  <strong><%= event.starting_time.strftime('%A, %B %e, %Y') %></strong> </div>
+  </li>
+
+  <li id='event-date'>
+    <label> Time: </label>
+    <div>  <strong><%= event.starting_time.strftime('%H:%M %p') %></strong> </div>
+  </li>
+
+  <li id='event-location'>
+    <label> Location: </label>
+    <div>  <strong><%= event.address %></strong> </div>
+  </li>
+
+  <li id='event-description'>
+    <label> Description: </label>
+    <div>  <strong><%= event.description %></strong> </div>
+  </li>
+
+  <li id='event-slot'>
+    <label> Event space: </label>
+    <div>  <strong> <span id='event-attending-count'><%= event.attending_user_count.to_i %></span> / <%= event.slot %></strong> </div>
+  </li>
+</ul>
