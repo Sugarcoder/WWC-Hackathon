@@ -27,3 +27,7 @@ gem "cancancan"
 
 gem 'aws-sdk'
 gem 'paperclip'
+
+group :production do
+  gem 'rails_12factor'
+end
