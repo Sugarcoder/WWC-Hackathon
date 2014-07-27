@@ -21,7 +21,12 @@
 
   <li id='event-slot'>
     <label> Event space: </label>
-    <div> <strong><span id='event-attending-count'><%= event.attending_user_count.to_i %></span> / <%= event.slot.to_i %></strong> </div>
+    <div> 
+      <strong>
+        <span id='event-attending-count'><%= event.attending_user_count.to_i %></span> / 
+        <span id='max-attending-count'> <%= event.slot.to_i %></span>
+      </strong> 
+    </div>
   </li>
 
   <% if event.attending_user_count.to_i >= event.slot.to_i %>
@@ -29,7 +34,8 @@
       <label> Waiting list space: </label>
       <div> 
         <strong>
-          <span id='event-waiting-list-count'><%= event.waiting_user_count.to_i %> </span> / <%= event.waiting_list_slot %>
+          <span id='event-waiting-list-count'> <%= event.waiting_user_count.to_i %> </span> / 
+          <span id='max-waiting-list-count'> <%= event.waiting_list_slot %> </span>
         </strong> 
       </div>
     </li>

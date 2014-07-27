@@ -1,0 +1,15 @@
+defaults: &defaults
+  access_key_id:  "AKIAIXOAYGXM5RRVY2ZA"
+  secret_access_key: "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"
+development:
+  <<: *defaults
+  bucket: "rescuingleftover-development"
+test:
+  <<: *defaults
+  bucket: "rescuingleftover-test"
+staging:
+  <<: *defaults
+  bucket: "rescuingleftover-staging"
+production:
+  <<: *defaults
+  bucket: "rescuingleftover-production"

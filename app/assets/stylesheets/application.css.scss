@@ -22,7 +22,7 @@ html, body{
 }
 
 body {
-  padding-top: 50px;
+  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -46,6 +46,14 @@ body {
   white-space: nowrap; /* Don't forget this one */
   text-overflow: ellipsis;
 }
+
+.nav li:hover{
+  
+  a{
+    background:#428bca;
+    color: white;
+  }
+} 
 
 
 

@@ -87,6 +87,9 @@ class EventsController < ApplicationController
 
   def attend
     @type = params[:status]
+    @event = Event.find_by_id(params[:event_id])
+    return render 'attend' if @event.nil?
+
     case @type
     when 'attend'
       users_events = UsersEvents.new(user_id: current_user.id, event_id: params[:event_id], status: 1)
@@ -99,7 +102,8 @@ class EventsController < ApplicationController
     respond_to do |format|
       if users_events.save
         format.html { redirect_to :back, notice: notice }
-        format.json { head :no_content }
+        format.js{ render 'attend'}
+        format.json { render json: { event_id: @event.id} }
       else
         format.html { redirect_to :back, notice: users_events.errors.full_messages.join(', ') }
         format.json { head :no_content }
@@ -109,6 +113,7 @@ class EventsController < ApplicationController
 
   def cancel
     @type = params[:status]
+    @event = Event.find_by_id(params[:event_id])
     case @type
     when 'attend'
       users_events = UsersEvents.find_by_user_id_and_event_id_and_status(current_user.id, params[:event_id], 1)
@@ -120,7 +125,7 @@ class EventsController < ApplicationController
       if users_events.destroy
         notice = 'You canceled this event.'
         format.html { redirect_to :back, notice: notice }
-        format.json { head :no_content }
+        format.json { render json: { event_id: @event.id} }
       else
         format.html { redirect_to :back, notice: users_events.errors.full_messages.join(', ') }
         format.json { head :no_content }

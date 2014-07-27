@@ -93,5 +93,6 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
 
-  Rails.application.routes.default_url_options[:host] = 'rescuingleftovercuisine.herokuapp.com' 
+  Rails.application.routes.default_url_options[:host] = 'rescuingleftovercuisine.herokuapp.com'
+ 
 end

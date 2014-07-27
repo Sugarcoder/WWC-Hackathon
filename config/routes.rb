@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   #user
     get '/users/index' => 'users#index', as: 'users'
     get '/users/:id' => 'users#show', as: 'user'
+    get '/users/:id/avatar' => 'users#avatar', as: 'user_avatar'
+    post '/users/:id/avatar' => 'users#upload_avatar', as: 'upload_avatar'
   #static page
     get '/about'    => 'high_voltage/pages#show', id: 'about'
     get '/contact'  => 'high_voltage/pages#show', id: 'contact'

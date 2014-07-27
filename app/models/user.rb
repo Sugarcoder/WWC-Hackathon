@@ -8,6 +8,23 @@ class User < ActiveRecord::Base
   has_many :waiting_events, -> { where "status = 2" }, through: :users_events, source: :event
   has_many :attended_events, -> { where "status = 3" }, through: :users_events, source: :event
 
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  has_attached_file :avatar, styles: {
+    square: { geometry: '140x140#', format: 'jpg' }
+  }, :default_url => "/assets/user.png", :processors => [:cropper]
+  do_not_validate_attachment_file_type :avatar
+
+ 
+  def cropping?
+    !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
+  end
+
+  def avatar_geometry(style = :original)
+    @geometry ||= {}
+    path = (avatar.options[:storage]==:s3) ? avatar.url(style) : avatar.path(style)
+    @geometry[style] ||= Paperclip::Geometry.from_file(path)
+  end
+
   def full_name
     firstname[0] = firstname[0].capitalize if firstname.present?
     lastname[0] = lastname[0].capitalize if lastname.present?
@@ -22,5 +39,5 @@ class User < ActiveRecord::Base
         ""
     end
   end
-
+  
 end

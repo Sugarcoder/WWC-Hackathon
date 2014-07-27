@@ -1,0 +1,26 @@
+<!-- upload form -->
+<%= form_for(@user, url: upload_avatar_path(@user), html: { method: :post, class: ['form-horizontal'], role: 'form', multipart: true }) do |f| %>
+  
+  <div class="error"></div>
+
+  <!-- hidden crop params -->
+  <%= f.hidden_field :crop_x, :id => 'crop_x' %><br />
+  <%= f.hidden_field :crop_y, :id => 'crop_y' %><br />
+  <%= f.hidden_field :crop_w, :id => 'crop_w' %><br />
+  <%= f.hidden_field :crop_h, :id => 'crop_h' %><br />
+
+  <input type="file" name="user[avatar]" id="avatar" />
+
+  
+  <div class="step2" >
+      <h2>Step2: Please select a crop region</h2>
+      <div class='avatar_preview' >
+        <img id="preview" />
+      </div>
+      <input type="submit" value="Upload" />
+  </div>
+<% end %>
+
+
+
+

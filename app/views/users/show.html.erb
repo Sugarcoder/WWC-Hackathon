@@ -1,41 +1,49 @@
 
 <div class= "row">
-  <h1>User Information</h1>
-  <hr/>
   <div class="user-information-wrapper">
-    <p>
-      <strong>Firstname:</strong>
-      <span><%= @user.firstname %></span>
-    </p>
+    <div class= 'row'>
+      <div class="col-md-2">
+          <p>
+            <span> <%= image_tag(@user.avatar.url(:square), class: 'img-circle') %> </span>
+          </p>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <strong>Firstname:</strong>
+          <span><%= @user.firstname %></span>
+        </p>
 
-    <p>
-      <strong>Lastname:</strong>
-      <span><%= @user.lastname %> </span>
-    </p>
 
-    <p>
-      <strong>Username:</strong>
-      <span><%= @user.username %></span>
-    </p>
+        <p>
+          <strong>Lastname:</strong>
+          <span><%= @user.lastname %> </span>
+        </p>
 
-    <p>
-      <strong>Organization:</strong>
-      <span><%= @user.organization %> </span>
-    </p>
+        <p>
+          <strong>Username:</strong>
+          <span><%= @user.username %></span>
+        </p>
 
-    <p>
-      <strong>Email:</strong>
-      <span> <%= @user.email %> </span>
-    </p>
+        <p>
+          <strong>Organization:</strong>
+          <span><%= @user.organization %> </span>
+        </p>
 
-    <p>
-      <strong>Phone:</strong>
-       <span><%= @user.telephone %></span>
-    </p>
+        <p>
+          <strong>Email:</strong>
+          <span> <%= @user.email %> </span>
+        </p>
+
+        <p>
+          <strong>Phone:</strong>
+           <span><%= @user.telephone %></span>
+        </p>
+      </div>
+    </div>
   </div>
   <div class="user-information-control">
     <%= link_to "Edit Personal Information", edit_user_registration_path, :class => "btn btn-success" %>
-    <%= link_to "Upload Profile Image", '#', :class => "btn btn-primary" %>
+    <%= link_to "Upload Profile Image", user_avatar_path(@user) , :class => "btn btn-primary" %>
   </div>
 </div>
 
