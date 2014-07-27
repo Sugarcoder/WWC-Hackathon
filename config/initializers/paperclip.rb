@@ -16,10 +16,6 @@ module Paperclip
     def transformation_command
       if crop_command
         crop_command + super.join(' ').sub(/ -crop \S+/, '').split(' ')
-        p '***********************'
-        p super
-        p crop_command
-        p crop_command + super.join(' ').sub(/ -crop \S+/, '').split(' ')
       else
         super
       end
