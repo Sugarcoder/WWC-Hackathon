@@ -15,9 +15,16 @@
 //= require ./plugins/bootstrap-datepicker.js
 //= require ./plugins/bootstrap-select.js
 //= require ./plugins/bootstrap-timepicker.js
+//= require ./plugins/jquery.color.js
+//= require ./plugins/jquery.Jcrop.js
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require_tree .
+
+//= require ./categories.js
+//= require ./events.js
+//= require ./image_upload.js
+
+//= require_self
 
 var ready = function(){
 
