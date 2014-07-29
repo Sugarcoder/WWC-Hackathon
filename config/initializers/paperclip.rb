@@ -2,6 +2,7 @@ Paperclip::Attachment.default_options.merge!({
   bucket: "rescuingleftover-#{Rails.env}",
   :storage => :s3,
   s3_credentials: Rails.configuration.aws,
+  s3_host_name: 's3-us-west-2.amazonaws.com'
 }) unless Rails.env.test?
 
 require 'paperclip/media_type_spoof_detector'
