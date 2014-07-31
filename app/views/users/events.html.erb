@@ -1,0 +1,5 @@
+<%= render layout: 'user' do %>
+  <% @events.each do |event| %>
+    <%= render partial: 'events/event_thumb', locals: { event: event, status: @status} %>
+  <% end %>
+<% end %>

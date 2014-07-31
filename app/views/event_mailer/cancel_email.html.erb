@@ -1,0 +1,18 @@
+<p>Dear <%= @user.full_name %>,</p>
+<br/>
+<p class="lead">Your registration for the following event has been cancelled: </p>
+
+<p class="lead"> Event title: <span style=' font-size: 15px'> <%= @event.title %> </span> </p>
+<p class="lead"> Time: <span> <%= @event.starting_hour %> </span> 
+<% if @event.ending_hour.present? %>
+  <span> - <%= @event.ending_hour %> </span>
+<% end %>
+</p>
+<p class="lead">Location: </span> <span> <%= @event.address %> </span> </p>
+<br/>
+<p>Please do not hesitate to respond to this email with questions, comments, and feedback. </p>
+
+<p>You are receiving this email because you cancelled this event. Thank you!</p>
+<br/>
+<p>RLC Team</p>
+ 

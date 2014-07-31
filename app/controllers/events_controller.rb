@@ -27,18 +27,22 @@ class EventsController < ApplicationController
   def edit
     if @event.starting_time
       @date = @event.starting_date
-      @time = @event.starting_hour
+      @starting_time = @event.starting_hour
+      @ending_time = @event.ending_hour
     end
   end
 
   # POST /events
   # POST /events.json
   def create
-    p '****************'
-    p params
     if params['event']['date'].present? and params['event']['starting_time'].present?
       params['event']['starting_time'] = parse_event_date(params['event']['date'], params['event']['starting_time'])
     end
+
+    if params['event']['date'].present? and params['event']['starting_time'].present?
+      params['event']['ending_time'] = parse_event_date(params['event']['date'], params['event']['ending_time'])
+    end
+
     @event = Event.new(event_params)
 
     respond_to do |format|
@@ -57,6 +61,9 @@ class EventsController < ApplicationController
   def update
     if params['event']['date'].present? and params['event']['starting_time'].present?
       params['event']['starting_time'] = parse_event_date(params['event']['date'], params['event']['starting_time'])
+    end
+    if params['event']['date'].present? and params['event']['starting_time'].present?
+      params['event']['ending_time'] = parse_event_date(params['event']['date'], params['event']['ending_time'])
     end
     respond_to do |format|
       if @event.update(event_params)
@@ -123,6 +130,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if users_events.destroy
+        EventMailer.cancel_email(current_user, @event).deliver if @type == 'attend'
         notice = 'You canceled this event.'
         format.html { redirect_to :back, notice: notice }
         format.json { render json: { event_id: @event.id} }

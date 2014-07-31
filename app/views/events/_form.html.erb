@@ -36,7 +36,12 @@
     </div>
 
     <div class="col-sm-2">
-       <input type='text' name='event[starting_time]' id='event_time' class="form-control" value="<%= @time if @time %>">
+      <input type='text' name='event[starting_time]' id='event_starting_time' class="form-control" value="<%= @starting_time if @starting_time %>" placeholder='starting time'>
+      <span class="glyphicon glyphicon-time form-control-feedback"></span>
+    </div>
+
+    <div class="col-sm-2">
+       <input type='text' name='event[ending_time]' id='event_ending_time' class="form-control" value="<%= @ending_time if @ending_time %>" placeholder='ending time'>
        <span class="glyphicon glyphicon-time form-control-feedback"></span>
     </div>
   </div>

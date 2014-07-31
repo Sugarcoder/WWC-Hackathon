@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :avatar, :upload_avatar, :cropping_avatar]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :avatar, :upload_avatar, :events]
 
   def index
     
@@ -20,10 +20,15 @@ class UsersController < ApplicationController
     render 'show'
   end
 
-  def cropping_avatar
-    @user.update_attributes(user_params)
-    if @user.cropping?
-      @user.avatar.reprocess!
+  def events
+    event_ids = UsersEvents.where(user_id: @user.id).map(&:event_id)
+    case params['type']
+    when 'upcoming' 
+      @events = Event.where( ' id IN (?) and starting_time > ?', event_ids, Time.now ).order('starting_time ASC')
+      @status = 'reserved'
+    when 'history'
+      @events = Event.where( ' id IN (?) and starting_time < ?', event_ids, Time.now ).order('starting_time DESC')
+      @status = 'attended'
     end
   end
 

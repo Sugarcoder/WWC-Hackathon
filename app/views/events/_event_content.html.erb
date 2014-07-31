@@ -6,7 +6,12 @@
 
   <li id='event-date'>
     <label> Time: </label>
-    <div>  <strong><%= event.starting_time.strftime('%H:%M %p') %></strong> </div>
+    <div>  
+      <strong><%= event.starting_hour %></strong>
+      <% if event.ending_time.present? %>
+        -  <strong> <%= event.ending_hour %> </strong>
+      <% end %> 
+    </div>
   </li>
 
   <li id='event-location'>

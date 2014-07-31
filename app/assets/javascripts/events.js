@@ -2,7 +2,10 @@ var ready = function(){
   $('#event_date').datepicker({
     format: 'mm/dd/yyyy'
   });
-  $('#event_time').timepicker({
+  $('#event_starting_time').timepicker({
+    defaultTime: false
+  });
+  $('#event_ending_time').timepicker({
     defaultTime: false
   });
   $('.selectpicker').selectpicker();

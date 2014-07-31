@@ -35,13 +35,12 @@
           <li class="<%= 'active' if current_page?(events_path) %>"><%= link_to "Event", events_path %></li>
           <li class="<%= 'active' if current_page?(categories_path) %>"><%= link_to "Category", categories_path %></li>
           <% if user_signed_in? %>
-            <li class="<%= 'active' if current_page?(user_path(current_user)) %>"> <%= link_to image_tag(current_user.avatar.url(:square), class: 'img-circle', style:'height: 70px; vertical-align:middle;'), user_path(current_user), style: 'margin-top: -30px;' %></li>
+            <li> <%= link_to image_tag(current_user.avatar.url(:square), class: 'img-circle', style:'height: 70px; vertical-align:middle;'), user_path(current_user), style: 'margin-top: -30px;' %></li>
             <li ><%= link_to "Log out", destroy_user_session_path, method: 'delete' %></li>
           <% else %>
             <li> <%= link_to "Log in", new_user_session_path %> </li>
             <li> <%= link_to "Sign up", new_user_registration_path %> </li>
           <% end %>
-
         </ul>
       </div><!-- /.nav-collapse -->
       <hr/>

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get '/users/:id' => 'users#show', as: 'user'
     get '/users/:id/avatar' => 'users#avatar', as: 'user_avatar'
     post '/users/:id/avatar' => 'users#upload_avatar', as: 'upload_avatar'
+    get '/users/:id/events/:type' => 'users#events', as: 'user_events'
   #static page
     get '/about'    => 'high_voltage/pages#show', id: 'about'
     get '/contact'  => 'high_voltage/pages#show', id: 'contact'

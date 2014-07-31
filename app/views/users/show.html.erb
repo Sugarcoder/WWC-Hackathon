@@ -1,13 +1,12 @@
-
-<div class= "row">
+<%= render layout: 'user' do %>
   <div class="user-information-wrapper">
     <div class= 'row'>
-      <div class="col-md-2">
+      <div class="col-md-3">
           <p>
             <span> <%= image_tag(@user.avatar.url(:square), class: 'img-circle') %> </span>
           </p>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-9">
         <p>
           <strong>Firstname:</strong>
           <span><%= @user.firstname %></span>
@@ -45,5 +44,5 @@
     <%= link_to "Edit Personal Information", edit_user_registration_path, :class => "btn btn-success" %>
     <%= link_to "Upload Profile Image", user_avatar_path(@user) , :class => "btn btn-primary" %>
   </div>
-</div>
+<% end %>
 
