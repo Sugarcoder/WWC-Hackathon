@@ -1,3 +1,5 @@
+
+
 Rails.application.routes.draw do
   resources :categories
 
@@ -28,6 +30,9 @@ Rails.application.routes.draw do
   #stop recurring event
     delete '/events/recurring/:id' => 'events#stop_recurring', as: 'event_stop_recurring'
 
-    #root :to => 'high_voltage/pages#show', id: 'home'
+  #root :to => 'high_voltage/pages#show', id: 'home'
     root :to => 'events#calendar'
+
+ 
+
 end

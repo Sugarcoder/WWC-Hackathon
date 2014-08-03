@@ -1,0 +1,10 @@
+:timeout: 30
+:queues:
+  - [default, 1]
+  - [mailer, 1]
+production:
+  :concurrency: 3
+staging:
+  :concurrency: 1
+integration:
+  :concurrency: 1

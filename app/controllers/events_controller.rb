@@ -136,7 +136,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if users_events.destroy
-        EventMailer.cancel_email(current_user, @event).deliver if @type == 'attend'
+        CancelEmailWorker::perform_async(current_user.id, @event.id) if @type == 'attend'
         notice = 'You canceled this event.'
         format.html { redirect_to :back, notice: notice }
         format.json { render json: { event_id: @event.id} }

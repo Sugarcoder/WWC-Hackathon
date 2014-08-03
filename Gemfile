@@ -28,6 +28,8 @@ gem 'premailer-rails'
 
 gem 'aws-sdk'
 gem 'paperclip'
+gem 'redis'
+gem 'sidekiq'
 
 group :production do
   gem 'rails_12factor'
