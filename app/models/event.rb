@@ -4,8 +4,13 @@ class Event < ActiveRecord::Base
   enum recurring_type: [ :not_recurring, :daily, :every_other_day, :weekly, :monthly ]
   belongs_to :category
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
+  
 
-  validate :event_time_validation
+
+  validate :starting_time_after_current_time, on: :create
+  validate :starting_time_before_ending_time
+  validates :ending_time, presence: true
+  validates :starting_time, presence: true
 
   def starting_date
     return nil if self.starting_time.nil?
@@ -57,12 +62,14 @@ class Event < ActiveRecord::Base
   #####################################################################
   # Validation
   #####################################################################
-
-  def event_time_validation
-    if self.starting_time < 2.minutes.ago
+  def starting_time_after_current_time
+    if self.starting_time && self.starting_time < 2.minutes.ago
       errors[:base] << "Event starting time can not be older than current time"
     end
+  end
 
+  def starting_time_before_ending_time
+    return if self.starting_time.nil? || self.ending_time.nil?
     if self.starting_time > self.ending_time
       errors[:base] << "starting time can not after ending time"
     end

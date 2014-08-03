@@ -40,7 +40,7 @@ class EventsController < ApplicationController
       params['event']['starting_time'] = Event.parse_event_date(params['event']['date'], params['event']['starting_time'])
     end
 
-    if params['event']['date'].present? and params['event']['starting_time'].present?
+    if params['event']['date'].present? and params['event']['ending_time'].present?
       params['event']['ending_time'] = Event.parse_event_date(params['event']['date'], params['event']['ending_time'])
     end
 
@@ -65,7 +65,7 @@ class EventsController < ApplicationController
     if params['event']['date'].present? and params['event']['starting_time'].present?
       params['event']['starting_time'] = Event.parse_event_date(params['event']['date'], params['event']['starting_time'])
     end
-    if params['event']['date'].present? and params['event']['starting_time'].present?
+    if params['event']['date'].present? and params['event']['ending_time'].present?
       params['event']['ending_time'] = Event.parse_event_date(params['event']['date'], params['event']['ending_time'])
     end
     respond_to do |format|
