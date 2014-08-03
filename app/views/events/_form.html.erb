@@ -54,20 +54,32 @@
 
   <div class="form-group">
     <div class="col-sm-4">
-      <%= f.select(:category_id, Category.all.collect {|ca| [ca.name, ca.id]}, {}, { class: 'selectpicker' }) %>
+      <%= f.select(:leader_id, User.where('role = 1').collect {|user| [user.full_name, user.id]}, {}, { class: 'selectpicker' }) %>
     </div>
   </div>
 
   <div class="form-group">
     <div class="col-sm-4">
-      <div class="checkbox">
-        <label>
-           <%= f.check_box :is_recurring %> Is the event recurring?
-        </label>
-      </div>
+      <%= f.select(:category_id, Category.all.collect {|ca| [ca.name, ca.id]}, {}, { class: 'selectpicker' }) %>
     </div>
   </div>
 
+  <% is_disabled = @event.recurring_type != 'not_recurring' %>
+  <div class="form-group">
+    <div class="col-sm-4">
+      <%= f.select(:recurring_type, [ ['not recurring', 'not_recurring'], ['daily', 'daily'], ['every other day', 'every_other_day'], ['weekly', 'weekly'], ['monthly', 'monthly'] ], {}, { id: 'event_recurring_type', class: 'event_recurring_type selectpicker show-menu-arrow', disabled: is_disabled }) %>
+      <% unless @event.not_recurring? %>
+        <%= link_to 'stop recurring', '#', data: { toggle: "modal", target: '#confirm-stop-recurring-block' }, class: 'btn btn-warning', id: 'stop_recurring' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-4">
+      <input type='text' name='recurring_ending_date' id='recurring_ending_date' class="form-control", placeholder='when should the event stop recurring?' style='display: none;'>
+    </div>
+  </div>
+  
 
   <div class="form-group">
     <div class="col-sm-10">
@@ -76,3 +88,38 @@
   </div>
 
 <% end %>
+
+<% unless @event.not_recurring? %>
+<!-- Modal -->
+<div class="modal fade" id="confirm-stop-recurring-block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">  Stop Event <%= @event.title %> Recurring </h4>
+      </div>
+      <div class="modal-body">
+        <p class="bg-warning"> Are you sure that you want to stop this event to be recurring? <br/> 
+        Once you stop it, recurring events related to this event in the future will be deleted. </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <%= link_to 'Stop Recurring', '#', id: 'confirm_stop_recurring', class: 'btn btn-danger', data: {event_id: @event.id}  %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<script>
+  $('#recurring_ending_date').datepicker({ format: 'mm/dd/yyyy' });
+  $(document).on('change', '#event_recurring_type', function(){
+    var recurring_ending_date = $('#recurring_ending_date');
+    if($(this).val() !== 'not_recurring'){ 
+      recurring_ending_date.show();
+    }
+    else{
+      recurring_ending_date.hide();
+    }
+  });
+</script>

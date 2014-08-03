@@ -30,7 +30,7 @@ var ready = function(){
   }, 5000);
 
   //remove hidden bootstrap modal in calendar page
-  $('body').on('hidden.bs.modal', '.modal', function () {
+  $('body').on('hidden.bs.modal', '#eventModal', function () {
     $(this).removeData("bs.modal").find(".modal-content").empty();
   });
 

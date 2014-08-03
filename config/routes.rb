@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     get '/events/attend/:event_id/:status' => 'events#attend', as: 'attend_event'
   #cancel event
     get '/events/cancel/:event_id/:status' => 'events#cancel', as: 'cancel_event'
+  #stop recurring event
+    delete '/events/recurring/:id' => 'events#stop_recurring', as: 'event_stop_recurring'
 
     #root :to => 'high_voltage/pages#show', id: 'home'
     root :to => 'events#calendar'

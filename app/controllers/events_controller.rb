@@ -1,7 +1,8 @@
 class EventsController < ApplicationController
+  include EventsHelper
   load_and_authorize_resource 
   skip_authorize_resource :only => :calendar
-  before_action :authenticate_user!, only: [:attend, :cancel]
+  before_action :authenticate_user!, only: [:attend, :cancel, :stop_recurring]
 
   # GET /events
   # GET /events.json
@@ -36,17 +37,19 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     if params['event']['date'].present? and params['event']['starting_time'].present?
-      params['event']['starting_time'] = parse_event_date(params['event']['date'], params['event']['starting_time'])
+      params['event']['starting_time'] = Event.parse_event_date(params['event']['date'], params['event']['starting_time'])
     end
 
     if params['event']['date'].present? and params['event']['starting_time'].present?
-      params['event']['ending_time'] = parse_event_date(params['event']['date'], params['event']['ending_time'])
+      params['event']['ending_time'] = Event.parse_event_date(params['event']['date'], params['event']['ending_time'])
     end
 
     @event = Event.new(event_params)
 
     respond_to do |format|
       if @event.save
+        Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
+
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
@@ -60,13 +63,16 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     if params['event']['date'].present? and params['event']['starting_time'].present?
-      params['event']['starting_time'] = parse_event_date(params['event']['date'], params['event']['starting_time'])
+      params['event']['starting_time'] = Event.parse_event_date(params['event']['date'], params['event']['starting_time'])
     end
     if params['event']['date'].present? and params['event']['starting_time'].present?
-      params['event']['ending_time'] = parse_event_date(params['event']['date'], params['event']['ending_time'])
+      params['event']['ending_time'] = Event.parse_event_date(params['event']['date'], params['event']['ending_time'])
     end
     respond_to do |format|
       if @event.update(event_params)
+
+        Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
+
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -141,6 +147,22 @@ class EventsController < ApplicationController
     end
   end
 
+  def stop_recurring
+    @event.update_attribute('recurring_type', 'not_recurring');
+    parent_event_id = @event.parent_event_id.present? ? @event.parent_event_id : @event.id 
+    events = Event.where('starting_time > ? and parent_event_id = ?', @event.starting_time, parent_event_id)
+    if events.destroy_all
+      error = false
+      message = 'remove recurring events after this event'
+    else
+      error = true
+      message = events.errors.full_message
+    end
+    respond_to do |format|
+      format.json { render json: { error: error, message: message} }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -149,12 +171,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :is_recurring, :category_id)
+      params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :recurring_type, :category_id, :leader_id, :pound, :is_finished, :parent_event_id)
     end
 
-    def parse_event_date(date_string, time_string)
-      str = date_string + ' ' + time_string
-      date = Date._strptime(str, '%m/%d/%Y %I:%M %p')
-      DateTime.new(date[:year], date[:mon], date[:mday], date[:hour], date[:min], 0).to_s
-    end
 end

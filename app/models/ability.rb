@@ -11,7 +11,7 @@ class Ability
         can :manage, :all
     elsif user.admin?
         can :crud, Category
-        can [:crud, :attend, :cancel], Event
+        can [:crud, :attend, :cancel, :stop_recurring], Event
     elsif user.normal?
         can :read, Event
         can [:attend, :cancel], Event

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140726140622) do
+ActiveRecord::Schema.define(version: 20140803024150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20140726140622) do
     t.string   "address"
     t.integer  "location_id"
     t.text     "description"
-    t.boolean  "is_recurring"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "date"
@@ -37,6 +36,11 @@ ActiveRecord::Schema.define(version: 20140726140622) do
     t.datetime "ending_time"
     t.integer  "category_id"
     t.integer  "waiting_user_count",   default: 0, null: false
+    t.integer  "recurring_type",       default: 0, null: false
+    t.integer  "pound",                default: 0
+    t.integer  "leader_id"
+    t.integer  "parent_event_id"
+    t.boolean  "is_finished"
   end
 
   create_table "users", force: true do |t|

@@ -1,13 +1,17 @@
 var ready = function(){
+  
   $('#event_date').datepicker({
     format: 'mm/dd/yyyy'
   });
+
   $('#event_starting_time').timepicker({
     defaultTime: false
   });
+
   $('#event_ending_time').timepicker({
     defaultTime: false
   });
+
   $('.selectpicker').selectpicker();
 
   //attend event js 
@@ -19,7 +23,7 @@ var ready = function(){
     parent = $('.event-block');
   }
 
-  parent.on('click', '#attend_event', function(e){  
+  $(document).on('click', '#attend_event', function(e){  
     e.preventDefault();
     url =  "/events/attend/" + $(this).data('event-id') + "/attend";
     $.ajax({
@@ -49,7 +53,7 @@ var ready = function(){
   });
 
   //waiting event
-  parent.on('click', '#wait_event', function(e){  
+  $(document).on('click', '#wait_event', function(e){  
     e.preventDefault();
     url =  "/events/attend/" + $(this).data('event-id') + "/wait";
     $.ajax({
@@ -79,7 +83,7 @@ var ready = function(){
   });
 
   //cancel event
-  parent.on('click', '#cancel_event', function(e){  
+  $(document).on('click', '#cancel_event', function(e){  
     e.preventDefault();
     url =  "/events/cancel/" + $(this).data('event-id') + "/attend";
     $.ajax({
@@ -107,7 +111,7 @@ var ready = function(){
   });
 
   //cancel wait
-    parent.on('click', '#cancel_waiting', function(e){  
+  $(document).on('click', '#cancel_waiting', function(e){  
     e.preventDefault();
     url =  "/events/cancel/" + $(this).data('event-id') + "/wait";
     $.ajax({
@@ -120,12 +124,12 @@ var ready = function(){
         $(this).parent().prepend('<a class="btn btn-success" href="/events/attend/' + data['event_id'] + '/wait" id="wait_event" data-event-id="' + data['event_id'] + '">Waiting List</a>');
         var count_span, block;
         if($('.modal').length > 0){
-          block = $(this).closest('.modal');
+          var block = $(this).closest('.modal');
         }
         else{
-          block = $(this).closest('.event-block');
+          var block = $(this).closest('.event-block');
         }
-        count_span = block.find('#event-waiting-list-count');
+        var count_span = block.find('#event-waiting-list-count');
         var count = parseInt(count_span.text());
         if(count > 0){
           count_span.text(count - 1);
@@ -133,6 +137,28 @@ var ready = function(){
       }
     });
   });
+
+  //stop recurring
+  $(document).on('click', '#confirm_stop_recurring', function(e){
+    e.preventDefault();
+    url =  "/events/recurring/" + $(this).data('event-id');
+    $.ajax({
+      type : 'delete',
+      url : url,
+      context: this,
+      dataType : 'json',
+      success : function(data){
+        $('#stop_recurring').hide();
+        var event_recurring_type = $('#event_recurring_type');
+        event_recurring_type.selectpicker('val', 'not_recurring');
+        event_recurring_type.prop('disabled',false);
+        event_recurring_type.selectpicker('refresh');
+        $(this).closest('.modal').modal('hide');
+      }
+    });
+  });
+
+
 
 };
 

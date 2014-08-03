@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :attending_events, -> { where "status = 1" }, through: :users_events, source: :event
   has_many :waiting_events, -> { where "status = 2" }, through: :users_events, source: :event
   has_many :attended_events, -> { where "status = 3" }, through: :users_events, source: :event
+  has_many :leading_events, foreign_key: 'leader_id', class_name: 'Event'
+  
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   has_attached_file :avatar, styles: {
