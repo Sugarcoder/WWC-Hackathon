@@ -1,5 +1,5 @@
-if ENV["REDIS_DB_URL"]
-  $redis = Redis.new(:url => ENV["REDIS_DB_URL"])
+if ENV["REDISTOGO_URL"]
+  $redis = Redis.new(:url => ENV["REDISTOGO_URL"])
 else
   if Rails.env.test?
     $redis = Redis.new(db: 3)

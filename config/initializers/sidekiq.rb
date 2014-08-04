@@ -17,7 +17,7 @@ module Sidekiq
   end
 end
 
-REDIS_URL = ENV["REDIS_DB_URL"] || 'redis://127.0.0.1:6379/1'
+REDIS_URL = ENV["REDISTOGO_URL"] || 'redis://127.0.0.1:6379/1'
 
 Sidekiq.configure_server do |config|
   config.redis = { url: REDIS_URL, size: 3 }
