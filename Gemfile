@@ -36,3 +36,5 @@ group :production do
 end
 
 gem 'unicorn'
+gem 'sinatra', require: false
+gem 'slim'

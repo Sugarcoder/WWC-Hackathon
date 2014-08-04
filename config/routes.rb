@@ -1,4 +1,4 @@
-
+require 'sidekiq/web'
 
 Rails.application.routes.draw do
   resources :categories
@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   #root :to => 'high_voltage/pages#show', id: 'home'
     root :to => 'events#calendar'
 
- 
+    authenticate :user, lambda { |u| u.super_admin? } do
+      mount Sidekiq::Web => '/admin/sidekiq'
+    end
 
 end
