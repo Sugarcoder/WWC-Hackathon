@@ -94,7 +94,7 @@ class Event < ActiveRecord::Base
     def parse_event_date(date_string, time_string)
       str = date_string + ' ' + time_string
       date = Date._strptime(str, '%m/%d/%Y %I:%M %p')
-      DateTime.new(date[:year], date[:mon], date[:mday], date[:hour], date[:min], 0)
+      Time.zone.local(date[:year], date[:mon], date[:mday], date[:hour], date[:min], 0)
     end
 
     def adding_month

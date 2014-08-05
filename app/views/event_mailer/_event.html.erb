@@ -1,0 +1,7 @@
+<p> Event Title: <span > <%= event.title.titleize %> </span> </p>
+<p> Time: <span> <%= event.starting_hour %> </span> 
+<% if event.ending_hour.present? %>
+  <span> - <%= event.ending_hour %> </span>
+<% end %>
+</p>
+<p>Location: </span> <span> <%= event.address %> </span> </p>

@@ -1,0 +1,12 @@
+<p>Dear <%= @user.full_name %>,</p>
+<br/>
+<p>Thank you for registering to attend: </p>
+<br/>
+<%= render partial: 'event', locals: { event: @event} %>
+<br/>
+<p>Your Lead Rescuer will be <%= @event_leader.full_name %>. Call him/her at <%= @event_leader.telephone %> when you arrive so that the group can meet for a quick orientation before the event begins. 
+<%= render 'ending_paragraph' %>
+<br/>
+<hr/>
+<br/>
+<small> You are receiving this email because you registered for this event. Please <%= link_to 'cancel your event', event_url(@event) %> if you cannot attend. Three hours before this event, you cannot cancel online, you must send an email to <a href='emailto:volunteer@rescuingleftovercuisine.org'>volunteer@rescuingleftovercuisine.org</a>. Thank you!  </small>

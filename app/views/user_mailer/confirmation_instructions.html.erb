@@ -1,0 +1,13 @@
+<% if @is_under_eighteen %>
+  <p>Thank you for signing up with Rescuing Leftover Cuisine! </p>  
+  <p>Since you are under 18 years of age, you must have the attached parental consent form signed by your parent/guardian and emailed to <strong> <a href='emailto:volunteer@rescuingleftovercuisine.org'>volunteer@rescuingleftovercuisine.org</a></strong>. 
+  <p> You must also follow this link to activate your account: </p>
+<% else %>
+  <p>Thank you for signing up with Rescuing Leftover Cuisine!
+  <p>You must follow this link to activate your account: </p>
+<% end %>
+  <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+  <br/>
+  <p>Welcome, and don’t hesitate to contact us with your feedback or issues. </p>
+  <br/>
+  <p>RLC Team</p>

@@ -114,6 +114,14 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if users_events.save
+        if @type == 'attend'
+          AttendEmailWorker::perform_async(current_user.id, @event.id)
+          if Time.current < @event.starting_time - 1.hour # event happened later than attending time
+            ReminderEmailWorker::perform_at(@event.starting_time - 1.hour, current_user.id, @event.id)
+          end
+        elsif @type == 'wait'
+          WaitingListEmailWorker::perform_async(current_user.id, @event.id)
+        end 
         format.html { redirect_to :back, notice: notice }
         format.js{ render 'attend'}
         format.json { render json: { event_id: @event.id} }
@@ -136,7 +144,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if users_events.destroy
-        CancelEmailWorker::perform_async(current_user.id, @event.id) if @type == 'attend'
+        CancelEmailWorker::perform_async(current_user.id, @event.id)
         notice = 'You canceled this event.'
         format.html { redirect_to :back, notice: notice }
         format.json { render json: { event_id: @event.id} }

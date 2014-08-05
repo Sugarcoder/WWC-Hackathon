@@ -1,0 +1,14 @@
+<p>Dear <%= @user.full_name %>,</p>
+<br/>
+<p>Thank you for waitlisting to attend: </p>
+<br/>
+<%= render partial: 'event', locals: { event: @event } %>
+<br/>
+<p>Unfortunately, the event you selected to attend is too full. When rescuers cancel, waitlisted rescuers will be taken off the waitlist on a first come, first served basis. If you are taken off the waitlist, you will receive another email notifying you of the change. </p>
+<%= render 'ending_paragraph' %>
+<br/>
+<hr/>
+<br/>
+<small>
+You are receiving this email because you waitlisted for this event. Thank you!  
+</small>

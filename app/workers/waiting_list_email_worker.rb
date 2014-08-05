@@ -1,4 +1,4 @@
-class CancelEmailWorker
+class WaitingListEmailWorker
   include Sidekiq::Worker
   sidekiq_options :retry => 3
 
@@ -6,7 +6,7 @@ class CancelEmailWorker
     user = User.find_by_id(user_id)
     event = Event.find_by_id(event_id)
     return if user.nil? || event.nil?
-    EventMailer.cancel_email(user, event).deliver
+    EventMailer.waiting_list_email(user, event).deliver
   end
 
 end

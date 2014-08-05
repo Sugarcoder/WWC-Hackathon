@@ -2,13 +2,7 @@
 <br/>
 <p>Your registration for the following event has been cancelled: </p>
 <br/>
-<p> Event title: <span > <%= @event.title %> </span> </p>
-<p> Time: <span> <%= @event.starting_hour %> </span> 
-<% if @event.ending_hour.present? %>
-  <span> - <%= @event.ending_hour %> </span>
-<% end %>
-</p>
-<p>Location: </span> <span> <%= @event.address %> </span> </p>
+<%= render partial: 'event', locals: { event: @event } %>
 <br/>
 <p>Please do not hesitate to respond to this email with questions, comments, and feedback. </p>
 
