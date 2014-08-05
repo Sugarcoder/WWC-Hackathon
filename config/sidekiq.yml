@@ -3,4 +3,4 @@
   - [default, 1]
   - [mailer, 1]
 production:
-  :concurrency: 3
+  :concurrency: 2
