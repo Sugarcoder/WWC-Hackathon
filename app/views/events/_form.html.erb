@@ -31,18 +31,21 @@
 
   <div class="form-group has-feedback">
     <div class="col-sm-4">
-      <input type='text' name='event[date]' id='event_date' class="form-control", placeholder='when is the event?', value="<%= @date if @date %>">
-      <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+      <div class='input-group date' id='starting-time'>
+        <input type='text' name='event[starting_time]' class="form-control" placeholder='when is the event starting?' value="<%= @starting_time if @starting_time %>"/>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
     </div>
 
-    <div class="col-sm-2">
-      <input type='text' name='event[starting_time]' id='event_starting_time' class="form-control" value="<%= @starting_time if @starting_time %>" placeholder='starting time'>
-      <span class="glyphicon glyphicon-time form-control-feedback"></span>
-    </div>
-
-    <div class="col-sm-2">
-       <input type='text' name='event[ending_time]' id='event_ending_time' class="form-control" value="<%= @ending_time if @ending_time %>" placeholder='ending time'>
-       <span class="glyphicon glyphicon-time form-control-feedback"></span>
+    <div class="col-sm-4">
+      <div class='input-group date' id='ending-time'>
+        <input type='text' name='event[ending_time]' class="form-control" placeholder='when is the event ending?' value="<%= @ending_time if @ending_time %>"/>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
     </div>
   </div>
 
@@ -76,9 +79,16 @@
 
   <div class="form-group">
     <div class="col-sm-4">
-      <input type='text' name='recurring_ending_date' id='recurring_ending_date' class="form-control", placeholder='when should the event stop recurring?' style='display: none;'>
+      <div class='input-group date' id='recurring-time' style='display: none;'>
+        <input type='text' name='recurring_ending_date' id='recurring_ending_date' class="form-control" placeholder='when should the event stop recurring?'/>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
     </div>
   </div>
+
+
   
 
   <div class="form-group">
@@ -112,14 +122,17 @@
 <% end %>
 
 <script>
-  $('#recurring_ending_date').datepicker({ format: 'mm/dd/yyyy' });
+  
+  $('#recurring-time').datetimepicker();
+  $('#recurring-time').data("DateTimePicker").setMinDate($('#starting-time').data("DateTimePicker").getDate());
   $(document).on('change', '#event_recurring_type', function(){
     var recurring_ending_date = $('#recurring_ending_date');
     if($(this).val() !== 'not_recurring'){ 
-      recurring_ending_date.show();
+      recurring_ending_date.parent().show();
     }
     else{
-      recurring_ending_date.hide();
+      recurring_ending_date.parent().hide();
     }
   });
+  
 </script>

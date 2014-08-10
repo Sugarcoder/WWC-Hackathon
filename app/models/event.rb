@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   enum recurring_type: [ :not_recurring, :daily, :every_other_day, :weekly, :monthly ]
   belongs_to :category
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
-  
+  has_many :images
 
 
   validate :starting_time_after_current_time, on: :create
@@ -14,12 +14,12 @@ class Event < ActiveRecord::Base
 
   def starting_date
     return nil if self.starting_time.nil?
-    self.starting_time.strftime('%m/%d/%Y') 
+    self.starting_time.strftime('%m/%d/%Y %l:%M %p') 
   end
 
   def ending_date
     return nil if self.ending_time.nil?
-    self.ending_time.strftime('%m/%d/%Y') 
+    self.ending_time.strftime('%m/%d/%Y %l:%M %p') 
   end
 
   def starting_hour
@@ -80,7 +80,7 @@ class Event < ActiveRecord::Base
 
     def create_recurring_events(recurring_event_type, recurring_ending_date, event)
         return if recurring_event_type == 'not_recurring' || event.nil? || recurring_ending_date.nil? #no recurring event
-        recurring_ending_date = self.parse_event_date(recurring_ending_date, '12:00 PM')
+        recurring_ending_date = self.parse_event_date(recurring_ending_date)
         case recurring_event_type
         when 'daily'
           event.create_recurring_events(recurring_ending_date, &self.adding_day)
@@ -91,9 +91,8 @@ class Event < ActiveRecord::Base
         end
     end
 
-    def parse_event_date(date_string, time_string)
-      str = date_string + ' ' + time_string
-      date = Date._strptime(str, '%m/%d/%Y %I:%M %p')
+    def parse_event_date(time_string)
+      date = Date._strptime(time_string, '%m/%d/%Y %I:%M %p')
       Time.zone.local(date[:year], date[:mon], date[:mday], date[:hour], date[:min], 0)
     end
 

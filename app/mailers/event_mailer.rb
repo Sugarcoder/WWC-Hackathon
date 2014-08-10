@@ -36,4 +36,20 @@ class EventMailer < ActionMailer::Base
     mail(to: user.email, subject: subject)
   end
 
+  def thank_user_email(user, event)
+    @user = user
+    @event = event
+    subject = "Thank you for your help in Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
+    mail(to: user.email, subject: subject)
+  end
+
+  def remind_leader_email(user, event)
+    @user = user
+    @event = event
+    subject = "Thank You for Leading RLC Event at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
+    mail(to: user.email, subject: subject)
+  end
+
 end

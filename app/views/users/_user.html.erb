@@ -5,9 +5,14 @@
       <li class="<%= 'active' if current_page?(user_events_path(@user, 'upcoming')) %>"> 
         <%= link_to 'Upcoming Events', user_events_path(@user, 'upcoming') %> 
       </li>
-      <li class="<%= 'active' if current_page?(user_events_path(@user, 'past')) %>">
+      <li class="<%= 'active' if current_page?(user_events_path(@user, 'histroy')) %>">
         <%= link_to 'Events History', user_events_path(@user, 'history') %> 
       </li>
+      <% if @user.admin? %>
+        <li class="<%= 'active' if current_page?(user_events_path(@user, 'unfinished')) %>">
+          <%= link_to 'Unfinished Events', user_events_path(@user, 'unfinished') %> 
+        </li>
+      <% end %>
     </ul>
   </div>
   <div class='col-md-8 col-md-offset-2'>

@@ -24,11 +24,14 @@ class UsersController < ApplicationController
     event_ids = UsersEvents.where(user_id: @user.id).map(&:event_id)
     case params['type']
     when 'upcoming' 
-      @events = Event.where( ' id IN (?) and starting_time > ?', event_ids, Time.now ).order('starting_time ASC')
+      @events = Event.where('id IN (?) and starting_time > ?', event_ids, Time.now ).order('starting_time ASC')
       @status = 'reserved'
     when 'history'
-      @events = Event.where( ' id IN (?) and starting_time < ?', event_ids, Time.now ).order('starting_time DESC')
+      @events = Event.where('id IN (?) and starting_time < ?', event_ids, Time.now ).order('starting_time DESC')
       @status = 'attended'
+    when 'unfinished'
+      @events = Event.where('leader_id = ? and is_finished is null and ending_time < ?', current_user.id, Time.current ).order('ending_time ASC')
+      @status = 'unfinished'
     end
   end
 

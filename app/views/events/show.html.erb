@@ -1,17 +1,18 @@
 
 <div class='event-block'>
 
-  <div class='row'>
-    <h1><%= @event.title %> <small style="display: block; margin-top: 5px;"> <%= @event.category.name %> </small> </h1>
+  <div class="row">
+    <div class="col-sm-5">
+      <h1><%= @event.title %> <small style="display: block; margin-top: 5px;"> <%= @event.category.name %> </small> </h1>
+      <%= render partial: 'event_content', locals: { event: @event } %>
+    </div>
   </div>
 
   <div class="row">
-    <%= render partial: 'event_content', locals: { event: @event } %>
-  </div>
-
-  <div class="row">
-    <div class='button-groups'>
-      <%= render partial: 'event_buttons', locals: { event: @event } %>
+    <div class="col-sm-5">
+      <div class='button-groups'>
+        <%= render partial: 'event_buttons', locals: { event: @event } %>
+      </div>
     </div>
   </div>
 </div>

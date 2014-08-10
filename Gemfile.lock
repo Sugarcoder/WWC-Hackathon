@@ -37,6 +37,8 @@ GEM
     bcrypt (3.1.7)
     bootstrap-sass (3.2.0.1)
       sass (~> 3.2)
+    bootstrap3-datetimepicker-rails (3.0.2.1)
+      momentjs-rails (>= 2.8.1)
     builder (3.2.2)
     cancancan (1.9.1)
     celluloid (0.15.2)
@@ -81,6 +83,8 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.6.0)
     minitest (5.4.0)
+    momentjs-rails (2.8.1)
+      railties (>= 3.1)
     multi_json (1.10.1)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
@@ -191,12 +195,14 @@ DEPENDENCIES
   autoprefixer-rails
   aws-sdk
   bootstrap-sass (~> 3.2.0)
+  bootstrap3-datetimepicker-rails (~> 3.0.2)
   cancancan
   coffee-rails (~> 4.0.0)
   devise
   high_voltage
   jbuilder (~> 2.0)
   jquery-rails
+  momentjs-rails (>= 2.8.1)
   paperclip
   pg
   premailer-rails

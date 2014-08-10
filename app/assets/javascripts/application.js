@@ -13,9 +13,9 @@
 
 //= require jquery
 //= require jquery_ujs
-//= require ./plugins/bootstrap-datepicker.js
 //= require ./plugins/bootstrap-select.js
-//= require ./plugins/bootstrap-timepicker.js
+//= require moment
+//= require bootstrap-datetimepicker
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
@@ -33,7 +33,6 @@ var ready = function(){
   $('body').on('hidden.bs.modal', '#eventModal', function () {
     $(this).removeData("bs.modal").find(".modal-content").empty();
   });
-
 };
 
 $(document).ready(ready);

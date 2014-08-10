@@ -1,17 +1,11 @@
 var ready = function(){
+  $('#starting-time').datetimepicker();
+  $('#ending-time').datetimepicker();
+
+  $("#starting-time").on("dp.change",function (e) {
+     $('#ending-time').data("DateTimePicker").setMinDate(e.date);
+  });
   
-  $('#event_date').datepicker({
-    format: 'mm/dd/yyyy'
-  });
-
-  $('#event_starting_time').timepicker({
-    defaultTime: false
-  });
-
-  $('#event_ending_time').timepicker({
-    defaultTime: false
-  });
-
   $('.selectpicker').selectpicker();
 
   //attend event js 
@@ -25,6 +19,7 @@ var ready = function(){
 
   $(document).on('click', '#attend_event', function(e){  
     e.preventDefault();
+    $(this).hide();
     url =  "/events/attend/" + $(this).data('event-id') + "/attend";
     $.ajax({
       type : 'get',
@@ -32,7 +27,6 @@ var ready = function(){
       context: this,
       dataType : 'json',
       success : function(data) {
-        $(this).hide();
         $(this).parent().prepend('<a class="btn btn-danger" href="/events/cancel/' + data['event_id'] + '/attend" id="cancel_event" data-event-id="' + data['event_id'] + '">Cancel</a>');
         var count_span, block;
         if($('.modal').length > 0){
@@ -55,6 +49,7 @@ var ready = function(){
   //waiting event
   $(document).on('click', '#wait_event', function(e){  
     e.preventDefault();
+    $(this).hide();
     url =  "/events/attend/" + $(this).data('event-id') + "/wait";
     $.ajax({
       type : 'get',
@@ -62,7 +57,6 @@ var ready = function(){
       context: this,
       dataType : 'json',
       success : function(data) {
-        $(this).hide();
         $(this).parent().prepend('<a class="btn btn-danger" href="/events/cancel/' + data['event_id'] + '/wait" id="cancel_waiting" data-event-id="' + data['event_id'] + '">Cancel</a>');
         var count_span, block;
         if($('.modal').length > 0){
@@ -85,6 +79,7 @@ var ready = function(){
   //cancel event
   $(document).on('click', '#cancel_event', function(e){  
     e.preventDefault();
+    $(this).hide();
     url =  "/events/cancel/" + $(this).data('event-id') + "/attend";
     $.ajax({
       type : 'get',
@@ -92,7 +87,6 @@ var ready = function(){
       context: this,
       dataType : 'json',
       success : function(data) {
-        $(this).hide();
         $(this).parent().prepend('<a class="btn btn-success" href="/events/attend/' + data['event_id'] + '/attend" id="attend_event" data-event-id="' + data['event_id'] + '">Attend</a>');
          var count_span, block;
         if($('.modal').length > 0){
@@ -113,6 +107,7 @@ var ready = function(){
   //cancel wait
   $(document).on('click', '#cancel_waiting', function(e){  
     e.preventDefault();
+    $(this).hide();
     url =  "/events/cancel/" + $(this).data('event-id') + "/wait";
     $.ajax({
       type : 'get',
@@ -120,7 +115,6 @@ var ready = function(){
       context: this,
       dataType : 'json',
       success : function(data) {
-        $(this).hide();
         $(this).parent().prepend('<a class="btn btn-success" href="/events/attend/' + data['event_id'] + '/wait" id="wait_event" data-event-id="' + data['event_id'] + '">Waiting List</a>');
         var count_span, block;
         if($('.modal').length > 0){
@@ -157,8 +151,6 @@ var ready = function(){
       }
     });
   });
-
-
 
 };
 

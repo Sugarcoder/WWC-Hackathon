@@ -2,13 +2,19 @@
   <div class="panel-heading"> <%= event.title %> </div>
   <div class="panel-body">
     <%= render partial: 'events/event_content', locals: { event: event } %>
-    <%  
-      if status == 'reserved' 
-        label_class = 'label-info' 
-      else 
-        label_class = 'label-success' 
-      end 
+    <% 
+      case status
+      when 'reserved' 
+        label_class = 'btn-info'
+      when 'unfinished'
+        label_class = 'btn-warning active'
+      else
+        label_class = 'btn-success'
+      end
     %>
-    <h3> <span class="label <%= label_class %>"> <%= status %></span> </h3>
+    <a href="#" class="btn <%= label_class %> " role="button"> <%= status %> </a>
+    <% if status == 'unfinished' %>
+      <%= link_to 'Finish it!', finish_form_path(event), class: "btn btn-primary ", role: "button" %> 
+    <% end %>
   </div>
 </div>

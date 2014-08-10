@@ -1,0 +1,47 @@
+<div class="row">
+  <%= form_tag(finish_event_path, method: "post", role: "form", multipart: true, class: ['form-horizontal']) do %>
+    <%= hidden_field_tag "event_id", @event.id %>
+    
+    <div class="form-group">
+      <div class="col-sm-4">
+        <p> Anyone who did not attend the event?</p>
+        <ul class='list-group'>
+          <% @event_users.each do |user| %>
+              <li class="list-group-item">
+                <%= check_box_tag 'user_ids[]', user.id, true %>  
+                <span><%= user.full_name %></span>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-4">
+        <p> how many pounds of food get delivered today?</p>
+        <%= number_field_tag 'pound', class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-4">
+        <p> Upload event photos?</p>
+        <%= file_field_tag 'image' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-4">
+        <p> Upload event receipt (This is Required!)</p>
+        <%= file_field_tag 'receipt' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-primary">Finish Event</button>
+       </div>
+    </div>
+
+  <% end %>
+</div>

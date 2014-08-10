@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   include EventsHelper
   load_and_authorize_resource 
   skip_authorize_resource :only => :calendar
-  before_action :authenticate_user!, only: [:attend, :cancel, :stop_recurring]
+  before_action :authenticate_user!, only: [:attend, :cancel, :stop_recurring, :finish]
 
   # GET /events
   # GET /events.json
@@ -26,30 +26,22 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    if @event.starting_time
-      @date = @event.starting_date
-      @starting_time = @event.starting_hour
-      @ending_time = @event.ending_hour
-    end
+    @starting_time = @event.starting_date
+    @ending_time = @event.ending_date
   end
 
   # POST /events
   # POST /events.json
   def create
-    if params['event']['date'].present? and params['event']['starting_time'].present?
-      params['event']['starting_time'] = Event.parse_event_date(params['event']['date'], params['event']['starting_time'])
-    end
-
-    if params['event']['date'].present? and params['event']['ending_time'].present?
-      params['event']['ending_time'] = Event.parse_event_date(params['event']['date'], params['event']['ending_time'])
-    end
+    params['event']['starting_time'] = Event.parse_event_date(params['event']['starting_time']) if params['event']['starting_time'].present?   
+    params['event']['ending_time'] = Event.parse_event_date(params['event']['ending_time'])  if params['event']['ending_time'].present? 
 
     @event = Event.new(event_params)
 
     respond_to do |format|
       if @event.save
         Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
-
+        RemindLeaderEmailWorker::perform_at(@event.ending_time, current_user.id, @event.id)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
@@ -62,17 +54,13 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
-    if params['event']['date'].present? and params['event']['starting_time'].present?
-      params['event']['starting_time'] = Event.parse_event_date(params['event']['date'], params['event']['starting_time'])
-    end
-    if params['event']['date'].present? and params['event']['ending_time'].present?
-      params['event']['ending_time'] = Event.parse_event_date(params['event']['date'], params['event']['ending_time'])
-    end
+
+    params['event']['starting_time'] = Event.parse_event_date(params['event']['starting_time']) if params['event']['starting_time'].present?   
+    params['event']['ending_time'] = Event.parse_event_date(params['event']['ending_time'])  if params['event']['ending_time'].present?    
+    
     respond_to do |format|
       if @event.update(event_params)
-
         Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
-
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -116,8 +104,8 @@ class EventsController < ApplicationController
       if users_events.save
         if @type == 'attend'
           AttendEmailWorker::perform_async(current_user.id, @event.id)
-          if Time.current < @event.starting_time - 1.hour # event happened later than attending time
-            ReminderEmailWorker::perform_at(@event.starting_time - 1.hour, current_user.id, @event.id)
+          if Time.current < @event.starting_time - 24.hour # event happened later than attending time
+            ReminderEmailWorker::perform_at(@event.starting_time - 24.hour, current_user.id, @event.id)
           end
         elsif @type == 'wait'
           WaitingListEmailWorker::perform_async(current_user.id, @event.id)
@@ -169,6 +157,37 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.json { render json: { error: error, message: message} }
     end
+  end
+
+  def finish_form
+    @status = 'unfinished'
+    user_ids = UsersEvents.where('event_id = ?', @event.id).map(&:user_id)
+    @event_users = User.where('id IN (?)', user_ids)
+  end
+
+  def finish
+    UsersEvents.where('user_id IN (?) AND event_id = ?', params["user_ids"], params["event_id"]).update_all("status = 3")
+    params["user_ids"].each do |user_id|
+      ThankEmailWorker::perform_async(user_id, params["event_id"])
+    end if params["user_ids"]
+
+    if params["image"]
+      @image = Image.new(event_id: params["event_id"], file: params["image"])
+      @image.save
+    end
+
+    @receipt = Image.new(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
+
+    if @receipt.save
+      event = Event.find_by_id(params["event_id"])
+      event.update_attributes(is_finished: true, pound: params["pound"])
+      flash[:notice] = "You successfully finished the event! thank you"
+    end
+    redirect_to :back
+  end
+
+  def photo
+    @images = @event.images
   end
 
   private
