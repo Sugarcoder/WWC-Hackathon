@@ -122,9 +122,8 @@
 <% end %>
 
 <script>
-  
   $('#recurring-time').datetimepicker();
-  $('#recurring-time').data("DateTimePicker").setMinDate($('#starting-time').data("DateTimePicker").getDate());
+
   $(document).on('change', '#event_recurring_type', function(){
     var recurring_ending_date = $('#recurring_ending_date');
     if($(this).val() !== 'not_recurring'){ 
@@ -134,5 +133,4 @@
       recurring_ending_date.parent().hide();
     }
   });
-  
 </script>

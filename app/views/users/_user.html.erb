@@ -5,7 +5,7 @@
       <li class="<%= 'active' if current_page?(user_events_path(@user, 'upcoming')) %>"> 
         <%= link_to 'Upcoming Events', user_events_path(@user, 'upcoming') %> 
       </li>
-      <li class="<%= 'active' if current_page?(user_events_path(@user, 'histroy')) %>">
+      <li class="<%= 'active' if current_page?(user_events_path(@user, 'history')) %>">
         <%= link_to 'Events History', user_events_path(@user, 'history') %> 
       </li>
       <% if @user.admin? %>

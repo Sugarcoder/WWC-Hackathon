@@ -52,12 +52,14 @@
   </div>
 </div>
 
-<div class="form-group">
-  <div class="col-sm-4">
-    <div class="checkbox">
-      <label>
-        <%= f.check_box :is_under_eighteen %> If you are under 18, please check this box.
-      </label>
+<% if type == 'sign_up' %>
+  <div class="form-group">
+    <div class="col-sm-4">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :is_under_eighteen %> If you are under 18, please check this box.
+        </label>
+      </div>
     </div>
   </div>
-</div>
+<% end %>
