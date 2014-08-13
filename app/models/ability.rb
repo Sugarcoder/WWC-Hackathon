@@ -11,10 +11,13 @@ class Ability
         can :manage, :all
     elsif user.admin?
         can :crud, Category
+        can :crud, Location
+        can :crud, Comment
         can [:crud, :attend, :cancel, :stop_recurring, :finish, :finish_form, :photo], Event
     elsif user.normal?
         can :read, Event
-        can [:attend, :cancel], Event
+        can :crud, Comment
+        can [:attend, :cancel, :photo], Event
     else
         can :read, Event
     end

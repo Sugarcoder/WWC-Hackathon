@@ -28,6 +28,8 @@ gem 'premailer-rails'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 
+gem 'acts_as_commentable_with_threading'
+
 gem 'aws-sdk'
 gem 'paperclip'
 gem 'redis'

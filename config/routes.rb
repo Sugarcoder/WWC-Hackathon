@@ -1,6 +1,8 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :locations
+
   resources :categories
 
   resources :events
@@ -22,7 +24,7 @@ Rails.application.routes.draw do
 
   get '/home', to: redirect('/')
   #Event
-  get '/calendar' => 'events#calendar', as: 'calendar'
+  get '/calendar(/:type)' => 'events#calendar', as: 'calendar'
   get '/events/attend/:event_id/:status' => 'events#attend', as: 'attend_event'
   get '/events/cancel/:event_id/:status' => 'events#cancel', as: 'cancel_event'
   delete '/events/recurring/:id' => 'events#stop_recurring', as: 'event_stop_recurring' #stop recurring event
@@ -30,7 +32,10 @@ Rails.application.routes.draw do
   post '/events/finish' => 'events#finish', as: 'finish_event' #finish event
   get '/events/photos/:id' => 'events#photo', as: 'event_photo'
 
-  root :to => 'events#calendar'
+  #Comment
+  post '/comments' => 'comments#create'
+
+  root to: 'events#calendar'
 
   authenticate :user, lambda { |u| u.super_admin? } do
     mount Sidekiq::Web => '/admin/sidekiq'

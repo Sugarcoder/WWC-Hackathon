@@ -12,8 +12,6 @@
     <% end %>
   <% end %>
 
-  <%= link_to 'photo', event_photo_path(event), class: 'btn btn-info' %>
-
   <% if can? :update, event %>
     <%= link_to 'Edit', edit_event_path(event), class: 'btn btn-primary' %>
   <% end %>

@@ -1,11 +1,17 @@
 
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
 <div id="row">
+  <h3> Photos </h3>
   <% if @images.present? %>
     <% @images.each do |image| %>
       <%= link_to image_tag(image.file.url(:large)), image.file.url(:large) %>
     <% end %>
   <% else %>
     <h2> This event has no photo yet. <h2>
+  <% end %>
+
+  <% if current_user.admin? || current_user.super_admin? %>
+    <h3> Receipt </h3>
+    <%= link_to image_tag(@receipt.file.url(:large)), @receipt.file.url(:large) %>
   <% end %>
 </div>

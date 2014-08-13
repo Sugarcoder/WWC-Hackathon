@@ -5,11 +5,11 @@
     <% 
       case status
       when 'reserved' 
-        label_class = 'btn-info'
+        label_class = 'btn-info active'
       when 'unfinished'
         label_class = 'btn-warning active'
       else
-        label_class = 'btn-success'
+        label_class = 'btn-success active'
       end
     %>
     <a href="#" class="btn <%= label_class %> " role="button"> <%= status %> </a>

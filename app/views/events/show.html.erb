@@ -1,18 +1,52 @@
-
-<div class='event-block'>
-
-  <div class="row">
-    <div class="col-sm-5">
+<div class="row">
+  <div class='event-block col-md-6'>
+    
       <h1><%= @event.title %> <small style="display: block; margin-top: 5px;"> <%= @event.category.name %> </small> </h1>
       <%= render partial: 'event_content', locals: { event: @event } %>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-5">
+    
       <div class='button-groups'>
         <%= render partial: 'event_buttons', locals: { event: @event } %>
       </div>
-    </div>
+    
+  </div>
+</div>
+
+<div class="row">
+  <div class='comment-block col-md-12'>
+    <ul class="media-list">
+      <% if current_user %>
+        <li class="media">
+          <a class="comment-profile-image pull-left" href="#">
+            <%= image_tag current_user.avatar.url(:square), class: "media-object", size: '64x64', style: "border-radius: 50%;" %>
+          </a>
+          <div class="media-body">
+            <%= form_tag('/comments', method: 'post', html: { class: ['form-horizontal'], role: 'form' }) do %>
+              <%= hidden_field_tag :event_id , @event.id %>
+              
+              <%= content_tag :div, class: "form-group" do %>
+                <div class="col-xs-6">
+                  <%= text_area_tag :text, nil, class: "form-control", id: "comment_text", placeholder: "Write a comment..."  %>
+                </div>
+              <% end %>
+
+            <% end %> 
+          </div>
+        </li>
+      <% end %>
+
+      <% @event.root_comments.each do |comment| %>
+        <% user = comment.user %>
+        <li class="media">
+          <a class="comment-profile-image pull-left" href="#">
+            <%= image_tag user.avatar.url(:square), class: "media-object", size: '64x64', style: "border-radius: 50%;" %>
+          </a>
+          <div class="comment-body media-body">
+            <h4 class="media-heading"> <%= user.full_name %></h4>
+            <%= comment.body %>
+          </div>
+        </li>
+      <% end if @event.comment_threads %>
+
+    </ul>
   </div>
 </div>

@@ -51,7 +51,7 @@
 
   <div class="form-group">
     <div class="col-sm-4">
-      <%= f.text_field :address, class: "form-control", placeholder: 'Location' %>
+       <%= f.select(:location_id, Location.all.collect {|location| [location.name, location.id]}, {}, { class: 'selectpicker' }) %>
     </div>
   </div>
 

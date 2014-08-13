@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140809174333) do
+ActiveRecord::Schema.define(version: 20140813021748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,23 @@ ActiveRecord::Schema.define(version: 20140809174333) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "comments", force: true do |t|
+    t.integer  "commentable_id",   default: 0
+    t.string   "commentable_type"
+    t.string   "title"
+    t.text     "body"
+    t.string   "subject"
+    t.integer  "user_id",          default: 0, null: false
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "events", force: true do |t|
     t.string   "title"
@@ -53,6 +70,12 @@ ActiveRecord::Schema.define(version: 20140809174333) do
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
     t.string   "orientation"
+  end
+
+  create_table "locations", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

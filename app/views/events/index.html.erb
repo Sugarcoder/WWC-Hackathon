@@ -10,7 +10,7 @@
       <th>Ending time</th>
       <th>Slot</th>
       <th>Attending user count</th>
-      <th>Address</th>
+      <th>Location</th>
       <th>Description</th>
       <th>recurring type</th>
       <th>Pound</th>
@@ -30,7 +30,7 @@
         <td><%= event.ending_time %></td>
         <td><%= event.slot %></td>
         <td><%= event.attending_user_count %></td>
-        <td><%= event.address %></td>
+        <td><%= event.location.name if event.location %></td>
         <td><%= event.description %></td>
         <td><%= event.recurring_type %></td>
         <td><%= event.pound %></td>

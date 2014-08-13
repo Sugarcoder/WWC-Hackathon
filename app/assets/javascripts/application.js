@@ -14,6 +14,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require ./plugins/bootstrap-select.js
+//= require ./plugins/jquery.form.js
 //= require moment
 //= require bootstrap-datetimepicker
 //= require bootstrap-sprockets
@@ -33,6 +34,26 @@ var ready = function(){
   $('body').on('hidden.bs.modal', '#eventModal', function () {
     $(this).removeData("bs.modal").find(".modal-content").empty();
   });
+
+  $(document).on("keydown", "#comment_text", function(e) {
+    if (e.keyCode == 13) {
+      var options = {
+        success : function() {
+          
+        },
+        error : function() {
+         
+          
+        },
+        resetForm : true
+      };
+      
+      $(this).closest("form").ajaxForm(options).submit();
+      $(this).val('').empty();
+    }
+  });
+
+  
 };
 
 $(document).ready(ready);

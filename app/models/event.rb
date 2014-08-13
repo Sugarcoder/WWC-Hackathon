@@ -1,10 +1,14 @@
 include EventsHelper
 
 class Event < ActiveRecord::Base
+  acts_as_commentable
+  
   enum recurring_type: [ :not_recurring, :daily, :every_other_day, :weekly, :monthly ]
   belongs_to :category
+  belongs_to :location
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
-  has_many :images
+  has_many :images, -> { where('is_receipt is not true') }
+  has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image'
 
 
   validate :starting_time_after_current_time, on: :create

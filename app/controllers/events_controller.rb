@@ -81,9 +81,18 @@ class EventsController < ApplicationController
   end
 
   def calendar
-    @events = Event.all
+    if params["location"] && params["location"] != "all"
+      location = Location.find_by_name(params["location"])
+      @events = location.events if location
+    else
+      @events = Event.all
+    end
+
     @events_by_date = @events.group_by{|e| e.starting_time.strftime("%Y-%m-%d") if e.starting_time}
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @locations = Location.all
+   
+    render 'daily_calendar' if params[:type] == 'daily'
   end
 
   def attend
@@ -188,6 +197,7 @@ class EventsController < ApplicationController
 
   def photo
     @images = @event.images
+    @receipt = @event.receipt
   end
 
   private
