@@ -20,23 +20,40 @@ gem 'spring', group: :development
 
 gem 'high_voltage' #static page creator
 gem 'devise'
-#bootstrap
-gem 'bootstrap-sass', '~> 3.2.0'
+
 gem 'autoprefixer-rails'
 gem "cancancan"
 gem 'premailer-rails'
-gem 'momentjs-rails', '>= 2.8.1'
-gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
-
 gem 'acts_as_commentable_with_threading'
-
+gem 'will_paginate', '~> 3.0'
 gem 'aws-sdk'
 gem 'paperclip'
 gem 'redis'
 gem 'sidekiq'
 
+#bootstrap
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'momentjs-rails', '>= 2.8.1'
+gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
+gem 'bootstrap-validator-rails'
+
+
+
 group :production do
   gem 'rails_12factor'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'email_spec'
+  gem 'test_after_commit'
+  gem 'poltergeist'
+  gem 'growl'
+  gem 'bullet' #check for N+1 queries
+  gem 'capybara'
+  gem 'capybara-screenshot'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
 end
 
 gem 'unicorn'

@@ -4,12 +4,32 @@
 
 .comment-block{
   margin-top: 50px;
-
-  .comment-profile-image{
-    padding: 10px 0 10px 0;
+  .media{
+    border-top: 1px solid #eee;
+    padding: 18px 0 0;
+    font-size: 15px;
+    .username{
+      color: #428bca;
+    }
+    .comment-body{
+      color: #545454
+    }
   }
+}
 
-  .comment-body{
-    margin-top: 15px !important;
+.comment-remove-icon{
+  cursor: pointer;
+  padding: 10px;
+  &:hover{
+    border: 1px solid #eee;
+    border-radius: 5px;
   }
+}
+
+#loadmore_comment{
+  padding: 2%;
+  background: #eee;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
 }

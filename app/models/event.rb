@@ -9,13 +9,15 @@ class Event < ActiveRecord::Base
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
   has_many :images, -> { where('is_receipt is not true') }
   has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image'
-
-
   validate :starting_time_after_current_time, on: :create
   validate :starting_time_before_ending_time
+  
   validates :ending_time, presence: true
   validates :starting_time, presence: true
-
+  validates :title, presence: true
+  validates :slot,  presence: true
+  
+  
   def starting_date
     return nil if self.starting_time.nil?
     self.starting_time.strftime('%m/%d/%Y %l:%M %p') 

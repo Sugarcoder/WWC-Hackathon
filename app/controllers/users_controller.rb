@@ -35,6 +35,31 @@ class UsersController < ApplicationController
     end
   end
 
+  def check_username
+    username = params["user"]["username"]
+    user = User.where("lower(username) = ?", username.downcase ).first
+     if current_user && user && user.username == current_user.username
+      is_unique = true
+    elsif user
+      is_unique = false
+    else
+      is_unique = true
+    end
+    return render json: { valid: is_unique }
+  end
+
+  def check_email
+    user = User.find_by_email(params["user"]["email"])
+    if current_user && user && user.email == current_user.email
+      is_unique = true
+    elsif user
+      is_unique = false
+    else
+      is_unique = true
+    end
+    return render json: { valid: is_unique }
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

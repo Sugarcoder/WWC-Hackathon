@@ -1,0 +1,12 @@
+<% comments.each do |comment| %>
+  <% user = comment.user %>
+  <li class="media">
+   <%= render partial: '/comments/comment', locals: { user: user, comment: comment } %>
+  </li>
+<% end if comments %>
+
+<% if comments.total_pages > comments.current_page %>
+  <li class="media">
+    <div id="loadmore_comment" data-event-id="<%= event_id %>" data-page="<%= page %>"> More Comments </div>
+  </li>
+<% end %>

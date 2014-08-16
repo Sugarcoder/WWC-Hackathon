@@ -1,0 +1,16 @@
+<a class="comment-profile-image pull-left" href="#">
+  <%= image_tag user.avatar.url(:square), class: "media-object", size: '50x50', style: "border-radius: 50%;" %>
+</a>
+<div class="comment-body media-body">
+  <div class='row'>
+    <div class='col-xs-10'>
+      <div class="username"> <%= user.full_name %> </div>
+      <%= comment.body %>
+    </div>
+    <div class='col-xs-2'>
+      <% if current_user.super_admin? || current_user == user %>
+        <span class="comment-remove-icon glyphicon glyphicon-remove pull-right" data-comment-id="<%= comment.id %>"></span>
+      <% end %>
+    </div>
+  </div>
+</div>

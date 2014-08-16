@@ -13,6 +13,8 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    comments_per_page = 10
+    @comments = Comment.where(commentable_id: @event.id).paginate(page: 1, per_page: comments_per_page).order('created_at DESC')
     respond_to do |format|
       format.js { render  'show' }
       format.html { render 'show' }
@@ -33,11 +35,6 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    params['event']['starting_time'] = Event.parse_event_date(params['event']['starting_time']) if params['event']['starting_time'].present?   
-    params['event']['ending_time'] = Event.parse_event_date(params['event']['ending_time'])  if params['event']['ending_time'].present? 
-
-    @event = Event.new(event_params)
-
     respond_to do |format|
       if @event.save
         Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
@@ -53,13 +50,9 @@ class EventsController < ApplicationController
 
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
-  def update
-
-    params['event']['starting_time'] = Event.parse_event_date(params['event']['starting_time']) if params['event']['starting_time'].present?   
-    params['event']['ending_time'] = Event.parse_event_date(params['event']['ending_time'])  if params['event']['ending_time'].present?    
-    
+  def update 
     respond_to do |format|
-      if @event.update(event_params)
+      if @event.update_attributes(event_params)
         Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
@@ -208,6 +201,8 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
+      params['event']['starting_time'] = Event.parse_event_date(params['event']['starting_time']) if params['event']['starting_time'].present?   
+      params['event']['ending_time'] = Event.parse_event_date(params['event']['ending_time'])  if params['event']['ending_time'].present?
       params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :recurring_type, :category_id, :leader_id, :pound, :is_finished, :parent_event_id)
     end
 

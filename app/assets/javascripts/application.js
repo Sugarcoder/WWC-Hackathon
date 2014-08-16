@@ -17,6 +17,7 @@
 //= require ./plugins/jquery.form.js
 //= require moment
 //= require bootstrap-datetimepicker
+//= require bootstrapValidator.min
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
@@ -35,26 +36,194 @@ var ready = function(){
     $(this).removeData("bs.modal").find(".modal-content").empty();
   });
 
-  $(document).on("keydown", "#comment_text", function(e) {
-    if (e.keyCode == 13) {
-      var options = {
-        success : function() {
-          
+  $('#new_user').bootstrapValidator({
+      excluded: [':disabled', ':hidden', ':not(:visible)'],
+      feedbackIcons: {
+        required: 'glyphicon glyphicon-asterisk',
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        'user[username]': {
+          message: 'The username is not valid',
+          validators: {
+            notEmpty: {
+              message: 'Field is required and cannot be empty'
+            },
+            remote: {
+              message: 'The username is taken by other user',
+              url: '/users/check-username'
+            },
+            stringLength: {
+                min: 4,
+                max: 20,
+                message: 'Please enter value between %s and %s characters long'
+            },
+            regexp: {
+              regexp: /^[a-zA-Z0-9_]+$/i,
+              message: 'The username can consist of alphabetical characters, numbers and "_" only '
+            }
+          }
         },
-        error : function() {
+        'user[email]': {
+          message: 'The email is not valid',
+          validators: {
+            notEmpty: {
+              message: 'Email is required and cannot be empty'
+            },
+            remote: {
+                message: 'The username is taken by other user',
+                url: '/users/check-email'
+            }
+          }
+        },
+        'user[password]': {
+          validators: {
+            notEmpty: {
+              message: 'The password is required and cannot be empty'
+            },
+            callback: {
+                message: 'The password is not valid',
+                callback: function(value, validator, $field) {
+                    if (value === '') {
+                        return true;
+                    }
+                    // Check the password strength
+                    if (value.length < 8) {
+                        return {
+                            valid: false,
+                            message: 'It must be more than 8 characters long'
+                        };
+                    }
+                    // The password doesn't contain any uppercase character
+                    if (value === value.toLowerCase()) {
+                        return {
+                            valid: false,
+                            message: 'It must contain at least one upper case character'
+                        }
+                    }
+
+                    // The password doesn't contain any uppercase character
+                    if (value === value.toUpperCase()) {
+                        return {
+                            valid: false,
+                            message: 'It must contain at least one lower case character'
+                        }
+                    }
+
+                    // The password doesn't contain any digit
+                    if (value.search(/[0-9]/) < 0) {
+                        return {
+                            valid: false,
+                            message: 'It must contain at least one digit'
+                        }
+                    }
+
+                    return true;
+                }
+            }
+          }
+        },
+        'user[password_confirmation]': {
+          validators: {
+              notEmpty: {
+                message: 'Field is required and cannot be empty'
+              },
+              identical: {
+                  field: 'user[password]',
+                  message: 'The password and its confirm are not the same'
+              }
+          }
+        },
+        'user[firstname]': {
          
-          
+          validators: {
+            notEmpty: {
+              message: 'First name is required and cannot be empty'
+            },
+            regexp: {
+              regexp: /^[a-z\s]+$/i,
+              message: 'Name can consist of alphabetical characters and spaces only'
+            }
+          }
         },
-        resetForm : true
-      };
-      
-      $(this).closest("form").ajaxForm(options).submit();
-      $(this).val('').empty();
-    }
+        'user[lastname]': {
+          validators: {
+            notEmpty: {
+              message: 'Last name is required and cannot be empty'
+            },
+            regexp: {
+              regexp: /^[a-z\s]+$/i,
+              message: 'Name can consist of alphabetical characters and spaces only'
+            }
+          }
+        },
+        'user[telephone]': {
+          validators: {
+            notEmpty: {
+              message: 'Phone number is required and cannot be empty'
+            },
+            phone: {
+              country: 'US',
+              message: 'The value is not a valid US phone number'
+            }
+          }
+        },
+        'user[organization]': {
+          validators: {
+            notEmpty: {
+              message: 'Organization is required and cannot be empty'
+            },
+          }
+        }
+      }
   });
 
-  
 };
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
+
+
+$(document).on("keyup", "#comment_text", function(e) {
+
+  if (e.keyCode == 13) {
+    $('#comment_text').preventDoubleSubmission();
+    var textarea = $(this).closest('.media');
+    textarea.after('<li class="media">' + '</li>');
+    var target = textarea.next();
+    var options = {
+      target: target,
+      success : function() {
+        $(this).fadeIn('slow');
+      },
+      error : function() {
+    
+      },
+      resetForm : true
+    };
+    
+    $(this).closest("form").ajaxForm(options).submit();
+    $(this).val('').empty();
+  }
+
+});
+
+
+jQuery.fn.preventDoubleSubmission = function() {
+  $(this).on('submit', function(e) {
+    var $form = $(this);
+
+    if ($form.data('submitted') === true) {
+      // Previously submitted - don't submit again
+      e.preventDefault();
+    } else {
+      // Mark it so that the next submit can be ignored
+      $form.data('submitted', true);
+    }
+  });
+
+  // Keep chainability
+  return this;
+};
