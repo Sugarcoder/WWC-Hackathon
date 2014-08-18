@@ -15,6 +15,8 @@
  *= require_tree
  */
 
+$static-text-color: #09C; /* Orange */
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "bootstrap-datetimepicker";
@@ -35,6 +37,11 @@ body {
   margin: 0 auto -10px;
 }
 
+// nav bar
+#menu{
+  margin-bottom: 60px;
+}
+
 .sign_in_wrapper{
   margin-top: 20px;
 }
@@ -48,6 +55,129 @@ body {
   white-space: nowrap; /* Don't forget this one */
   text-overflow: ellipsis;
 }
+
+
+// static page text wrapper
+#static-text-wrapper {
+  font-family: 'Proxima';
+
+  padding: 0 20px 50px 20px;
+  line-height: 1.5;
+  font-size: 20px;
+
+  .color-text{
+    color: $static-text-color;
+  }
+
+  .rlc-button{
+    padding: 10px 40px;
+  }
+
+  //home page
+  #mission{
+    border-bottom: solid 1px #CCC;
+    border-top: solid 1px #CCC;
+    font-size: 24px;
+    padding: 80px 20px 60px 20px;
+    margin: 60px;
+  }
+
+  #home-page-left-column{
+    padding: 20px;
+    border: solid 1px #CCC;
+    margin-top: 20px 10px 0 0;
+    box-shadow: 2px 5px 20px #888;
+    img{
+      width: 600px;
+    }
+  }
+
+  .home-page-right-block{
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    .textover {
+      z-index: 100;
+      position: absolute;
+      color: #FFF;
+      font-size: 18px;
+      left: 30px;
+      top: 180px;
+      padding: 5px 20px;
+      background-color: #333;
+    }
+    img{
+      opacity: 0.8;
+      box-shadow: 2px 5px 20px #888;
+      width: 368px;
+      &:hover{
+        opacity: 1.0;
+      }
+    }
+  }
+
+  .box-wrapper{
+    margin-top: 50px;
+    .box {
+      background-image: image-url("background_grid_noise.png");
+      .member-title{
+        color: $static-text-color;
+      }
+      &:nth-child(n+1){
+        margin-top: 30px;
+      }
+      .thumbnail{
+        padding: 20px;
+        background-image: image-url("background_grid_noise.png");
+      }
+    }
+
+    //Contributor page
+    .contributor-box, .donate-funds-box{
+      min-height: 300px;
+      padding: 0 20px 20px 20px;
+    }
+
+    .contributor-box{
+      .contributor-logo{
+        height: 133px;
+        img{
+          margin-top: 32px;
+        }
+      }
+      .google-logo{
+        margin-left: 15px;
+      }
+    }
+
+    //Donate Funds page
+    .donate-funds-title{
+       height: 100px;
+       padding: 40px 0;
+    }
+    .donate-funds-description{
+      font-size: 16px;
+    }
+
+    //donate Food page
+    #become-member-button{
+      padding: 10px 40px;
+      margin-bottom: 20px;
+    }
+    .donate-food-text-block{
+      padding: 20px;
+      ul{
+        font-size: 18px;
+        li{ 
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+
+}
+
+
 
 
 

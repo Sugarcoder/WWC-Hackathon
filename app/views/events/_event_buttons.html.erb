@@ -3,7 +3,7 @@
   <% if event.starting_time > Time.current %>
     <% if current_user.attending_events.include?(event) %>
       <%= link_to 'Cancel', '#', id: 'cancel_event', class: 'btn btn-danger', data: { "event-id" => event.id } %>
-    <% elsif current_user.waiting_events.include?(event) %>
+    <% elsif current_user.waiting_events.include?(event) && event.attending_user_count.to_i >= event.slot.to_i %>
       <%= link_to 'Cancel', '#', id: 'cancel_waiting', class: 'btn btn-danger', data: { "event-id" => event.id } %>
     <% elsif  event.attending_user_count.to_i < event.slot.to_i %>
       <%= link_to 'Attend Event', '#', id:'attend_event', class: 'btn btn-success', data: { "event-id" => event.id } %>

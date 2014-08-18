@@ -16,6 +16,19 @@ class Event < ActiveRecord::Base
   validates :starting_time, presence: true
   validates :title, presence: true
   validates :slot,  presence: true
+
+  after_create :send_email
+
+  def send_email
+    #send attendence email 3 hours before event beginning to event leader. if starting time is less than 3 hours from creating time, send id directly.
+    if starting_time < Time.current + 180.minutes
+      LeaderAttendEmailWorker::perform_async(leader_id, id)
+    else
+      LeaderAttendEmailWorker::perform_at(starting_time - 179.minutes, leader_id, id)
+    end
+    AttendEmailWorker::perform_async(leader_id, id)
+    ReminderEmailWorker::perform_at(starting_time - 24.hour, leader_id, id)  if Time.current < starting_time - 24.hour
+  end
   
   
   def starting_date

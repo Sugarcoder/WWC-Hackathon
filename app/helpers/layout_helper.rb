@@ -2,7 +2,7 @@ module LayoutHelper
 
   def site_name
     # Change the value below between the quotes.
-    "Rescuingleftovercuisine"
+    "RescuingLeftoverCuisine"
   end
 
   def site_url

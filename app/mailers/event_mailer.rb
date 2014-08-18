@@ -1,6 +1,6 @@
 class EventMailer < ActionMailer::Base
   layout 'email_layout'
-  default from: 'info@rescuingleftovercuisine.org'
+  default from: 'volunteer@rescuingleftovercuisine.org'
  
   def cancel_email(user, event)
     @user = user
@@ -19,10 +19,27 @@ class EventMailer < ActionMailer::Base
     mail(to: user.email, subject: subject)
   end
 
+  def leader_attend_email(leader, event, attend_user_list)
+    @user = leader
+    @event = event
+    @attend_user_list = attend_user_list
+    subject = "Attendance for RLC Event #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
+    mail(to: leader.email, subject: subject)
+  end
+
   def waiting_list_email(user, event)
     @user = user
     @event = event
     subject = "Waitlist Confirmation: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
+    mail(to: user.email, subject: subject)
+  end
+
+  def waiting_to_attend_email(user, event)
+    @user = user
+    @event = event
+    subject = "Waitlist Update: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
     attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
     mail(to: user.email, subject: subject)
   end

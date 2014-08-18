@@ -8,7 +8,7 @@
       <%= comment.body %>
     </div>
     <div class='col-xs-2'>
-      <% if current_user.super_admin? || current_user == user %>
+      <% if current_user && (current_user.super_admin? || current_user == user) %>
         <span class="comment-remove-icon glyphicon glyphicon-remove pull-right" data-comment-id="<%= comment.id %>"></span>
       <% end %>
     </div>

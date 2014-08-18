@@ -1,0 +1,17 @@
+<p>Dear <%= @user.full_name %>,</p>
+<br/>
+<p>Thank you for leading the following event: </p>
+<br/>
+<%= render partial: 'event', locals: { event: @event} %>
+<br/>
+
+<p>The rescuers you will be leading are:</p>
+<% @attend_user_list.each do |user| %>
+  <p> <%= user.full_name %> : <%=  user['telephone'] %> </p>
+<% end %>
+<br/>
+
+<p>Please be sure that everyone is together and no one gets lost. Thank you again for your help in educating, leading, and being responsible for the group of rescuers.</p> 
+<p>Please do not hesitate to respond to this email with questions, comments, and feedback. </p>
+<br/>
+<p>RLC Team</p>

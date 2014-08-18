@@ -24,6 +24,8 @@
 
 var ready = function(){
 
+ 
+
   //Automatically close (fade away) the alert message after 5 seconds
   window.setTimeout(function() {
     $(".alert").fadeTo(1500, 0).slideUp(500, function(){

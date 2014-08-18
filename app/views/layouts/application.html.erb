@@ -52,19 +52,128 @@
           <% end %>
         </ul>
       </div><!-- /.nav-collapse -->
-      <hr/>
     </div><!-- /.container -->
 
   </div><!-- /.navbar -->
 
   <div id="warpper">
     <div class="container">
+      <div class="row"> 
+        <div class="col-xs-12" id="menu">
+          <!-- mega menu -->
+          <ul class="sky-mega-menu sky-mega-menu-anim-scale sky-mega-menu-response-to-switcher">
+            <!--responsive-->
+              <li class="switcher">
+                <a href="#"><i class="fa fa-bars"></i>Menu</a>
+              </li>
+            <!--responsive-->
+            
+            <!-- about -->
+              <li aria-haspopup="true">
+                <a href="#">  <span class="glyphicon glyphicon-star"></span> ABOUT US</a>
+                <div class="grid-container3">
+                  <ul>
+                    <li> 
+                      <%= link_to page_path('histroy') do %>
+                        <span class="glyphicon glyphicon-globe"> </span> History
+                      <% end %> 
+                    </li>
+                    <li>
+                      <%= link_to page_path('team') do %>
+                        <span class="glyphicon glyphicon-user"> </span> Our Team
+                      <% end %> 
+                    </li>
+                    <li>
+                      <%= link_to page_path('contributor') do %>
+                        <span class="glyphicon glyphicon-certificate"> </span> Our Contributors
+                      <% end %>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            <!--/ about -->
+            
+            <!-- challenge -->
+              <li aria-haspopup="true">
+                <a href="#"> <span class="glyphicon glyphicon-bullhorn"> </span> THE CHALLENGE </a>
+                <div class="grid-container3">
+                  <ul>
+                    <li>
+                      <%= link_to page_path('food-waste') do %>
+                        <span class="glyphicon glyphicon-trash"> </span> Food Waste
+                      <% end %>
+                    </li>
+                    <li>
+                      <%= link_to page_path('food-insecurity') do %>
+                        <span class="glyphicon glyphicon-warning-sign"> </span> Food Insecurity
+                      <% end %>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            <!--/ challenge -->
+            
+            <!-- contribute -->
+              <li aria-haspopup="true">
+                <a href="#"> <span class="glyphicon glyphicon-briefcase"> </span> CONTRIBUTE</a>
+                <div class="grid-container3">
+                  <ul>
+                    <li> 
+                      <%= link_to page_path('donate-funds') do %>
+                        <span class="glyphicon glyphicon-usd"> </span> Contribute Funds
+                      <% end %> 
+                    </li>
+                    <li> 
+                      <%= link_to page_path('donate-food') do %>
+                        <span class="glyphicon glyphicon-cutlery"> </span> Contribute Food
+                      <% end %> 
+                    </li>
+                    <li><a href="http://www.rescuingleftovercuisine-cardonations.org/" target="_blank"> <span class="glyphicon glyphicon-send"> </span> Contribute Car!</a></li>
+                  </ul>
+                </div>
+              </li>
+            <!--/ contribute -->
+            
+            <!-- volunteer -->
+              <li aria-haspopup="true">
+                <a href="#"> <span class="glyphicon glyphicon-user"> </span> VOLUNTEER</a>
+                <div class="grid-container3">
+                  <ul>
+                    <li>
+                      <%= link_to calendar_path do %>
+                        <span class="glyphicon glyphicon-calendar"> </span> Current Volunteer Events</a>
+                      <% end %>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <!--/ volunteer -->
+
+            <!-- contact -->
+              <li aria-haspopup="true">
+                <%= link_to page_path('contact-us') do %>
+                  <span class="glyphicon glyphicon-envelope"> </span> CONTACT US
+                <% end %>
+              </li>
+            <!--/ contact -->
+            
+            <!-- blog -->
+              <li id="blog" class="pull-right">
+                <a href="http://rescuingleftovercuisine.tumblr.com/" target="_blank"> <span class="glyphicon glyphicon-pencil"> </span> BLOG</a>
+              </li>
+            <!--/ blog -->
+          </ul>
+          <!--/ mega menu -->   
+        </div>    
+      </div>
+
       <% if notice.present? %>
         <p class="alert  alert-success" role="alert"><%= notice %></p>
       <% end %>
       <% if alert.present? %>
         <p class="alert alert-danger" role="alert"><%= alert %></p>
       <% end %>
+
       <%= yield %>
     </div>
   </div>

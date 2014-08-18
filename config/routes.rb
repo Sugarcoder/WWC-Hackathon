@@ -21,8 +21,16 @@ Rails.application.routes.draw do
   #static page
   get   '/about'    => 'high_voltage/pages#show', id: 'about'
   get   '/contact'  => 'high_voltage/pages#show', id: 'contact'
-  get   '/privacy'  => 'high_voltage/pages#show', id: 'privacy'
-  get   '/terms'    => 'high_voltage/pages#show', id: 'terms'
+  get   '/histroy'  => 'high_voltage/pages#show', id: 'history'
+  get   '/team'     => 'high_voltage/pages#show', id: 'team'
+  get   '/contributor'  => 'high_voltage/pages#show', id: 'contributor'
+  get   '/food-waste' => 'high_voltage/pages#show', id: 'food-waste'
+  get   '/food-insecurity' => 'high_voltage/pages#show', id: 'food-insecurity'
+  get   '/donate-funds' => 'high_voltage/pages#show', id: 'donate-funds'
+  get   '/donate-food' => 'high_voltage/pages#show', id: 'donate-food'
+  get   '/contact-us' => 'high_voltage/pages#show', id: 'contact-us'
+  get   '/home' => 'high_voltage/pages#show', id: 'home'
+  
 
   get   '/home', to: redirect('/')
   #Event
@@ -39,7 +47,6 @@ Rails.application.routes.draw do
 delete  '/comments/:id' => 'comments#destroy'
   get   '/comments/:event_id/:page' => 'comments#loadmore'
 
-  root to: 'events#calendar'
 
   authenticate :user, lambda { |u| u.super_admin? } do
     mount Sidekiq::Web => '/admin/sidekiq'

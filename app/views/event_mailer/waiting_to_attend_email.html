@@ -1,0 +1,17 @@
+<p>Dear <%= @user.full_name %>,</p>
+<br/>
+<p>The event that you are wating has a space now: </p>
+<br/>
+<%= render partial: 'event', locals: { event: @event } %>
+<br/>
+
+<p> click the link below to attend: </p>
+<p><%= link_to 'attend event', event_url(@event) %></p>
+<%= render 'ending_paragraph' %>
+<br/>
+<hr/>
+<br/>
+<small>
+You are receiving this email because you waitlisted for this event. Thank you!  
+</small>
+
