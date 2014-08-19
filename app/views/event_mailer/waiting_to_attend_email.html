@@ -1,12 +1,13 @@
 <p>Dear <%= @user.full_name %>,</p>
 <br/>
-<p>The event that you are wating has a space now: </p>
+<p>The following event that you waitlisted for has now opened: </p>
 <br/>
 <%= render partial: 'event', locals: { event: @event } %>
 <br/>
 
-<p> click the link below to attend: </p>
+<p> To be taken off the waitlist, please follow this link: </p>
 <p><%= link_to 'attend event', event_url(@event) %></p>
+<p> You must click through the link to register for the event. Afterwards, you will receive a confirmation email. </p>
 <%= render 'ending_paragraph' %>
 <br/>
 <hr/>

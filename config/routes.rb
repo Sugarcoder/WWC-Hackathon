@@ -21,15 +21,19 @@ Rails.application.routes.draw do
   #static page
   get   '/about'    => 'high_voltage/pages#show', id: 'about'
   get   '/contact'  => 'high_voltage/pages#show', id: 'contact'
-  get   '/histroy'  => 'high_voltage/pages#show', id: 'history'
-  get   '/team'     => 'high_voltage/pages#show', id: 'team'
+  get   '/contribute' => 'high_voltage/pages#show', id: 'contribute'
   get   '/contributor'  => 'high_voltage/pages#show', id: 'contributor'
-  get   '/food-waste' => 'high_voltage/pages#show', id: 'food-waste'
-  get   '/food-insecurity' => 'high_voltage/pages#show', id: 'food-insecurity'
+  get   '/contact-us' => 'high_voltage/pages#show', id: 'contact-us'
+  get   '/challenge' => 'high_voltage/pages#show', id: 'challenge'
   get   '/donate-funds' => 'high_voltage/pages#show', id: 'donate-funds'
   get   '/donate-food' => 'high_voltage/pages#show', id: 'donate-food'
-  get   '/contact-us' => 'high_voltage/pages#show', id: 'contact-us'
+  get   '/food-waste' => 'high_voltage/pages#show', id: 'food-waste'
+  get   '/food-insecurity' => 'high_voltage/pages#show', id: 'food-insecurity'
+  get   '/histroy'  => 'high_voltage/pages#show', id: 'history'
+  get   '/team'     => 'high_voltage/pages#show', id: 'team'
+  get   '/terms'     => 'high_voltage/pages#show', id: 'terms'
   get   '/home' => 'high_voltage/pages#show', id: 'home'
+
   
 
   get   '/home', to: redirect('/')

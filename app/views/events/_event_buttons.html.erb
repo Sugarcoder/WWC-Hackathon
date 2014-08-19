@@ -2,18 +2,19 @@
   
   <% if event.starting_time > Time.current %>
     <% if current_user.attending_events.include?(event) %>
-      <%= link_to 'Cancel', '#', id: 'cancel_event', class: 'btn btn-danger', data: { "event-id" => event.id } %>
+      <%= link_to 'Cancel', cancel_event_path(event, 'attend'), id: 'cancel_event', class: 'btn btn-danger', data: { "event-id" => event.id } %>
     <% elsif current_user.waiting_events.include?(event) && event.attending_user_count.to_i >= event.slot.to_i %>
-      <%= link_to 'Cancel', '#', id: 'cancel_waiting', class: 'btn btn-danger', data: { "event-id" => event.id } %>
+      <%= link_to 'Cancel', cancel_event_path(event, 'wait'), id: 'cancel_waiting', class: 'btn btn-danger', data: { "event-id" => event.id } %>
     <% elsif  event.attending_user_count.to_i < event.slot.to_i %>
-      <%= link_to 'Attend Event', '#', id:'attend_event', class: 'btn btn-success', data: { "event-id" => event.id } %>
+      <%= link_to 'Attend Event', attend_event_path(event, 'attend'), id:'attend_event', class: 'btn btn-success' %>
     <% else %>
-      <%= link_to 'Waiting List', '#', id:'wait_event', class: 'btn btn-info', data: { "event-id" => event.id } %>
+      <%= link_to 'Waiting List', attend_event_path(event, 'wait'), id:'wait_event', class: 'btn btn-info', data: { "event-id" => event.id } %>
     <% end %>
   <% end %>
 
-  <% if can? :show, event %>
-    <%= link_to 'Show', event_path(event), class: 'btn btn-primary' %>
+
+  <% if (can? :show, event) %>
+    <%= link_to 'Details', event_path(event), class: 'btn btn-primary' %>
   <% end %>
 
   <% if can? :update, event %>

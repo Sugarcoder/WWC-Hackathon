@@ -39,7 +39,7 @@ class EventMailer < ActionMailer::Base
   def waiting_to_attend_email(user, event)
     @user = user
     @event = event
-    subject = "Waitlist Update: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
+    subject = "Get off the Waitlist: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
     attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
     mail(to: user.email, subject: subject)
   end

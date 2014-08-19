@@ -116,7 +116,7 @@ class EventsController < ApplicationController
         format.js{ render 'attend'}
         format.json { render json: { event_id: @event.id} }
       else
-        format.html { redirect_to :back, notice: users_events.errors.full_messages.join(', ') }
+        format.html { redirect_to :back, alert: users_events.errors.full_messages.join(', ') }
         format.json { head :no_content }
       end
     end
@@ -136,10 +136,10 @@ class EventsController < ApplicationController
       if users_events.destroy
         CancelEmailWorker::perform_async(current_user.id, @event.id)
         notice = 'You canceled this event.'
-        format.html { redirect_to :back, notice: notice }
+        format.html { redirect_to :back, alert: notice }
         format.json { render json: { event_id: @event.id} }
       else
-        format.html { redirect_to :back, notice: users_events.errors.full_messages.join(', ') }
+        format.html { redirect_to :back, alert: users_events.errors.full_messages.join(', ') }
         format.json { head :no_content }
       end
     end

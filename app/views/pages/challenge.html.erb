@@ -1,0 +1,80 @@
+<% provide(:title, 'challenge') %>
+<div id="static-text-wrapper">
+  <div class="row">
+    <div class="col-md-12">
+      <div class='challenge-map'>
+        <%= image_tag 'Challenge-infog.jpg', name: 'ChallengeMap', useMap: 'ChallengeMap', id: 'ChallengeMap', border: 0  %>
+        
+        <map name="ChallengeMap">
+          <area onfocus="blur()" shape="circle" coords="403,719,80" href="<%= page_path('challenge') %>" alt="Food Waste" title="FoodWaste" onmouseover="if(document.images){ document.getElementById('ChallengeMap').src= 'assets/Challenge-infog-waste.jpg';}" onmouseout="if(document.images){ document.getElementById('ChallengeMap').src= 'assets/Challenge-infog.jpg'; }">
+
+          <area onfocus="blur()" shape="circle" coords="415,571,25" href="<%= page_path('food-waste') %>" alt="Food Waste" title="FoodWaste" onmouseover="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog-waste.jpg';" onmouseout="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog.jpg';">
+
+          <area onfocus="blur()" shape="poly" coords="446,487,440,498,439,506,440,517,443,526,447,534,452,542,458,545,463,540,465,527,463,510,457,496,450,488" href="<%= page_path('food-waste') %>" alt="Food Waste" title="FoodWaste" onmouseover="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog-waste.jpg';" onmouseout="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog.jpg';">
+
+          <area onfocus="blur()" shape="poly" coords="290,513" href="<%= page_path('food-waste') %>" alt="Food Waste" title="FoodWaste" onmouseover="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog-waste.jpg';" onmouseout="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog.jpg';">
+          
+          <area onfocus="blur()" shape="poly" coords="289,516,308,551,488,458,487,411,484,377,448,307,408,200,257,231" href="<%= page_path('food-waste') %>" alt="Food Waste" title="FoodWaste" onmouseover="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog-waste.jpg';" onmouseout="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog.jpg';">
+
+          <!--leftside-->
+
+          <area onfocus="blur()" shape="poly" coords="57,730,58,754,67,777,97,813,122,827,163,838,198,829,229,810,261,775,280,732,252,671,239,648,225,616,221,599,247,585,226,548,12,658,13,707,167,627,82,697,58,717" href="<%= page_path('food-insecurity') %>" alt="Food Insecurity" title="Food Insecurity" onmouseover="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog-hunger.jpg';" onmouseout="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog.jpg';">
+
+          <area onfocus="blur()" shape="poly" coords="18,418,104,494,124,485,198,389,194,380,204,367,192,565,210,554,223,437,225,413,224,378,215,359,191,351,133,299,112,313,103,312,62,356,22,404,18,413" href="<%= page_path('food-insecurity') %>" alt="Food Insecurity" title="Food Insecurity" onmouseover="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog-hunger.jpg';" onmouseout="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog.jpg';">
+
+          <!--rlcbottom-->
+          <area onfocus="blur()" shape="poly" coords="43,875,82,1086,415,1085,455,876,481,846,468,831,263,826,123,855,91,850,45,830,29,830,17,845" href="<%= page_path('about') %>" alt="What We Do" title="What We Do" onmouseover="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog-rlc.jpg';" onmouseout="if(document.images) document.getElementById('ChallengeMap').src= 'assets/Challenge-infog.jpg';">
+          
+        </map>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id='challenge-upset-block'>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-8 text-center description">
+          <p>
+            Nearly <strong>870 MILLION PEOPLE</strong> suffer from food hunger and malnourishment according to the United Nations Food and Agriculture Organization. 
+          </p>
+          <br>
+          <p>
+            Yet <strong>2 BILLION PEOPLE</strong> could be fed yearly with the amount of food America alone throws away each year.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <%= image_tag "challenge_upset.jpg", height: 300 %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id='challenge-button-block'>
+    <div class="col-md-12">
+      <br>
+      <h2 class="color-text text-center">The simple truth is we produce enough food to feed everyone.</h2>
+      <br>
+      <p class="text-center">Still, food waste and food insecurity in the United States have reached unprecedented highs and continue to rise at alarming rates. This is why Rescuing Leftover Cuisine aims to prevent perfectly edible food from being sent to landfills, and instead rescues it to the plates of the hungry and homeless.</p>
+      <br>
+      <div class="row text-center">
+        <div class="col-md-6 issue">
+          <h3> Find out more about these issues: </h3>
+          <br>
+          <p> 
+            <%= link_to "FOOD WASTE", page_path('food-waste'), class: "rlc-button btn btn-danger  text-center" %> 
+            <%= link_to "FOOD INSECURITY", page_path('food-insecurity'), class: "rlc-button btn btn-danger text-center" %>
+          </p>
+        </div>
+        <div class="col-md-6 action">
+          <h3> Take Action: </h3>
+          <br>
+          <p> 
+            <%= link_to "DONATE NOW", page_path('donate-funds'), class: "rlc-button btn btn-success  text-center" %> 
+            <%= link_to "VOLUNTEER WITH US", page_path('food-insecurity'), class: "rlc-button btn btn-success text-center" %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

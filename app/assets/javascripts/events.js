@@ -17,120 +17,10 @@ var ready = function(){
     parent = $('.event-block');
   }
 
-  $(document).on('click', '#attend_event', function(e){  
-    e.preventDefault();
-    $(this).hide();
-    url =  "/events/attend/" + $(this).data('event-id') + "/attend";
-    $.ajax({
-      type : 'get',
-      url : url,
-      context: this,
-      dataType : 'json',
-      success : function(data) {
-        $(this).parent().prepend('<a class="btn btn-danger" href="/events/cancel/' + data['event_id'] + '/attend" id="cancel_event" data-event-id="' + data['event_id'] + '">Cancel</a>');
-        var count_span, block;
-        if($('.modal').length > 0){
-          block = $(this).closest('.modal');
-        }
-        else{
-          block = $(this).closest('.event-block');
-        }
-        count_span = block.find('#event-attending-count');
-        max_span =  block.find('#max-attending-count');
-        var count = parseInt(count_span.text());
-        var max = parseInt(max_span.text());
-        if(count < max){
-          count_span.text(count + 1);
-        }
-      }
-    });
-  });
-
-  //waiting event
-  $(document).on('click', '#wait_event', function(e){  
-    e.preventDefault();
-    $(this).hide();
-    url =  "/events/attend/" + $(this).data('event-id') + "/wait";
-    $.ajax({
-      type : 'get',
-      url : url,
-      context: this,
-      dataType : 'json',
-      success : function(data) {
-        $(this).parent().prepend('<a class="btn btn-danger" href="/events/cancel/' + data['event_id'] + '/wait" id="cancel_waiting" data-event-id="' + data['event_id'] + '">Cancel</a>');
-        var count_span, block;
-        if($('.modal').length > 0){
-          block = $(this).closest('.modal');
-        }
-        else{
-          block = $(this).closest('.event-block');
-        }
-        count_span = block.find('#event-waiting-list-count');
-        max_span =  block.find('#max-waiting-list-count');
-        var count = parseInt(count_span.text());
-        var max = parseInt(max_span.text());
-        if(count < max){
-          count_span.text(count + 1);
-        }
-      }
-    });
-  });
-
-  //cancel event
-  $(document).on('click', '#cancel_event', function(e){  
-    e.preventDefault();
-    $(this).hide();
-    url =  "/events/cancel/" + $(this).data('event-id') + "/attend";
-    $.ajax({
-      type : 'get',
-      url : url,
-      context: this,
-      dataType : 'json',
-      success : function(data) {
-        $(this).parent().prepend('<a class="btn btn-success" href="/events/attend/' + data['event_id'] + '/attend" id="attend_event" data-event-id="' + data['event_id'] + '">Attend</a>');
-         var count_span, block;
-        if($('.modal').length > 0){
-          block = $(this).closest('.modal');
-        }
-        else{
-          block = $(this).closest('.event-block');
-        }
-        count_span = block.find('#event-attending-count');
-        var count = parseInt(count_span.text());
-        if(count > 0){
-          count_span.text(count - 1);
-        }
-      }
-    });
-  });
-
-  //cancel wait
-  $(document).on('click', '#cancel_waiting', function(e){  
-    e.preventDefault();
-    $(this).hide();
-    url =  "/events/cancel/" + $(this).data('event-id') + "/wait";
-    $.ajax({
-      type : 'get',
-      url : url,
-      context: this,
-      dataType : 'json',
-      success : function(data) {
-        $(this).parent().prepend('<a class="btn btn-success" href="/events/attend/' + data['event_id'] + '/wait" id="wait_event" data-event-id="' + data['event_id'] + '">Waiting List</a>');
-        var count_span, block;
-        if($('.modal').length > 0){
-          var block = $(this).closest('.modal');
-        }
-        else{
-          var block = $(this).closest('.event-block');
-        }
-        var count_span = block.find('#event-waiting-list-count');
-        var count = parseInt(count_span.text());
-        if(count > 0){
-          count_span.text(count - 1);
-        }
-      }
-    });
-  });
+  hide_event_modal($('#attend_event'));
+  hide_event_modal($('#wait_event'));
+  hide_event_modal($('#cancel_event'));
+  hide_event_modal($('#cancel_waiting'));
 
   //stop recurring
   $(document).on('click', '#confirm_stop_recurring', function(e){
@@ -156,3 +46,11 @@ var ready = function(){
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
+
+function hide_event_modal(el){
+  el.on('click', function(e){ 
+    if( $(this).closest('#eventModal').length){ 
+      $(this).closest('#eventModal').modal('hide');
+    }
+  });
+}

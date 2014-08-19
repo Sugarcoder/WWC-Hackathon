@@ -118,62 +118,96 @@ body {
 
   .box-wrapper{
     margin-top: 50px;
-    .box {
-      background-image: image-url("background_grid_noise.png");
-      .member-title{
-        color: $static-text-color;
-      }
-      &:nth-child(n+1){
-        margin-top: 30px;
-      }
-      .thumbnail{
-        padding: 20px;
-        background-image: image-url("background_grid_noise.png");
-      }
-    }
+  }
 
-    //Contributor page
-    .contributor-box, .donate-funds-box{
-      min-height: 300px;
-      padding: 0 20px 20px 20px;
+  .box {
+    background-image: image-url("background_grid_noise.png");
+    .member-title{
+      color: $static-text-color;
     }
-
-    .contributor-box{
-      .contributor-logo{
-        height: 133px;
-        img{
-          margin-top: 32px;
-        }
-      }
-      .google-logo{
-        margin-left: 15px;
-      }
+    &:nth-child(n+1){
+      margin-top: 30px;
     }
-
-    //Donate Funds page
-    .donate-funds-title{
-       height: 100px;
-       padding: 40px 0;
-    }
-    .donate-funds-description{
-      font-size: 16px;
-    }
-
-    //donate Food page
-    #become-member-button{
-      padding: 10px 40px;
-      margin-bottom: 20px;
-    }
-    .donate-food-text-block{
+    .thumbnail{
       padding: 20px;
-      ul{
-        font-size: 18px;
-        li{ 
-          margin-bottom: 10px;
-        }
+      background-image: image-url("background_grid_noise.png");
+    }
+  }
+
+  //Contributor page
+  .contributor-box, .donate-funds-box{
+    min-height: 300px;
+    padding: 0 20px 20px 20px;
+  }
+
+  .contributor-box{
+    .contributor-logo{
+      height: 133px;
+      img{
+        margin-top: 32px;
+      }
+    }
+    .google-logo{
+      margin-left: 15px;
+    }
+  }
+
+  //Donate Funds page
+  .donate-funds-title{
+     height: 100px;
+     padding: 40px 0;
+  }
+  .donate-funds-description{
+    font-size: 16px;
+  }
+
+  //donate Food page
+  #become-member-button{
+    padding: 10px 40px;
+    margin-bottom: 20px;
+  }
+  .donate-food-text-block{
+    padding: 20px;
+    ul{
+      font-size: 18px;
+      li{ 
+        margin-bottom: 10px;
       }
     }
   }
+
+  //about page
+  #about-box{
+    padding: 10px;
+  }
+
+  //challenge page
+  .challenge-map{
+    width: 500px;
+    margin: auto;
+  }
+  #challenge-upset-block{
+    margin-top: 30px;
+    border: 2px solid #999;
+    .description{
+      padding: 80px 60px;
+    }
+  }
+  #challenge-button-block{
+    margin-top: 30px;
+    .issue{
+      color: #FF6262;
+    }
+    .action{
+      color: #59c780;
+    }
+  }
+
+  //contribute page
+  .contribute-button{
+    font-size: 20px;
+  }
+  
 
 }
 

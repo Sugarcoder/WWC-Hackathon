@@ -178,6 +178,13 @@ var ready = function(){
               message: 'Organization is required and cannot be empty'
             },
           }
+        },
+        'terms_and_policy': {
+          validators: {
+            notEmpty: {
+              message: 'You need to agree on the terms & conditions and photo release policy'
+            },
+          }
         }
       }
   });

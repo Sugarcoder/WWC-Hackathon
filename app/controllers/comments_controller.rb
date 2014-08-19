@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
   def loadmore
     comments_per_page = 10
     comments = Comment.includes(:user).where(commentable_id: params["event_id"]).paginate(page: params["page"], per_page: comments_per_page).order('created_at DESC')
-    render partial: 'comments', locals: { event_id: params["event_id"], comments: comments, page: params["page"].to_i + 1 }
+    render partial: 'comments', locals: { event_id: params["event_id"], comments: comments, page: params["page"].to_i + 1 }, layout: false
   end 
 
 end

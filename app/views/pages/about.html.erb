@@ -1,3 +1,33 @@
 <% provide(:title, 'About') %>
-<h1>About Us</h1>
-<p>Find me in app/views/pages/about.html.erb</p>
+<div id="static-text-wrapper">
+  <div class="row">
+    <div class="col-md-12">
+      <h2> Mission </h2>
+      <p> The mission of Rescuing Leftover Cuisine is to become the world’s most widely used solution for companies and individuals to eliminate food waste in their communities, making food rescue sustainable and universal, and food hunger a thing of the past. </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <h2> About Us </h2>
+      <p> Rescuing Leftover Cuisine is a non-profit food rescue organization based in New York City that provides solutions to prevent excess wholesome cuisine from being wasted. RLC provides services such as food waste consulting, excess food delivery, co-branding services, and tax credit assistance. </p>
+      <br>
+      <p> RLC approaches the two large issues of hunger and food waste in three main ways.  </p>
+      <br>
+      <p> First, we localize the issues into sets of communities that can help sustain themselves. After identifying the homeless shelters of a needy community, we proactively find restaurants, hotels, and catering companies with excess food in that vicinity that could help support these disadvantaged communities.  </p>
+      <br>
+      <p> Second, we leverage technology to facilitate the identification and handling of excess food. Thus, these partner food providers will be using a smartphone application to report when excess food is occurring, and the same app is used to engage community members, because volunteering with us can be as easy as taking a brisk walk. </p>
+      <br>
+      <p> Third, we tackle food waste at its root, aiming to eliminate as much food waste as possible and bringing the remaining excess food to where it is needed most. The data of when food waste occurs is used in our analysis of what types of food waste could be avoided, and RLC suggests ways that partner food providers can reduce waste at its root.  </p>
+      <br>
+      <p>Working together, we can ensure that only hunger is left behind! </p>
+    </div>
+    <div class="col-md-4">
+      <div class="box text-center" id="about-box">
+          <h3>Recognized by</h3>
+          <br>
+          <p> <%= link_to 'NYU Reynolds Changemaker', "#" %> </p>
+          <p> <%= link_to 'Do Something, Inc', "https://www.dosomething.org/" %> </p>
+      </div>
+    </div>
+  </div>
+</div>
