@@ -1,10 +1,10 @@
 <div class="row">
-  <%= form_tag(finish_event_path, method: "post", role: "form", multipart: true, class: ['form-horizontal']) do %>
+<%= form_tag(finish_event_path, method: "post", role: "form", multipart: true, class: ['form-horizontal'], id: "finish_event") do %>
     <%= hidden_field_tag "event_id", @event.id %>
     
     <div class="form-group">
       <div class="col-sm-4">
-        <p> Anyone who did not attend the event?</p>
+        <label>Anyone who did not attend the event?</label>
         <ul class='list-group'>
           <% @event_users.each do |user| %>
               <li class="list-group-item">
@@ -18,21 +18,21 @@
 
     <div class="form-group">
       <div class="col-sm-4">
-        <p> how many pounds of food get delivered today?</p>
+        <label>how many pounds of food get delivered today?</label>
         <%= number_field_tag 'pound', class: 'form-control' %>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-4">
-        <p> Upload event photos?</p>
+        <label> Upload event photos?</label>
         <%= file_field_tag 'image' %>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-4">
-        <p> Upload event receipt (This is Required!)</p>
+        <label> Upload event receipt </label>
         <%= file_field_tag 'receipt' %>
       </div>
     </div>
@@ -43,5 +43,5 @@
        </div>
     </div>
 
-  <% end %>
+<% end %>
 </div>

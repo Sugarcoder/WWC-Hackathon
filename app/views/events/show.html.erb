@@ -2,10 +2,10 @@
   <div class='event-block col-md-6'>
     
       <h1><%= @event.title %> <small style="display: block; margin-top: 5px;"> <%= @event.category.name %> </small> </h1>
-      <%= render partial: 'event_content', locals: { event: @event } %>
-    
+      <%= render partial: 'event_content', locals: { event: @event, from: 'detail_page' } %>
+
       <div class='button-groups'>
-        <%= render partial: 'event_buttons', locals: { event: @event } %>
+        <%= render partial: 'event_buttons', locals: { event: @event, from: 'detail_page' } %>
       </div>
     
   </div>

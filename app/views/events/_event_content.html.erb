@@ -52,4 +52,12 @@
       <div>  <strong><%= event.leader.full_name %></strong> </div>
     </li>
   <% end %>
+
+  <% if from == 'detail_page' && event.instruction? %>
+    <li class='event-instruction'>
+      <label> Instruction: </label>
+      <div>  <strong><%= link_to 'link to instruction', event.instruction.url, target: "_blank" %></strong> </div>
+    </li>
+  <% end %>
+
 </ul>

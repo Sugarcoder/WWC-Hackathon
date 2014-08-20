@@ -38,6 +38,52 @@ var ready = function(){
     $(this).removeData("bs.modal").find(".modal-content").empty();
   });
 
+  //validator for finish event form
+  $('#finish_event').bootstrapValidator({
+    excluded: [':disabled', ':hidden', ':not(:visible)'],
+    feedbackIcons: {
+      required: 'glyphicon glyphicon-asterisk',
+      valid: 'glyphicon glyphicon-ok',
+      invalid: 'glyphicon glyphicon-remove',
+      validating: 'glyphicon glyphicon-refresh'
+    },
+    fields: {
+      'pound': {
+        message: 'The pound field is not valid',
+        validators: {
+          notEmpty: {
+            message: 'Pound is required and cannot be empty'
+          },
+          integer: {
+            message: 'The value is not an integer'
+          },
+          greaterThan: {
+            message: 'Pound should >= 0',
+            value: -1
+          }
+        }
+      },
+      'receipt': {
+        validators: {
+          notEmpty: {
+            message: 'receipt is required and cannot be empty'
+          }
+        }
+      }
+    }
+  })
+  .on('keyup', '[name="pound"]', function() {
+    var pound = $(this).val();
+    // if pound value is '0', disable the receipt validator. other wise enable it.
+    console.log(pound === '0')
+    $('#finish_event').bootstrapValidator('enableFieldValidators', 'receipt', pound !== '0')
+    // Revalidate the field when user start typing in the password field
+    if ($(this).val().length == 1) {
+      $('#finish_event').bootstrapValidator('validateField', 'receipt')
+    }
+  });
+
+  //validator for user sign up form
   $('#new_user').bootstrapValidator({
       excluded: [':disabled', ':hidden', ':not(:visible)'],
       feedbackIcons: {

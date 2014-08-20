@@ -4,11 +4,11 @@
   <h4 class="modal-title" id="myModalLabel"><%= event.title %></h4>
 </div>
 <div class="modal-body">
-  <%= render partial: 'event_content', locals: { event: event } %>
+  <%= render partial: 'event_content', locals: { event: event, from: 'modal' } %>
 </div>
 <div class="modal-footer">
   <div class='button-groups'>
-    <%= render partial: 'event_buttons', locals: { event: event } %>
+    <%= render partial: 'event_buttons', locals: { event: event, from: 'modal' } %>
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
   </div>
 </div>

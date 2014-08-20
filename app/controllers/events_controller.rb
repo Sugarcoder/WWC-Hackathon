@@ -38,7 +38,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
-        RemindLeaderEmailWorker::perform_at(@event.ending_time, current_user.id, @event.id)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
@@ -104,14 +103,6 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if users_events.save
-        if @type == 'attend'
-          AttendEmailWorker::perform_async(current_user.id, @event.id)
-          if Time.current < @event.starting_time - 24.hour # event happened later than attending time
-            ReminderEmailWorker::perform_at(@event.starting_time - 24.hour, current_user.id, @event.id)
-          end
-        elsif @type == 'wait'
-          WaitingListEmailWorker::perform_async(current_user.id, @event.id)
-        end 
         format.html { redirect_to :back, notice: notice }
         format.js{ render 'attend'}
         format.json { render json: { event_id: @event.id} }
@@ -134,7 +125,6 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if users_events.destroy
-        CancelEmailWorker::perform_async(current_user.id, @event.id)
         notice = 'You canceled this event.'
         format.html { redirect_to :back, alert: notice }
         format.json { render json: { event_id: @event.id} }
@@ -168,23 +158,33 @@ class EventsController < ApplicationController
   end
 
   def finish
-    UsersEvents.where('user_id IN (?) AND event_id = ?', params["user_ids"], params["event_id"]).update_all("status = 3")
-    params["user_ids"].each do |user_id|
-      ThankEmailWorker::perform_async(user_id, params["event_id"])
-    end if params["user_ids"]
+    
 
-    if params["image"]
+    if params["image"].present?
       @image = Image.new(event_id: params["event_id"], file: params["image"])
       @image.save
     end
 
-    @receipt = Image.new(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
-
-    if @receipt.save
-      event = Event.find_by_id(params["event_id"])
-      event.update_attributes(is_finished: true, pound: params["pound"])
-      flash[:notice] = "You successfully finished the event! thank you"
+    if params["receipt"].present?
+      @receipt = Image.new(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
+      @receipt.save
     end
+  
+    event = Event.find_by_id(params["event_id"])
+    if event.is_finished 
+      flash[:alert] = 'The event is already finished.'
+    else
+      if event.update_attributes(is_finished: true, pound: params["pound"])
+        UsersEvents.where('user_id IN (?) AND event_id = ?', params["user_ids"], params["event_id"]).update_all("status = 3")
+        params["user_ids"].each do |user_id|
+          ThankEmailWorker::perform_async(user_id, params["event_id"])
+        end if params["user_ids"]
+        flash[:notice] = "You successfully finished the event! thank you"
+      else
+        flash[:alert] = event.errors.full_messages.join(", ")
+      end
+    end
+    
     redirect_to :back
   end
 
@@ -203,7 +203,7 @@ class EventsController < ApplicationController
     def event_params
       params['event']['starting_time'] = Event.parse_event_date(params['event']['starting_time']) if params['event']['starting_time'].present?   
       params['event']['ending_time'] = Event.parse_event_date(params['event']['ending_time'])  if params['event']['ending_time'].present?
-      params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :recurring_type, :category_id, :leader_id, :pound, :is_finished, :parent_event_id)
+      params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :recurring_type, :category_id, :leader_id, :pound, :is_finished, :parent_event_id, :instruction)
     end
 
 end

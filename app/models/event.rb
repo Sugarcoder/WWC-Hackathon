@@ -11,25 +11,37 @@ class Event < ActiveRecord::Base
   has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image'
   validate :starting_time_after_current_time, on: :create
   validate :starting_time_before_ending_time
+  validate :finish_process, on: :update, if: Proc.new { |event| event.is_finished == true }
   
   validates :ending_time, presence: true
   validates :starting_time, presence: true
   validates :title, presence: true
   validates :slot,  presence: true
 
-  after_create :send_email
+  after_commit :after_create_action, on: :create
+
+  has_attached_file :instruction, styles: {thumbnail: "60x60#"}
+  validates_attachment :instruction, content_type: { content_type: "application/pdf" }
+
+  def after_create_action
+    send_email
+    sign_up_lead_rescuer
+  end
+
+  def sign_up_lead_rescuer
+    UsersEvents.create(user_id: leader_id, event_id: id, status: 1)
+  end
 
   def send_email
-    #send attendence email 3 hours before event beginning to event leader. if starting time is less than 3 hours from creating time, send id directly.
+    #send attendence email to lead rescuer 3 hours before event beginning. if starting time is less than 3 hours from creating time, send it directly.
     if starting_time < Time.current + 180.minutes
       LeaderAttendEmailWorker::perform_async(leader_id, id)
     else
       LeaderAttendEmailWorker::perform_at(starting_time - 179.minutes, leader_id, id)
     end
-    AttendEmailWorker::perform_async(leader_id, id)
-    ReminderEmailWorker::perform_at(starting_time - 24.hour, leader_id, id)  if Time.current < starting_time - 24.hour
+    # send remind leader email after events ends.
+    RemindLeaderEmailWorker::perform_at(@event.ending_time, @event.leader_id, @event.id)
   end
-  
   
   def starting_date
     return nil if self.starting_time.nil?
@@ -91,6 +103,13 @@ class Event < ActiveRecord::Base
     return if self.starting_time.nil? || self.ending_time.nil?
     if self.starting_time > self.ending_time
       errors[:base] << "starting time can not after ending time"
+    end
+  end
+
+  def finish_process
+    errors[:base] << "pound is required!" if pound.nil?
+    if pound != 0 && self.receipt.nil?
+      errors[:base] << "receipt is required!"
     end
   end
   

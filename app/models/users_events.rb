@@ -6,9 +6,8 @@ class UsersEvents < ActiveRecord::Base
    belongs_to :event
    belongs_to :user
 
-   after_create :increment_user_count
-   after_create :remove_from_waiting_list
-   after_destroy :send_email_and_decrease_user_count
+   after_commit :after_create_action, on: :create
+   after_commit :send_email_and_decrease_user_count, on: :destroy
 
   def event_validation
     event = Event.find_by_id(event_id)
@@ -38,6 +37,12 @@ class UsersEvents < ActiveRecord::Base
     end
   end
 
+  def after_create_action
+    increment_user_count
+    send_email_after_sign_up_event
+    remove_from_waiting_list
+  end
+
   def remove_from_waiting_list
     if self.attending?
       waiting_list_record = UsersEvents.find_by_event_id_and_user_id_and_status(event_id, user_id, 2)
@@ -55,7 +60,24 @@ class UsersEvents < ActiveRecord::Base
     end
   end
 
+  def send_email_after_sign_up_event
+    if self.attending?
+      # attend event confirmation email
+      AttendEmailWorker::perform_async(user_id, event_id)
+      if Time.current < event.starting_time - 24.hour # attending time is 1 day earlier than event starting time
+        # reminder email
+        ReminderEmailWorker::perform_at(event.starting_time - 24.hour, user_id, event_id)  
+      end
+    elsif self.waiting?
+      WaitingListEmailWorker::perform_async(user_id, event_id)
+    end 
+  end
+
   def send_email_and_decrease_user_count
+    # send cancel email to current user
+    CancelEmailWorker::perform_async(user_id, event_id)
+
+    # send notice email to user who is waiting for the event when event is full
     if self.attending? && event.slot <= event.attending_user_count
       user_ids = UsersEvents.where('event_id = ? AND status = ?', event_id, 2).map(&:user_id)
       user_ids.each { |wait_user_id| WaitingToAttendEmailWorker::perform_async(wait_user_id, event_id) }

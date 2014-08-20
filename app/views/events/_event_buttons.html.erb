@@ -13,7 +13,7 @@
   <% end %>
 
 
-  <% if (can? :show, event) %>
+  <% if (can? :show, event) && from != 'detail_page' %>
     <%= link_to 'Details', event_path(event), class: 'btn btn-primary' %>
   <% end %>
 

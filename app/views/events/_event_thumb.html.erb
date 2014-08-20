@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading"> <%= event.title %> </div>
   <div class="panel-body">
-    <%= render partial: 'events/event_content', locals: { event: event } %>
+    <%= render partial: 'events/event_content', locals: { event: event, from: 'thumb' } %>
     <% 
       case status
       when 'reserved' 
@@ -16,5 +16,6 @@
     <% if status == 'unfinished' %>
       <%= link_to 'Finish it!', finish_form_path(event), class: "btn btn-primary ", role: "button" %> 
     <% end %>
+    <%= link_to 'Details', event_path(event), class: 'btn btn-primary' %>
   </div>
 </div>
