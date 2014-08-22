@@ -117,7 +117,7 @@ class Event < ActiveRecord::Base
   class << self
 
     def create_recurring_events(recurring_event_type, recurring_ending_date, event)
-        return if recurring_event_type == 'not_recurring' || event.nil? || recurring_ending_date.nil? #no recurring event
+        return if recurring_event_type == 'not_recurring' || event.nil? || !recurring_ending_date.present? #no recurring event
         recurring_ending_date = self.parse_event_date(recurring_ending_date)
         case recurring_event_type
         when 'daily'
@@ -144,6 +144,23 @@ class Event < ActiveRecord::Base
 
     def adding_day
       lambda { |time| time.tomorrow }
+    end
+
+    def attend_recurring_summary( weekly_count, dates)
+      summary = "attend "
+      summary += case weekly_count
+                when 1
+                  'weekly'
+                when 2
+                  'biweekly'
+                when 3
+                  'triweekly'
+                end
+      summary += " on "
+      dates.each do |date| 
+        summary += date == dates.last ? Date::DAYNAMES[date.wday] : Date::DAYNAMES[date.wday] + ", " 
+      end
+      summary
     end
 
   end

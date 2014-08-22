@@ -1,12 +1,13 @@
+require 'open-uri'
 class EventMailer < ActionMailer::Base
   layout 'email_layout'
   default from: 'volunteer@rescuingleftovercuisine.org'
+  before_action :attachment_image
  
   def cancel_email(user, event)
     @user = user
     @event = event
     subject = "Cancellation: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
     mail(to: user.email, subject: subject)
   end
 
@@ -15,7 +16,7 @@ class EventMailer < ActionMailer::Base
     @event = event
     @event_leader = event_leader
     subject = "Confirmation: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
+    attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
     mail(to: user.email, subject: subject)
   end
 
@@ -24,7 +25,6 @@ class EventMailer < ActionMailer::Base
     @event = event
     @attend_user_list = attend_user_list
     subject = "Attendance for RLC Event #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
     mail(to: leader.email, subject: subject)
   end
 
@@ -32,7 +32,6 @@ class EventMailer < ActionMailer::Base
     @user = user
     @event = event
     subject = "Waitlist Confirmation: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
     mail(to: user.email, subject: subject)
   end
 
@@ -40,7 +39,6 @@ class EventMailer < ActionMailer::Base
     @user = user
     @event = event
     subject = "Get off the Waitlist: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
     mail(to: user.email, subject: subject)
   end
 
@@ -49,7 +47,7 @@ class EventMailer < ActionMailer::Base
     @event = event
     @event_leader = event_leader
     subject = "Reminder: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
+    attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
     mail(to: user.email, subject: subject)
   end
 
@@ -57,7 +55,6 @@ class EventMailer < ActionMailer::Base
     @user = user
     @event = event
     subject = "Thank you for your help in Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
     mail(to: user.email, subject: subject)
   end
 
@@ -65,8 +62,13 @@ class EventMailer < ActionMailer::Base
     @user = user
     @event = event
     subject = "Thank You for Leading RLC Event at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
     mail(to: user.email, subject: subject)
+  end
+
+  private
+
+  def attachment_image
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
   end
 
 end

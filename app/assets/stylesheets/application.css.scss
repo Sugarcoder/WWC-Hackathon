@@ -30,11 +30,64 @@ body {
   padding-bottom: 20px;
 }
 
-#warpper{
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -10px;
+footer{
+  margin-top: 100px;
+  font-family: 'Proxima';
+  padding: 30px 50px 30px 50px;
+  background: #000 image-url("footer_background.png");
+  color: #FFF;
+  .left-block{
+    padding: 20px;
+
+    ol{
+      margin-top: 20px;
+      font-size: 20px;
+      font-style: italic;
+      font-family: Georgia, Times, serif;
+      font-size: 20px;
+      color: #bfe1f1;
+      vertical-align: middle;
+      a{
+        color: white;
+        font-size: 16px;
+        border-left: 1px solid #eee;
+        padding: 8px;
+      }
+    }
+
+  }
+
+  #copyright{
+    padding: 20px;
+    margin-top: 20px;
+    #mc_embed_signup_footer{
+      label{
+        display: block;
+        font-size: 16px;
+        padding-bottom: 10px;
+        font-weight: bold;
+      }
+      .form-group{
+        margin-left: 0;
+      }
+
+      input.email{
+        max-width: 300px;
+        margin-bottom: 0;
+      }
+
+      input#mc-embedded-subscribe {
+        &:hover{
+          background: #6ccd8f;
+        }
+        width: 165px;
+        font-weight: bold;
+        font-size: 18px;
+        background: #C3C3C3;
+        color: white;
+      }
+    }
+  }
 }
 
 // nav bar
@@ -56,6 +109,10 @@ body {
   text-overflow: ellipsis;
 }
 
+.popover {
+  max-width: 700px;
+  width: auto;
+}
 
 // static page text wrapper
 #static-text-wrapper {

@@ -1,0 +1,63 @@
+<%= form_tag attend_recurring_event_path, method: "post", role: "form", class: ['form-horizontal'], id: 'attend_recurring_event' do %>
+  <%= hidden_field_tag :event_id , event.id %>
+  <div class="form-group"> 
+    <label class="control-label col-sm-3"> Repeats </label>
+    <div class="col-sm-8">
+      <%= select_tag(:recurring_type, options_for_select([ ['weekly', 'weekly'] ]), {id: 'recurring_type'}) %>
+    </div>
+  </div>
+
+  <div class="form-group"> 
+    <label class="control-label col-sm-3"> Repeats every </label>
+    <div class="col-sm-8">
+      <%= select_tag(:weekly_count, options_for_select([ 1, 2, 3 ]), {id: 'weekly_count'}) %>
+      weeks
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-3"> Repeats on</label>
+    <div class="col-sm-9">
+        <label class="checkbox-inline">
+          <%= check_box_tag("day[]", "0") %> S 
+        </label>
+      
+        <label class="checkbox-inline">
+          <%= check_box_tag("day[]", "1") %> M
+        </label>
+
+        <label class="checkbox-inline">
+          <%= check_box_tag("day[]", "2") %> T
+        </label>
+
+        <label class="checkbox-inline">
+          <%= check_box_tag("day[]", "3") %> W
+        </label>
+
+        <label class="checkbox-inline">
+          <%= check_box_tag("day[]", "4") %> T
+        </label>
+
+        <label class="checkbox-inline">
+          <%= check_box_tag("day[]", "5") %> F
+        </label>
+
+        <label class="checkbox-inline">
+          <%= check_box_tag("day[]", "6") %> Sa
+        </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-3"> End Date </label>
+    <div class="col-sm-6">
+      <input type='text' name='attend_recurring_ending_date' id='attend_recurring_ending_date' class="form-control" />
+    </div>
+  </div>
+
+  <div class="form-group pull-right">
+    <div class="col-sm-10">
+      <%= submit_tag "Attend", class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>

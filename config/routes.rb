@@ -39,17 +39,23 @@ Rails.application.routes.draw do
   get   '/home', to: redirect('/')
   #Event
   get   '/calendar(/:type)' => 'events#calendar', as: 'calendar'
+  get   '/events/cancel/:id/recurring' => 'events#stop_attend_recurring', as: 'stop_attend_recurring_event'
   get   '/events/attend/:event_id/:status' => 'events#attend', as: 'attend_event'
   get   '/events/cancel/:event_id/:status' => 'events#cancel', as: 'cancel_event'
   delete '/events/recurring/:id' => 'events#stop_recurring', as: 'event_stop_recurring' #stop recurring event
   get   '/events/finish/:id' => 'events#finish_form', as: 'finish_form'  #finish event form
   post  '/events/finish' => 'events#finish', as: 'finish_event' #finish event
+  post  '/events/attend/:id/recurring' => 'events#attend_recurring', as: 'attend_recurring_event'
+
   get   '/events/photos/:id' => 'events#photo', as: 'event_photo'
 
   #Comment
   post  '/comments' => 'comments#create'
 delete  '/comments/:id' => 'comments#destroy'
   get   '/comments/:event_id/:page' => 'comments#loadmore'
+
+  #admin
+  get '/admin' => 'admin#index', as: 'admin'
 
 
   authenticate :user, lambda { |u| u.super_admin? } do
