@@ -63,7 +63,7 @@ class UsersEvents < ActiveRecord::Base
   def send_email_after_sign_up_event
     if self.attending?
       # attend event confirmation email
-      AttendEmailWorker::perform_async(user_id, event_id) unless parent_event_id.present? 
+      AttendEmailWorker::perform_async(user_id, event_id) unless parent_id.present? 
       if Time.current < event.starting_time - 24.hour # attending time is 1 day earlier than event starting time
         # reminder email
         ReminderEmailWorker::perform_at(event.starting_time - 24.hour, user_id, event_id)  
@@ -75,7 +75,7 @@ class UsersEvents < ActiveRecord::Base
 
   def send_email_and_decrease_user_count
     # send cancel email to current user
-    CancelEmailWorker::perform_async(user_id, event_id)
+    CancelEmailWorker::perform_async(user_id, event_id) unless parent_id.present? 
 
     # send notice email to user who is waiting for the event when event is full
     if self.attending? && event.slot <= event.attending_user_count
