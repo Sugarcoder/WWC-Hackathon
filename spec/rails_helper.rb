@@ -24,7 +24,29 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
+
+  #database cleaner
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+  
+  config.around(:each) do |example|
+    if example.metadata[:js] || example.metadata[:type] == 'feature'
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+    end
+    DatabaseCleaner.start
+    example.run
+    Capybara.reset_sessions!
+  end
+
+  config.append_after(:each) do |example|
+    DatabaseCleaner.clean
+    $redis.flushdb
+  end
+
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and

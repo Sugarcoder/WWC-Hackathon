@@ -90,4 +90,8 @@ class UsersEvents < ActiveRecord::Base
     end
   end
 
+  def attend_recurring?
+    self.attending? && self.parent_id != nil
+  end
+
 end

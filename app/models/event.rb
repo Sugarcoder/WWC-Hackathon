@@ -90,6 +90,15 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def user_status_editable?
+    self.starting_time > Time.current
+  end
+
+  def full?
+    slot = self.slot || 0
+    slot <= self.attending_user_count
+  end
+
   #####################################################################
   # Validation
   #####################################################################
