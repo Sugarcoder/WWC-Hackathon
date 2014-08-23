@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   get   '/team'     => 'high_voltage/pages#show', id: 'team'
   get   '/terms'     => 'high_voltage/pages#show', id: 'terms'
   get   '/home' => 'high_voltage/pages#show', id: 'home'
+  get   '/policy' => 'high_voltage/pages#show', id: 'policy'
+  get   '/volunteer' => 'high_voltage/pages#show', id: 'volunteer'
 
   
 

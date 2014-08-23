@@ -10,19 +10,23 @@
     <% else %>
       <%= link_to 'Waiting List', attend_event_path(event, 'wait'), id:'wait_event', class: 'btn btn-info' %>
     <% end %>
+
+
+    <% unless event.not_recurring? || event.monthly? %>
+      <% if current_user.attending_recurring_events.include?(event) %>
+         <%= link_to 'stop attend future events', stop_attend_recurring_event_path(event), id: 'stop_attend_recurring', class: 'btn btn-danger pull-left'  %>
+      <% else %>
+        <%= content_tag :button, 'Attend recurring', id:'attend_recurring', class: 'btn btn-primary pull-left', data: { placement: "right" }  %> 
+        <div id="popover-head" class="hide">Attend Recurring</div>
+        <div id="popover-content" class="hide">
+          <%= render partial: 'event_attend_recurring_form', locals: { event: event} %>
+        </div>
+      <% end %>
+    <% end %>
+
   <% end %>
 
-  <% unless event.not_recurring? || event.monthly? %>
-    <% if current_user.attending_recurring_events.include?(event) %>
-       <%= link_to 'stop attend future events', stop_attend_recurring_event_path(event), id: 'stop_attend_recurring', class: 'btn btn-danger pull-left'  %>
-    <% else %>
-      <%= content_tag :button, 'Attend recurring', id:'attend_recurring', class: 'btn btn-primary pull-left', data: { placement: "bottom" }  %> 
-      <div id="popover-head" class="hide">Attend Recurring</div>
-      <div id="popover-content" class="hide">
-        <%= render partial: 'event_attend_recurring_form', locals: { event: event} %>
-      </div>
-    <% end %>
-  <% end %>
+ 
 
   <% if (can? :show, event) && from != 'detail_page' %>
     <%= link_to 'Details', event_path(event), class: 'btn btn-primary' %>

@@ -1,39 +1,60 @@
 <div class="row">
   <div class='event-block col-md-6'>
-    
-      <h1><%= @event.title %> <small style="display: block; margin-top: 5px;"> <%= @event.category.name %> </small> </h1>
-      <%= render partial: 'event_content', locals: { event: @event, from: 'detail_page' } %>
+      <div class="row">
+        <div class='col-md-12'>
+          <h1 ><%= @event.title %> <small style="display: block; margin-top: 5px;"> <%= @event.category.name %> </small> </h1>
+          <%= render partial: 'event_content', locals: { event: @event, from: 'detail_page' } %>
 
-      <div class='button-groups'>
-        <%= render partial: 'event_buttons', locals: { event: @event, from: 'detail_page' } %>
+          <div class='button-groups'>
+            <%= render partial: 'event_buttons', locals: { event: @event, from: 'detail_page' } %>
+          </div>   
+        </div>
+        <div class='comment-block col-md-12'>
+          <ul class="media-list">
+            <% if current_user %>
+              <li class="media">
+                <a class="comment-profile-image pull-left" href="#">
+                  <%= image_tag current_user.avatar.url(:square), class: "media-object", size: '64x64', style: "border-radius: 50%;" %>
+                </a>
+                <div class="media-body">
+                  <%= form_tag('/comments', method: 'post', class: 'comment_form' ) do %>
+                    <%= hidden_field_tag :event_id , @event.id %>
+                    
+                    <%= content_tag :div do %>
+                        <%= text_area_tag :text, nil, class: "form-control", id: "comment_text", placeholder: "Write a comment..."  %>
+                    <% end %>
+
+                  <% end %> 
+                </div>
+              </li>
+            <% end %>
+
+            <%= render partial: 'comments/comments', locals: { event_id: @event.id, comments: @comments, page: 2 } %>
+          </ul>
+        </div>
       </div>
-    
+  </div>
+  <div class='col-md-6 col-sm-12' id='event_user_list'>
+    <div class="row">
+      <div class='col-md-6'>
+        <h4> <%= @users.length %> going for this event </h4>
+        <ul class="media-list">
+          <% @users.each do |user| %>
+            <div class="media">
+              <a class="pull-left" href="#">
+                 <%= image_tag(user.avatar.url(:square), class: 'img-circle', style:'height: 60px; ') %>
+              </a>
+              <div class="media-body" style="">
+                <h4 class="media-heading"><%= user.full_name %></h4>
+                <% if current_user && ( current_user.admin? || current_user.super_admin? ) %>
+                  <%= user.telephone %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="row">
-  <div class='comment-block col-md-6'>
-    <ul class="media-list">
-      <% if current_user %>
-        <li class="media">
-          <a class="comment-profile-image pull-left" href="#">
-            <%= image_tag current_user.avatar.url(:square), class: "media-object", size: '64x64', style: "border-radius: 50%;" %>
-          </a>
-          <div class="media-body">
-            <%= form_tag('/comments', method: 'post', class: 'comment_form' ) do %>
-              <%= hidden_field_tag :event_id , @event.id %>
-              
-              <%= content_tag :div do %>
-                  <%= text_area_tag :text, nil, class: "form-control", id: "comment_text", placeholder: "Write a comment..."  %>
-              <% end %>
-
-            <% end %> 
-          </div>
-        </li>
-      <% end %>
-
-      <%= render partial: 'comments/comments', locals: { event_id: @event.id, comments: @comments, page: 2 } %>
-    
-    </ul>
-  </div>
-</div>

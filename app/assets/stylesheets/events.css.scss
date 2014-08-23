@@ -51,10 +51,23 @@
 }
 
 .event-block{
+  
   h1{
     color: #5bc0de;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    margin-top: 0px;
   }
+  #event-content{
+    margin-bottom: 40px;
+    li{
+      padding-top: 5px;
+      font-size: 17px;
+      div{
+        font-size: 16px;
+      }
+    }
+  }
+  padding: 20px;
 }
 
 #event-content{
@@ -77,3 +90,29 @@
     font-size: 9px;
   }
 } 
+
+#attend_recurring, #stop_attend_recurring{
+  margin-right: 15px;
+}
+
+
+#comment_text{
+  max-width: 400px;
+}
+
+// event show page
+#event_user_list{
+  padding: 20px;
+  .media{
+    padding: 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin-top: 0;
+    &:first-child{
+      border-top: 2px solid #eee;
+    }
+    &:last-child{
+      border-bottom: 2px solid #eee;
+    }
+  }
+}
