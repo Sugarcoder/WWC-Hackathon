@@ -25,6 +25,7 @@ class EventMailer < ActionMailer::Base
     @event = event
     @attend_user_list = attend_user_list
     subject = "Attendance for RLC Event #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
+    attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
     mail(to: leader.email, subject: subject)
   end
 
@@ -62,6 +63,7 @@ class EventMailer < ActionMailer::Base
     @user = user
     @event = event
     subject = "Thank You for Leading RLC Event at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
+    attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
     mail(to: user.email, subject: subject)
   end
 

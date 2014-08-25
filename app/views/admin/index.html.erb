@@ -1,23 +1,61 @@
-<div class="panel panel-default">
-  <div class="panel-heading"> Events </div>
-  <div class="panel-body">
-    <p><%= link_to 'New Event', new_event_path, class: 'btn btn-primary' %></p>
-    <p><%= link_to 'All Events', events_path, class: 'btn btn-primary' %></p>
+<div class='row' id="admin_index_page">
+  <div class="panel panel-default">
+    <div class="panel-heading"> Events </div>
+    <div class="panel-body">
+      <p><%= link_to 'New Event', new_event_path, class: 'btn btn-primary' %></p>
+      <p><%= link_to 'All Events', events_path, class: 'btn btn-primary' %></p>
+    </div>
   </div>
-</div>
 
-<div class="panel panel-default">
-  <div class="panel-heading"> Locations </div>
-  <div class="panel-body">
-    <p><%= link_to 'New Location', new_location_path, class: 'btn btn-primary' %></p>
-    <p><%= link_to 'All Locations', locations_path, class: 'btn btn-primary' %></p>
+  <div class="panel panel-default">
+    <div class="panel-heading"> Locations </div>
+    <div class="panel-body">
+      <p><%= link_to 'New Location', new_location_path, class: 'btn btn-primary' %></p>
+      <p><%= link_to 'All Locations', locations_path, class: 'btn btn-primary' %></p>
+    </div>
   </div>
-</div>
 
-<div class="panel panel-default">
-  <div class="panel-heading"> Locations </div>
-  <div class="panel-body">
-    <p><%= link_to 'New Category', new_category_path, class: 'btn btn-primary' %></p>
-    <p><%= link_to 'All Categories', categories_path, class: 'btn btn-primary' %></p>
+  <div class="panel panel-default">
+    <div class="panel-heading"> Locations </div>
+    <div class="panel-body">
+      <p><%= link_to 'New Category', new_category_path, class: 'btn btn-primary' %></p>
+      <p><%= link_to 'All Categories', categories_path, class: 'btn btn-primary' %></p>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading"> Upgrade User/ Downgrade User </div>
+    <div class="panel-body">
+      <%= form_tag(change_user_role_path, method: "post", role: "form", class: 'form-horizontal', id: "upgrade_user") do %>
+        <p>
+          <label> User ID, Name or Email </label>
+          <%= hidden_field_tag 'change_action_type', 'upgrade_to_lead_rescuer' %>
+          <%= text_field_tag 'email', nil, class: 'form-control', id: 'upgrade_to_leader_rescuer_input' %>
+          <%= submit_tag 'Upgrade', class: 'btn btn-warning' %>
+        </p>
+      <% end %>
+      <hr>
+      <%= form_tag(change_user_role_path, method: "post", role: "form", class: 'form-horizontal', id: "downgrade_user") do %>
+        <p>
+          <label> User ID, Name or Email </label>
+          <%= hidden_field_tag 'change_action_type', 'downgrade_to_normal_user' %>
+          <%= text_field_tag 'email', nil, class: 'form-control', id: 'downgrade_to_normal_user_input' %>
+          <%= submit_tag 'Downgrade', class: 'btn btn-warning' %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading"> Assign Event </div>
+    <div class="panel-body">
+      <%= form_tag assign_event_path, method: 'post', role: 'form', class: 'form-horizontal', id: "assign_event" do %>
+        <label> User ID, Name or Email </label>
+        <%= text_field_tag 'email', nil, class: 'form-control', id: 'assign_event_user_input' %>
+        <label> Event ID </label>
+        <%= text_field_tag 'event_id', nil, class: 'form-control', id: 'assign_event_user' %>
+        <%= submit_tag 'Assign', class: 'btn btn-success' %>
+      <% end %>
+    </div>
   </div>
 </div>

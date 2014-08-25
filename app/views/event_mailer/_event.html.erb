@@ -1,5 +1,6 @@
-<p> Event Title: <span > <%= event.title.titleize %> </span> </p>
-<p> Time: <span> <%= event.starting_hour %> </span> 
+<p> Event Title: <span > <%= link_to event.title.titleize, event_url(event) %> </span> </p>
+<p> Date: <span> <%= event.starting_date_with_full_weekday_name %> </span> </p>
+<p> Time: <span> <%= event.starting_hour%> </span> 
 <% if event.ending_hour.present? %>
   <span> - <%= event.ending_hour %> </span>
 <% end %>

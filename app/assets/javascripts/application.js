@@ -13,6 +13,7 @@
 
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui/autocomplete
 //= require ./plugins/bootstrap-select.js
 //= require ./plugins/jquery.form.js
 //= require moment
@@ -23,8 +24,6 @@
 //= require_tree .
 
 var ready = function(){
-
- 
 
   //Automatically close (fade away) the alert message after 5 seconds
   window.setTimeout(function() {

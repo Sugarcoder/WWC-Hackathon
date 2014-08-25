@@ -8,10 +8,10 @@ module LayoutHelper
   def site_url
     if Rails.env.production?
       # Place your production URL in the quotes below
-      "http://rescuingleftovercuisine.herokuapp.com"
+      "http://www.rescuingleftovercuisine.org"
     else
       # Our dev & test URL
-      "http://localhost:3000"
+      "http://127.0.0.1:3000/"
     end
   end
 

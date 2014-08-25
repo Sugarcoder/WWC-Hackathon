@@ -12,6 +12,7 @@
  *
  *= require_self
  *= require bootstrapValidator.min
+ *= require jquery-ui/autocomplete
  *= require_tree
  */
 
@@ -188,6 +189,7 @@ footer{
     .thumbnail{
       padding: 20px;
       background-image: image-url("background_grid_noise.png");
+      border: 0;
     }
   }
 

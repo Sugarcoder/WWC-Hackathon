@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   get   '/events/cancel/:id/recurring' => 'events#stop_attend_recurring', as: 'stop_attend_recurring_event'
   get   '/events/attend/:event_id/:status' => 'events#attend', as: 'attend_event'
   get   '/events/cancel/:event_id/:status' => 'events#cancel', as: 'cancel_event'
-  delete '/events/recurring/:id' => 'events#stop_recurring', as: 'event_stop_recurring' #stop recurring event
+delete  '/events/recurring/:id' => 'events#stop_recurring', as: 'event_stop_recurring' #stop recurring event
   get   '/events/finish/:id' => 'events#finish_form', as: 'finish_form'  #finish event form
   post  '/events/finish' => 'events#finish', as: 'finish_event' #finish event
   post  '/events/attend/:id/recurring' => 'events#attend_recurring', as: 'attend_recurring_event'
@@ -57,8 +57,12 @@ delete  '/comments/:id' => 'comments#destroy'
   get   '/comments/:event_id/:page' => 'comments#loadmore'
 
   #admin
-  get '/admin' => 'admin#index', as: 'admin'
+  get   '/admin' => 'admin#index', as: 'admin'
+  post  '/admin/change-user-role' => 'admin#change_user_role', as: 'change_user_role'
+  post  '/admin/assign-event' => 'admin#assign_event', as: 'assign_event'
 
+  #search
+  get   '/search/users(/:user_type)' => 'search#search_user', as: 'search_user'
 
   authenticate :user, lambda { |u| u.super_admin? } do
     mount Sidekiq::Web => '/admin/sidekiq'

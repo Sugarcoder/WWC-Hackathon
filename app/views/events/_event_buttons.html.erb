@@ -9,10 +9,9 @@
     content: function() {
       return $("#popover-content").html();
     }
-  }).on('show.bs.popover', function(){
+  }).on('shown.bs.popover', function(){
     $('#recurring_type').selectpicker();
     $('#weekly_count').selectpicker();
-  }).on('shown.bs.popover', function(){
     $('#attend_recurring_ending_date').datetimepicker();
   });
 </script>

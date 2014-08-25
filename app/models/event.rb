@@ -40,29 +40,48 @@ class Event < ActiveRecord::Base
       LeaderAttendEmailWorker::perform_at(starting_time - 179.minutes, leader_id, id)
     end
     # send remind leader email after events ends.
-    RemindLeaderEmailWorker::perform_at(@event.ending_time, @event.leader_id, @event.id)
+    RemindLeaderEmailWorker::perform_at(ending_time, leader_id, id)
   end
   
   def starting_date
-    return nil if self.starting_time.nil?
-    self.starting_time.strftime('%m/%d/%Y %l:%M %p') 
+    self.starting_time.strftime(date_with_hour) unless self.starting_time.nil?
   end
 
   def ending_date
-    return nil if self.ending_time.nil?
-    self.ending_time.strftime('%m/%d/%Y %l:%M %p') 
+    self.ending_time.strftime(date_with_hour) unless self.ending_time.nil?
   end
 
   def starting_hour
-    return nil if self.starting_time.nil?
-    self.starting_time.strftime('%l:%M %p')
+    self.starting_time.strftime(hour) unless self.starting_time.nil?
   end
 
   def ending_hour
-    return nil if self.ending_time.nil?
-    self.ending_time.strftime('%l:%M %p')
+    self.ending_time.strftime(hour) unless self.ending_time.nil?
   end
 
+  def starting_date_with_full_weekday_name
+    self.starting_time.strftime(date_with_full_weekday_name) unless self.starting_time.nil?
+  end
+
+  def ending_date_with_full_weekday_name
+    self.ending_time.strftime(date_with_full_weekday_name) unless self.ending_time.nil?
+  end
+
+  def date_with_hour
+    # 08/05/2014  2:00 PM
+    '%m/%d/%Y %l:%M %p'
+  end
+
+  def hour
+    # 2:00 PM
+    '%l:%M %p'
+  end
+
+  def date_with_full_weekday_name
+    #  Wednesday, August 27, 2014
+    '%A, %B %e, %Y'
+  end
+  
   def waiting_list_slot
     self.slot.to_i/2 + 1
   end

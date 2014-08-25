@@ -46,7 +46,7 @@
               </a>
               <div class="media-body" style="">
                 <h4 class="media-heading"><%= user.full_name %></h4>
-                <% if current_user && ( current_user.admin? || current_user.super_admin? ) %>
+                <% if current_user && ( current_user.super_admin? || current_user.id == @event.leader_id ) %>
                   <%= user.telephone %>
                 <% end %>
               </div>

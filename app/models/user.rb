@@ -55,7 +55,44 @@ class User < ActiveRecord::Base
     check_user_event_relationship(event, 'recurring', user_event_relationship = nil)
   end
 
+  def change_user_role(email, type)
+    return { error: true, message: 'Only super admin could upgrade user'} unless self.super_admin?
+    return { error: true, message: 'Email is required'} unless email.present?
+    user = User.find_by_email(email)
+    return { error: true, message: 'User not found'} if user.nil?
+    case type
+    when 'upgrade_to_lead_rescuer'
+      upgrade_to_lead_rescuer(user)
+    when 'downgrade_to_normal_user'
+      downgrade_to_normal_user(user)
+    end
+  end
+
   private
+
+  def upgrade_to_lead_rescuer(user)
+    if user.normal?
+      if user.update_attribute('role', 1) 
+        { error: false, message: "User with email #{email} is upgraded to lead rescuer" } 
+      else
+        { error: true, message: user.errors.full_messages } 
+      end
+    else
+       { error: true, message: "The user is a #{user.role}. Only normal user could be upgraded"} 
+    end
+  end
+
+  def downgrade_to_normal_user(user)
+    if user.admin?
+      if user.update_attribute('role', 0) 
+        { error: false, message: "User with email #{email} is downgraded to normal user" } 
+      else
+        { error: true, message: user.errors.full_messages } 
+      end
+    else
+       { error: true, message: "The user is a #{user.role}. Only lead rescuer could be downgraded"} 
+    end
+  end
 
   def check_user_event_relationship(event, type, user_event_relationship)
     return false if event.nil?

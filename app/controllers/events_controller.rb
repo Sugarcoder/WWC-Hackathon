@@ -145,7 +145,7 @@ class EventsController < ApplicationController
       message = 'remove recurring events after this event'
     else
       error = true
-      message = events.errors.full_message
+      message = events.errors.full_messages
     end
     respond_to do |format|
       format.json { render json: { error: error, message: message} }

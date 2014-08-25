@@ -10,7 +10,7 @@
   <div class="form-group"> 
     <label class="control-label col-sm-3"> Repeats every </label>
     <div class="col-sm-8">
-      <%= select_tag(:weekly_count, options_for_select([ 1, 2, 3 ]), {id: 'weekly_count'}) %>
+      <%= select_tag(:weekly_count, options_for_select([[1, 1], [2, 2], [3,3]]), {id: 'weekly_count'}) %>
       weeks
     </div>
   </div>
