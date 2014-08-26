@@ -5,19 +5,17 @@ class Ability
     # Define abilities for the passed in user here. For example:
     #
     alias_action :create, :read, :update, :destroy, :to => :crud
+    alias_action :read, :attend, :cancel, :attend_recurring, :stop_attend_recurring, :photo, :to => :normal_user_event_action
 
     user ||= User.new # guest user (not logged in)
     if user.super_admin?
         can :manage, :all
     elsif user.admin?
-        can :crud, Category
-        can :crud, Location
         can :crud, Comment
-        can [:crud, :attend, :cancel, :stop_recurring, :finish, :finish_form, :photo], Event
+        can [:normal_user_event_action, :finish, :finish_form], Event
     elsif user.normal?
-        can :read, Event
         can :crud, Comment
-        can [:attend, :cancel, :photo], Event
+        can [:normal_user_event_action], Event
     else
         can :read, Event
     end
@@ -35,7 +33,6 @@ class Ability
     #   can :update, Article, :published => true
     #
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
-
-
   end
+ 
 end

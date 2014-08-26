@@ -68,7 +68,10 @@
     }
     .event-description{
       width: 60%;
-      vertical-align: text-top;
+      div{
+        display: inline-block;
+        vertical-align: top;
+      }
     }
 
   }

@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   include EventsHelper
   load_and_authorize_resource 
-  skip_authorize_resource :only => :calendar
+  skip_authorize_resource only: [:calendar, :show]
   before_action :authenticate_user!, only: [:attend, :cancel, :stop_recurring, :finish]
 
   # GET /events

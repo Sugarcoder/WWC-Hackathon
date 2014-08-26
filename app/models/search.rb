@@ -6,8 +6,8 @@ class Search
       result = []
       user_roles_range = find_user_type(user_role)
       if str.is_id?
-        user = User.find_by_id(str)
-        result << user.email
+        user = User.find_by_id(str.to_i)
+        result << user.email if user
       else
         terms = str.split(' ')
         if terms.length >= 2

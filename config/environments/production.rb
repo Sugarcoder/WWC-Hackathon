@@ -82,7 +82,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => 'rescuingleftovercuisine.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'www.rescuingleftovercuisine.org' }
 =begin
   ActionMailer::Base.smtp_settings = {
     :address        => 'smtp.sendgrid.net',
@@ -104,6 +104,6 @@ Rails.application.configure do
     :authentication => :plain
   }
 
-  Rails.application.routes.default_url_options[:host] = 'rescuingleftovercuisine.herokuapp.com'
+  Rails.application.routes.default_url_options[:host] = 'www.rescuingleftovercuisine.org'
  
 end
