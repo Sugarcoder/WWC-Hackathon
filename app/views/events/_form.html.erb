@@ -57,7 +57,10 @@
 
   <div class="form-group">
     <div class="col-sm-4">
-      <%= f.select(:leader_id, User.where('role = 1').collect {|user| [user.full_name, user.id]}, {}, { class: 'selectpicker' }) %>
+      <%= text_field_tag('leader_email', @event.leader_email, id: 'assign_event_to_leader_input', class: 'form-control', placeholder: 'Leader email, id or name', disabled: !@event.can_change_leader?) %>
+      <% unless @event.can_change_leader? %>
+       <span class="help-block">Leader can not be changed 5 hours before the event start</span>
+      <% end %>
     </div>
   </div>
 

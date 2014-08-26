@@ -1,6 +1,7 @@
 var ready = function(){
   search_autocomplete('#upgrade_to_leader_rescuer_input', '/search/users/normal_user', function(){});
   search_autocomplete('#downgrade_to_normal_user_input', '/search/users/lead_rescuer', function(){});
+  search_autocomplete('#assign_event_to_leader_input', '/search/users/lead_rescuer', function(){});
   search_autocomplete('#assign_event_user_input', '/search/users', function(){});
 };
 

@@ -1,38 +1,43 @@
 include EventsHelper
 
 class Event < ActiveRecord::Base
-  acts_as_commentable
-  
   enum recurring_type: [ :not_recurring, :daily, :every_other_day, :weekly, :monthly ]
+
   belongs_to :category
   belongs_to :location
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
   has_many :images, -> { where('is_receipt is not true') }
   has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image'
+
+  after_commit :after_create_action, on: :create
+  before_update :change_leader
+
+  acts_as_commentable #could adding comment to it
+
   validate :starting_time_after_current_time, on: :create
   validate :starting_time_before_ending_time
   validate :finish_process, on: :update, if: Proc.new { |event| event.is_finished == true }
-  
   validates :ending_time, presence: true
   validates :starting_time, presence: true
   validates :title, presence: true
   validates :slot,  presence: true
+  validates :leader_id,  presence: true
 
-  after_commit :after_create_action, on: :create
+
 
   has_attached_file :instruction, styles: {thumbnail: "60x60#"}
   validates_attachment :instruction, content_type: { content_type: "application/pdf" }
 
   def after_create_action
-    send_email
     sign_up_lead_rescuer
+    send_email_to_lead_rescuer
   end
 
   def sign_up_lead_rescuer
     UsersEvents.create(user_id: leader_id, event_id: id, status: 1)
   end
 
-  def send_email
+  def send_email_to_lead_rescuer
     #send attendence email to lead rescuer 3 hours before event beginning. if starting time is less than 3 hours from creating time, send it directly.
     if starting_time < Time.current + 180.minutes
       LeaderAttendEmailWorker::perform_async(leader_id, id)
@@ -116,6 +121,42 @@ class Event < ActiveRecord::Base
   def full?
     slot = self.slot || 0
     slot <= self.attending_user_count
+  end
+
+  def leader_email
+    leader ? leader.email : nil
+  end
+
+  def change_leader
+    if leader_id_changed? && can_change_leader?
+      #remove old leader from the event
+      old_leader_event_relationship = UsersEvents.find_by_user_id_and_event_id(leader_id_was, id)
+      old_leader_event_relationship.destroy if old_leader_event_relationship
+      #make new leader attend the event
+      sign_up_lead_rescuer
+      send_email_to_lead_rescuer
+    end
+  end
+
+  def is_leader?(user_id)
+    leader_id == user_id
+  end
+
+  def is_not_leader?(user_id)
+    !is_leader?(user_id)
+  end
+
+  def can_change_leader?
+    if starting_time
+      Time.current + 5.hours < starting_time
+    else
+      true
+    end
+  end
+
+  def sign_up_user(user)
+    return nil unless user.present?
+    UsersEvents.create(user_id: user.id, event_id: id, status: 1)
   end
 
   #####################################################################

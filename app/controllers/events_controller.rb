@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
   include EventsHelper
+  include ActiveModel::Dirty
+
   load_and_authorize_resource 
   skip_authorize_resource only: [:calendar, :show]
   before_action :authenticate_user!, only: [:attend, :cancel, :stop_recurring, :finish]
@@ -83,7 +85,7 @@ class EventsController < ApplicationController
 
     @events_by_date = @events.group_by{|e| e.starting_time.strftime("%Y-%m-%d") if e.starting_time}
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
-    @locations = Location.all
+    @locations = Location.all.sort_by{ |location| location.name.downcase }
    
     render 'daily_calendar' if params[:type] == 'daily'
   end
@@ -225,7 +227,7 @@ class EventsController < ApplicationController
         parent_event_id = @event.parent_event_id || @event.id
         event_ids = Event.where('parent_event_id = ? and starting_time IN (?)', parent_event_id, dates).map(&:id)
         
-        record = UsersEvents.create(user_id: current_user.id, event_id: @event.id, status: 1)
+        record = @event.sign_up_user(current_user)
         event_ids.each {|id| UsersEvents.create(user_id: current_user.id, event_id: id, status: 1, parent_id: record.id, summary: summary)}
         
 
@@ -258,7 +260,19 @@ class EventsController < ApplicationController
     def event_params
       params['event']['starting_time'] = Event.parse_event_date(params['event']['starting_time']) if params['event']['starting_time'].present?   
       params['event']['ending_time'] = Event.parse_event_date(params['event']['ending_time'])  if params['event']['ending_time'].present?
+      params['event']['leader_id'] = get_leader_id_from_email(params['leader_email'])
+     
       params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :recurring_type, :category_id, :leader_id, :pound, :is_finished, :parent_event_id, :instruction)
+    end
+
+    def get_leader_id_from_email(email)
+      return nil unless email.present?
+      user = User.find_by_email(email)
+      if user
+        user.id
+      else
+        nil
+      end
     end
 
 end

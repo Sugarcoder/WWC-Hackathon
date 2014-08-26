@@ -13,6 +13,7 @@ class UsersEvents < ActiveRecord::Base
     event = Event.find_by_id(event_id)
     if event.nil?
       errors[:base] << "Event not found"
+    else
       if event.attending_user_count.to_i >= event.slot.to_i && self.status == 'attending'
         errors[:base] << "Event is full"
       end
