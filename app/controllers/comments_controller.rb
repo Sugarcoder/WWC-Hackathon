@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   load_and_authorize_resource
+  layout false
 
   def create
     event = Event.find_by_id(params[:event_id])
