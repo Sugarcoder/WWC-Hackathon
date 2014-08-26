@@ -205,7 +205,7 @@ class EventsController < ApplicationController
         ending_date = Event.parse_event_date(params['attend_recurring_ending_date'])
         dates = []
 
-        today_number = Time.current.wday == 0 ? Time.current.wday + 7 : Time.current.wday
+        today_number = @event.starting_time.wday == 0 ? @event.starting_time.wday + 7 : @event.starting_time.wday
         weekdays.each do |day_number|
           day_number = 7 if day_number == 0
           if day_number > today_number
