@@ -154,9 +154,9 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def sign_up_user(user)
-    return nil unless user.present?
-    UsersEvents.create(user_id: user.id, event_id: id, status: 1)
+  def main_recurring_event_id
+    return nil if not_recurring?
+    parent_event_id || id
   end
 
   #####################################################################
@@ -213,23 +213,6 @@ class Event < ActiveRecord::Base
 
     def adding_day
       lambda { |time| time.tomorrow }
-    end
-
-    def attend_recurring_summary( weekly_count, dates)
-      summary = "attend "
-      summary += case weekly_count
-                when 1
-                  'weekly'
-                when 2
-                  'biweekly'
-                when 3
-                  'triweekly'
-                end
-      summary += " on "
-      dates.each do |date| 
-        summary += date == dates.last ? Date::DAYNAMES[date.wday] : Date::DAYNAMES[date.wday] + ", " 
-      end
-      summary
     end
 
   end

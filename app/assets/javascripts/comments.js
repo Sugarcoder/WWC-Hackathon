@@ -23,7 +23,6 @@ $(document).on('click', '#loadmore_comment', function(){
     url: loadmore_url,
     context: $(this),
     success: function(html){
-      console.log(html)
       $(this).parent().fadeOut("slow", function() { $(this).remove(); });
       $(this).closest('.media-list').fadeIn( "slow", function(){ $(this).append(html) });
     }

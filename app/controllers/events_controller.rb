@@ -201,35 +201,11 @@ class EventsController < ApplicationController
       if params['day'] && params['attend_recurring_ending_date']
         weekdays = params['day'].map(&:to_i)
         weekly_count = params['weekly_count'].to_i
-        time_interval = (weekly_count) * 7
+        starting_date = @event.starting_time
         ending_date = Event.parse_event_date(params['attend_recurring_ending_date'])
-        dates = []
 
-        today_number = @event.starting_time.wday == 0 ? @event.starting_time.wday + 7 : @event.starting_time.wday
-        weekdays.each do |day_number|
-          day_number = 7 if day_number == 0
-          if day_number > today_number
-            starting_date = @event.starting_time.beginning_of_week + (day_number-1).days + (@event.starting_time.seconds_since_midnight.seconds)
-          else
-            starting_date = @event.starting_time.next_week + (day_number - 1).days + (@event.starting_time.seconds_since_midnight.seconds)
-          end
-          dates << starting_date if starting_date < ending_date
-        end
-
-        summary = Event.attend_recurring_summary(weekly_count, dates)      
-
-        dates.each do |date|
-          break if date >= ending_date 
-          new_date = date + time_interval.days
-          dates << new_date if new_date < ending_date
-        end
-
-        parent_event_id = @event.parent_event_id || @event.id
-        event_ids = Event.where('parent_event_id = ? and starting_time IN (?)', parent_event_id, dates).map(&:id)
-        
-        record = @event.sign_up_user(current_user)
-        event_ids.each {|id| UsersEvents.create(user_id: current_user.id, event_id: id, status: 1, parent_id: record.id, summary: summary)}
-        
+        attend_recurring_event = AttendRecurringEvent.new(starting_date, ending_date, weekly_count, weekdays)
+        summary = attend_recurring_event.run(current_user, @event)    
 
         flash[:notice] = summary
       end
@@ -239,15 +215,10 @@ class EventsController < ApplicationController
   end
 
   def stop_attend_recurring
-    users_event = UsersEvents.find_by_user_id_and_event_id(current_user.id, @event.id)
-    parent_id = users_event.parent_id ? users_event.parent_id : users_event.id
-    users_events = UsersEvents.joins(:event).where('user_id = ? and parent_id = ? and starting_time > ?', current_user.id, parent_id, @event.starting_time )
+    users_events = UsersEvents.joins(:event).where('user_id = ? and parent_id = ? and starting_time >= ?', current_user.id, @event.main_recurring_event_id, @event.starting_time )
     users_events.destroy_all
-    users_event.destroy
     flash[:alert] = 'all future events that is related to this recurring event canceled'
-  
     return redirect_to :back
-  
   end
 
   private

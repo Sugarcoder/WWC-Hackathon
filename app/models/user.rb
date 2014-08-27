@@ -43,6 +43,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def attend_event(event)
+    return nil unless event.present? && event.is_a?(Event)
+    user_event = UsersEvents.create(user_id: id, event_id: event.id, status: 1)
+  end
+
   def attending_event?(event, user_event_relationship = nil)
     check_user_event_relationship(event, 'attending', user_event_relationship = nil)
   end  
