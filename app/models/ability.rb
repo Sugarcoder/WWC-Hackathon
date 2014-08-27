@@ -11,12 +11,13 @@ class Ability
     if user.super_admin?
         can :manage, :all
     elsif user.admin?
-        can :crud, Comment
+        can [:crud, :loadmore] , Comment
         can [:normal_user_event_action, :finish, :finish_form], Event
     elsif user.normal?
-        can :crud, Comment
+        can [:crud, :loadmore], Comment
         can [:normal_user_event_action], Event
     else
+        can [:loadmore], Comment
         can :read, Event
     end
     #
