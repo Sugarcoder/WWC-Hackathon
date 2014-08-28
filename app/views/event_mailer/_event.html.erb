@@ -5,4 +5,7 @@
   <span> - <%= event.ending_hour %> </span>
 <% end %>
 </p>
-<p>Location: </span> <span> <%= event.location.name %> </span> </p>
+<p>Location: <span> <%= event.location_name %> </span> </p>
+<% if event.address %>
+<p>Meeting Location: <span> <%= event.address %> </span> </p>
+<% end %>

@@ -16,7 +16,12 @@
 
   <li class='event-location'>
     <label> Location: </label>
-    <div>  <strong><%= event.location.name if event.location %></strong> </div>
+    <div> <strong><%= event.location_name if event.location %></strong> </div>
+  </li>
+
+  <li class='event-meeting-location'>
+    <label> Meeting Location: </label>
+    <div> <strong><%= event.address %></strong> </div>
   </li>
 
   <li class='event-description'>
@@ -49,7 +54,7 @@
   <% if event.leader %>
     <li class='event-leader'>
       <label> Lead rescuer: </label>
-      <div>  <strong><%= event.leader.full_name %></strong> </div>
+      <div>  <strong><%= event.leader_full_name %></strong> </div>
     </li>
   <% end %>
 

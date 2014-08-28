@@ -23,7 +23,8 @@ class Event < ActiveRecord::Base
   validates :slot,  presence: true
   validates :leader_id,  presence: true
 
-
+  delegate :name, to: :location, prefix: true, allow_nil: true
+  delegate :full_name, :email, to: :leader, prefix: true, allow_nil: true
 
   has_attached_file :instruction, styles: {thumbnail: "60x60#"}
   validates_attachment :instruction, content_type: { content_type: "application/pdf" }
@@ -121,10 +122,6 @@ class Event < ActiveRecord::Base
   def full?
     slot = self.slot || 0
     slot <= self.attending_user_count
-  end
-
-  def leader_email
-    leader ? leader.email : nil
   end
 
   def change_leader
