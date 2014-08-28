@@ -1,19 +1,19 @@
 <div class='row' id='calendar-wrapper'>
   <h3 id="month" class="text-center">
-    <%= link_to calendar_path(date: @date.prev_month) do %>
+    <%= link_to calendar_path(date: @date.prev_month, location: @location_name) do %>
       <span class="glyphicon glyphicon-chevron-left"></span>
     <% end %>
     <%= @date.strftime("%B %Y") %>
-    <%= link_to calendar_path(date: @date.next_month) do %>
+    <%= link_to calendar_path(date: @date.next_month, location: @location_name) do %>
       <span class="glyphicon glyphicon-chevron-right"></span>
     <% end %>
   </h2>
   <div class='row'>
     <div class="collapse navbar-collapse">
       <ul class="nav nav-pills" role="tablist">
-          <li class="<%= 'active' if current_page?(calendar_path(location: 'all')) || params['location'] == nil %>"> <%= link_to "All locations", calendar_path(location: 'all') %> </li>
+          <li class="<%= 'active' if current_page?(calendar_path(date: @date, location: 'all')) || params['location'] == nil %>"> <%= link_to "All locations", calendar_path(date: @date, location: 'all') %> </li>
           <% @locations.each do |location| %>
-            <li class="<%= 'active' if current_page?(calendar_path(location: location.name)) %>"> <%= link_to location.name, calendar_path(location: location.name) %> </li>
+            <li class="<%= 'active' if current_page?(calendar_path(date: @date, location: location.name)) %>"> <%= link_to location.name, calendar_path(date: @date, location: location.name) %> </li>
           <% end %>
       </ul>
     </div>

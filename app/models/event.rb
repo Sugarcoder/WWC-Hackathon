@@ -9,10 +9,10 @@ class Event < ActiveRecord::Base
   has_many :images, -> { where('is_receipt is not true') }
   has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image'
 
+  scope :within_time_range, ->(starting_time, ending_time) { where('starting_time > ? AND ending_time < ?', starting_time, ending_time).order('starting_time ASC') }
+
   after_commit :after_create_action, on: :create
   before_update :change_leader
-
-  acts_as_commentable #could adding comment to it
 
   validate :starting_time_after_current_time, on: :create
   validate :starting_time_before_ending_time
@@ -25,6 +25,8 @@ class Event < ActiveRecord::Base
 
   delegate :name, to: :location, prefix: true, allow_nil: true
   delegate :full_name, :email, to: :leader, prefix: true, allow_nil: true
+
+   acts_as_commentable #could adding comment to it
 
   has_attached_file :instruction, styles: {thumbnail: "60x60#"}
   validates_attachment :instruction, content_type: { content_type: "application/pdf" }
@@ -211,6 +213,8 @@ class Event < ActiveRecord::Base
     def adding_day
       lambda { |time| time.tomorrow }
     end
+
+
 
   end
 

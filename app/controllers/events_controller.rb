@@ -76,15 +76,27 @@ class EventsController < ApplicationController
   end
 
   def calendar
-    if params["location"] && params["location"] != "all"
-      location = Location.find_by_name(params["location"])
-      @events = location.events if location
+    if params[:date]
+      @date = Date.parse(params[:date])
+      starting_time = @date.to_time.beginning_of_month
+      ending_time = @date.to_time.end_of_month
     else
-      @events = Event.all
+      @date = Date.today
+      starting_time = Time.current.beginning_of_month
+      ending_time = Time.current.end_of_month
     end
 
-    @events_by_date = @events.group_by{|e| e.starting_time.strftime("%Y-%m-%d") if e.starting_time}
-    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @location_name = params["location"]
+
+    if @location_name && @location_name != "all"
+      location = Location.find_by_name(params["location"])
+      @events = location.events.within_time_range(starting_time, ending_time) if location
+    else
+      @events = Event.within_time_range(starting_time, ending_time)
+    end
+
+    @events_by_date = @events.group_by{|e| e.starting_time.strftime("%Y-%m-%d")}
+   
     @locations = Location.all.sort_by{ |location| location.name.downcase }
    
     render 'daily_calendar' if params[:type] == 'daily'
