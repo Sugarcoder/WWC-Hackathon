@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
   has_many :images, -> { where('is_receipt is not true') }
   has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image'
 
-  scope :within_time_range, ->(starting_time, ending_time) { where('starting_time > ? AND ending_time < ?', starting_time, ending_time).order('starting_time ASC') }
+  scope :within_time_range, ->(starting_time, ending_time) { where('starting_time >= ? AND ending_time <= ?', starting_time, ending_time).order('starting_time ASC') }
 
   after_commit :after_create_action, on: :create
   before_update :change_leader
