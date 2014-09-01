@@ -17,6 +17,8 @@ class AttendRecurringEvent
     users_events_params = event_ids.uniq.map{ |event_id| { event_id: event_id, status: 1, user_id: user.id, parent_id: main_recurring_event_id, summary: summary } }
 
     UsersEvents.create(users_events_params)
+    
+    send_attend_recurring_email(user, event)
 
     summary
   end
@@ -58,6 +60,10 @@ class AttendRecurringEvent
     summary += " on "
     weekdays_str = weekdays.map{ |weekday| Date::DAYNAMES[weekday] }.join(', ')
     summary += weekdays_str
+  end
+
+  def send_attend_recurring_email(user, event)
+    AttendEmailWorker::perform_async(user.id, event.id)
   end
 
 end

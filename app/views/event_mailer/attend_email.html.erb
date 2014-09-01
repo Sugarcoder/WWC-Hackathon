@@ -3,6 +3,9 @@
 <p>Thank you for registering to attend: </p>
 <br/>
 <%= render partial: 'event', locals: { event: @event} %>
+<% if @summary %>
+ <p> Recurring: <%= @summary %> </p>
+<% end %>
 <br/>
 <p>Your Lead Rescuer will be <%= @event_leader.full_name %>. Call him/her at <%= @event_leader.telephone %> when you arrive so that the group can meet for a quick orientation before the event begins. 
 <%= render 'ending_paragraph' %>

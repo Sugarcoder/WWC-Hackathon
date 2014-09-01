@@ -91,7 +91,7 @@ class Event < ActiveRecord::Base
   end
   
   def waiting_list_slot
-    self.slot.to_i/2 + 1
+    slot.even? ? slot/2 : slot.to_i/2 + 1
   end
   
   # different than class method create_recurring_events
@@ -213,8 +213,6 @@ class Event < ActiveRecord::Base
     def adding_day
       lambda { |time| time.tomorrow }
     end
-
-
 
   end
 
