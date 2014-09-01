@@ -67,7 +67,10 @@ class UsersEvents < ActiveRecord::Base
       AttendEmailWorker::perform_async(user_id, event_id) unless parent_id.present? 
       if Time.current < event.starting_time - 24.hour # attending time is 1 day earlier than event starting time
         # reminder email
-        ReminderEmailWorker::perform_at(event.starting_time - 24.hour, user_id, event_id)  
+        ReminderEmailWorker::perform_at(event.starting_time - 24.hour, user_id, event_id)
+        if Time.current < event.starting_time - 7.days  # send reminder email before 1 week
+          ReminderEmailWorker::perform_at(event.starting_time - 7.days, user_id, event_id)
+        end 
       end
     elsif self.waiting?
       WaitingListEmailWorker::perform_async(user_id, event_id)

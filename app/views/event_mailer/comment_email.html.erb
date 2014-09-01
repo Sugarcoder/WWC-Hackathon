@@ -1,0 +1,10 @@
+<p>Hi,</p>
+<br/>
+
+<p><%= @user.full_name %> left a comment on Event <%= @event.title %>: </p>
+<p> <%= @comment.body %></p>
+<br>
+<p> Link to the event page:  <%= link_to 'click here', event_url(@event) %> </p>
+<p> Thanks! </p>
+<br>
+<p> RLC Team</p>

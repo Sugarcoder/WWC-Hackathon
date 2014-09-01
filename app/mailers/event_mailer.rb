@@ -3,7 +3,9 @@ class EventMailer < ActionMailer::Base
   layout 'email_layout'
   default from: 'volunteer@rescuingleftovercuisine.org'
   before_action :attachment_image
- 
+  
+  RLC_VOLUNTEER_EMAIL = 'volunteer@rescuingleftovercuisine.org'
+
   def cancel_email(user, event)
     @user = user
     @event = event
@@ -11,10 +13,11 @@ class EventMailer < ActionMailer::Base
     mail(to: user.email, subject: subject)
   end
 
-  def attend_email(user, event, event_leader)
+  def attend_email(user, event, event_leader, summary = nil)
     @user = user
     @event = event
     @event_leader = event_leader
+    @summary = summary
     subject = "Confirmation: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
     attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
     mail(to: user.email, subject: subject)
@@ -65,6 +68,16 @@ class EventMailer < ActionMailer::Base
     subject = "Thank You for Leading RLC Event at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
     attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
     mail(to: user.email, subject: subject)
+  end
+
+  ########################################
+
+  def comment_email(user, event, comment)
+    @user = user
+    @event = event
+    @comment = comment
+    subject = "New Comment Notification: #{user.full_name} left a comment at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
+    mail(to: RLC_VOLUNTEER_EMAIL, subject: subject)
   end
 
   private

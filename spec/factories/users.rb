@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :user do
+  factory :user, aliases: [:leader] do
     firstname "Normal"
     sequence(:lastname) { |n| "User#{n}" }
     sequence(:username) { |n| "user#{n}" }

@@ -24,7 +24,8 @@
     <% if @events_by_date[date.to_s] %>
       <ul class="event-list list-unstyled">
         <% @events_by_date[date.to_s].each do |event| %>
-          <li class='word-crop'>
+          <% full_event_class = event.full? ? "full" : "" %>
+          <li class="word-crop <%= full_event_class %>">
             <%= link_to event.title, event, remote: true, class: 'event-link' %>
             <div class='event-time'> 
               <span class='start-time'> <%= event.starting_hour %> </span>

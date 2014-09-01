@@ -9,9 +9,15 @@ class Comment < ActiveRecord::Base
   #acts_as_votable
 
   belongs_to :commentable, :polymorphic => true
-
   # NOTE: Comments belong to a user
   belongs_to :user
+
+  after_create :send_notify_email
+
+  def send_notify_email
+    CommentEmailWorker::perform_async(id)
+  end
+
 
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text

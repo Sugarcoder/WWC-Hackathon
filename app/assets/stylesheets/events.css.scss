@@ -91,8 +91,11 @@
 
 .event-list{
   li{
-    width: 100px;
-    padding: 5px 0px;
+    width: 125px;
+    padding: 5px;
+    &.full{
+      background: #eee
+    }
   }
   .event-time{
     font-size: 9px;
