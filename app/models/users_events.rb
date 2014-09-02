@@ -14,10 +14,10 @@ class UsersEvents < ActiveRecord::Base
     if event.nil?
       errors[:base] << "Event not found"
     else
-      if event.attending_user_count.to_i >= event.slot.to_i && self.status == 'attending'
+      if event.full? && self.status == 'attending'
         errors[:base] << "Event is full"
       end
-      if event.waiting_user_count.to_i  >= (event.slot.to_i/2 + 1) && self.status == 'waiting'
+      if event.wait_list_full? && self.status == 'waiting'
         errors[:base] << "Waiting list is full"
       end
     end

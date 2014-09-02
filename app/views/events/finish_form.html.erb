@@ -16,10 +16,43 @@
       </div>
     </div>
 
+    <div class="form-group" id="total-pound-group">
+      <div class="col-sm-4">
+        <label>How many pounds of food got delivered at this event?</label>
+        <%= text_field_tag 'pound', nil, class: 'form-control' %>
+      </div>
+    </div>
+
     <div class="form-group">
       <div class="col-sm-4">
-        <label>how many pounds of food get delivered today?</label>
-        <%= number_field_tag 'pound', class: 'form-control' %>
+        <label> pounds of food for category </label>
+        <%= text_field_tag 'category_pounds[]', nil, class: 'form-control' %>
+      </div>
+      <div class="col-sm-4">
+        <label> category </label>
+        <%= select_tag('category_ids[]', options_for_select( Category.all.collect {|category| [category.name, category.id]} ), { class: 'selectpicker form-control' }) %>
+      </div>
+
+      <div class="col-sm-2">
+          <button type="button" class="btn btn-default" id="category-pound-add-button">
+              <span class="glyphicon glyphicon-plus"></span>
+          </button>
+      </div>
+    </div>
+
+    <div class="form-group hide" id="category-pound-template">
+      <div class="col-sm-4">
+        <label> pounds of food for category </label>
+        <%= text_field_tag 'category_pounds[]', nil, class: 'form-control' %>
+      </div>
+      <div class="col-sm-4">
+        <label> category </label>
+        <%= select_tag('category_ids[]', options_for_select( Category.all.collect {|category| [category.name, category.id]} ), { class: 'category_id_picker form-control' }) %>
+      </div>
+      <div class="col-sm-2">
+          <button type="button" class="btn btn-default" id="category-pound-remove-button">
+              <span class="glyphicon glyphicon-minus"></span>
+          </button>
       </div>
     </div>
 
@@ -45,3 +78,30 @@
 
 <% end %>
 </div>
+
+<script>
+  $('#finish_event').on('click', '#category-pound-add-button', function() {
+    var $template = $('#category-pound-template'),
+        $clone    = $template
+                        .clone()
+                        .removeClass('hide')
+                        .removeAttr('id')
+                        .insertBefore($template);
+        $category_pound_option = $clone.find('[name="category_pound[]"]');
+        $category_id_option    = $clone.find('[name="category_id[]"]');
+    $clone.find('.category_id_picker').selectpicker('refresh');
+    // Add new field
+    //$('#surveyForm').bootstrapValidator('addField', $option);
+  })
+  .on('click', '#category-pound-remove-button', function() {
+    var $row    = $(this).parents('.form-group'),
+        $category_pound_option = $row.find('[name="category_pound[]"]'),
+        $category_id_option    = $row.find('[name="category_id[]"]');
+
+    // Remove element containing the option
+    $row.remove();
+
+    // Remove field
+    //$('#surveyForm').bootstrapValidator('removeField', $option);
+  });
+</script>

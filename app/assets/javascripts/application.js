@@ -74,13 +74,13 @@ var ready = function(){
   .on('keyup', '[name="pound"]', function() {
     var pound = $(this).val();
     // if pound value is '0', disable the receipt validator. other wise enable it.
-    console.log(pound === '0')
     $('#finish_event').bootstrapValidator('enableFieldValidators', 'receipt', pound !== '0')
     // Revalidate the field when user start typing in the password field
     if ($(this).val().length == 1) {
       $('#finish_event').bootstrapValidator('validateField', 'receipt')
     }
   });
+
 
   //validator for user sign up form
   $('#new_user').bootstrapValidator({

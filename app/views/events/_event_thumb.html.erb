@@ -4,12 +4,14 @@
     <%= render partial: 'events/event_content', locals: { event: event, from: 'thumb' } %>
     <% 
       case status
-      when 'reserved' 
+      when 'upcoming' 
         label_class = 'btn-info active'
+      when 'attended'
+        label_class = 'btn-success active'
       when 'unfinished'
         label_class = 'btn-warning active'
-      else
-        label_class = 'btn-success active'
+      when 'finished'
+        label_class = 'btn-primary active'
       end
     %>
     <a href="#" class="btn <%= label_class %> " role="button"> <%= status %> </a>

@@ -146,6 +146,8 @@ GEM
     premailer-rails (1.7.0)
       actionmailer (>= 3, < 5)
       premailer (~> 1.7, >= 1.7.9)
+    quiet_assets (1.0.3)
+      railties (>= 3.1, < 5.0)
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
@@ -284,6 +286,7 @@ DEPENDENCIES
   pg
   poltergeist
   premailer-rails
+  quiet_assets
   rails (= 4.1.1)
   rails_12factor
   redis

@@ -22,16 +22,16 @@ class UsersController < ApplicationController
 
   def events
     event_ids = UsersEvents.where(user_id: @user.id).map(&:event_id)
-    case params['type']
+    @type = params['type']
+    case @type 
     when 'upcoming' 
       @events = Event.where('id IN (?) and starting_time > ?', event_ids, Time.now ).order('starting_time ASC')
-      @status = 'reserved'
-    when 'history'
+    when 'attended'
       @events = Event.where('id IN (?) and starting_time < ?', event_ids, Time.now ).order('starting_time DESC')
-      @status = 'attended'
     when 'unfinished'
-      @events = Event.where('leader_id = ? and is_finished is null and ending_time < ?', current_user.id, Time.current ).order('ending_time ASC')
-      @status = 'unfinished'
+      @events = Event.where('leader_id = ? and is_finished is not true and ending_time < ?', current_user.id, Time.current ).order('ending_time ASC')
+    when 'finished'
+      @events = @user.finished_events
     end
   end
 

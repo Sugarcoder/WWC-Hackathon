@@ -7,6 +7,7 @@ class Event < ActiveRecord::Base
   belongs_to :location
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
   has_many :images, -> { where('is_receipt is not true') }
+  has_many :events_categories, :foreign_key => 'event_id', :class_name => "EventsCategories"
   has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image'
 
   scope :within_time_range, ->(starting_time, ending_time) { where('starting_time >= ? AND ending_time <= ?', starting_time, ending_time).order('starting_time ASC') }
@@ -26,7 +27,7 @@ class Event < ActiveRecord::Base
   delegate :name, to: :location, prefix: true, allow_nil: true
   delegate :full_name, :email, to: :leader, prefix: true, allow_nil: true
 
-   acts_as_commentable #could adding comment to it
+  acts_as_commentable #could adding comment to it
 
   has_attached_file :instruction, styles: {thumbnail: "60x60#"}
   validates_attachment :instruction, content_type: { content_type: "application/pdf" }
@@ -122,8 +123,13 @@ class Event < ActiveRecord::Base
   end
 
   def full?
-    slot = self.slot || 0
-    slot <= self.attending_user_count
+    slot ||= 0 
+    slot <= attending_user_count
+  end
+
+  def wait_list_full?
+    waiting_list_slot ||= 0
+    waiting_list_slot <= waiting_user_count
   end
 
   def change_leader
@@ -181,7 +187,6 @@ class Event < ActiveRecord::Base
     end
   end
   
-
   class << self
 
     def create_recurring_events(recurring_event_type, recurring_ending_date, event)

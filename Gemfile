@@ -55,6 +55,7 @@ group :development, :test do
   gem 'capybara-screenshot'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
+  gem 'quiet_assets' # stop print asset in console
 end
 
 gem 'unicorn'

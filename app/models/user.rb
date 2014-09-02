@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def finished_events
+    Event.includes(:events_categories).where('leader_id = ? and is_finished = true', id).order('updated_at DESC')
+  end
+
   def attend_event(event)
     return nil unless event.present? && event.is_a?(Event)
     user_event = UsersEvents.create(user_id: id, event_id: event.id, status: 1)
@@ -78,7 +82,7 @@ class User < ActiveRecord::Base
   def upgrade_to_lead_rescuer(user)
     if user.normal?
       if user.update_attribute('role', 1) 
-        { error: false, message: "User with email #{email} is upgraded to lead rescuer" } 
+        { error: false, message: "User with email #{user.email} is upgraded to lead rescuer" } 
       else
         { error: true, message: user.errors.full_messages } 
       end
@@ -90,7 +94,7 @@ class User < ActiveRecord::Base
   def downgrade_to_normal_user(user)
     if user.admin?
       if user.update_attribute('role', 0) 
-        { error: false, message: "User with email #{email} is downgraded to normal user" } 
+        { error: false, message: "User with email #{user.email} is downgraded to normal user" } 
       else
         { error: true, message: user.errors.full_messages } 
       end

@@ -173,33 +173,26 @@ class EventsController < ApplicationController
   end
 
   def finish
-    
+    event = Event.find_by_id(params["event_id"])
+
     if params["image"].present?
-      @image = Image.new(event_id: params["event_id"], file: params["image"])
-      @image.save
+      @image = Image.create(event_id: params["event_id"], file: params["image"])
     end
 
     if params["receipt"].present?
-      @receipt = Image.new(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
-      @receipt.save
+      @receipt = Image.create(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
     end
   
-    event = Event.find_by_id(params["event_id"])
-    if event.is_finished 
-      flash[:alert] = 'The event is already finished.'
+    finish_event = FinishEvent.new(event, params['pound'], params['category_pounds'], params['category_ids'], params['user_ids'])
+    result = finish_event.run
+
+    if result["error"]
+      flash[:alert] = result['message']
     else
-      if event.update_attributes(is_finished: true, pound: params["pound"])
-        UsersEvents.where('user_id IN (?) AND event_id = ?', params["user_ids"], params["event_id"]).update_all("status = 3")
-        params["user_ids"].each do |user_id|
-          ThankEmailWorker::perform_async(user_id, params["event_id"])
-        end if params["user_ids"]
-        flash[:notice] = "You successfully finished the event! thank you"
-      else
-        flash[:alert] = event.errors.full_messages.join(", ")
-      end
+      flash[:notice] = result['message']
     end
-    
-    redirect_to :back
+
+    redirect_to user_events_path(current_user, 'finished')
   end
 
   def photo

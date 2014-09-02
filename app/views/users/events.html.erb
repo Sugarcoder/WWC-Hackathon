@@ -1,7 +1,7 @@
 <%= render layout: 'user' do %>
-  <h4>Total <%= @status %> events: <%= @events.length %></h4>
+  <h4>Total <%= @type %> events: <%= @events.length %></h4>
   <br>
   <% @events.each do |event| %>
-    <%= render partial: 'events/event_thumb', locals: { event: event, status: @status} %>
+    <%= render partial: 'events/event_thumb', locals: { event: event, status: @type} %>
   <% end %>
 <% end %>

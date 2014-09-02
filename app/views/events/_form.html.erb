@@ -25,7 +25,7 @@
 
   <div class="form-group">
     <div class="col-sm-4">
-      <%= f.number_field :slot, class: "form-control", placeholder: 'how many volunteers needed?' %>
+      <%= f.number_field :slot, min: 1, class: "form-control", placeholder: 'how many volunteers needed?' %>
     </div>
   </div>
 
@@ -63,7 +63,7 @@
 
   <div class="form-group">
     <div class="col-sm-4">
-      <%= text_field_tag('leader_email', @event.leader_email, id: 'assign_event_to_leader_input', class: 'form-control', placeholder: 'Leader email, id or name', disabled: !@event.can_change_leader?) %>
+      <%= text_field_tag('leader_email', @event.leader_email, id: 'assign_event_to_leader_input', class: 'form-control', placeholder: 'Leader email, id or name', readonly: !@event.can_change_leader?) %>
       <% unless @event.can_change_leader? %>
        <span class="help-block">Leader can not be changed 5 hours before the event start</span>
       <% end %>
