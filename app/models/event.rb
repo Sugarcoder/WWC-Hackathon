@@ -123,7 +123,6 @@ class Event < ActiveRecord::Base
   end
 
   def full?
-    slot ||= 0 
     slot <= attending_user_count
   end
 
