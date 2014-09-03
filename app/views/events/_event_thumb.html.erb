@@ -1,23 +1,39 @@
 <div class="panel panel-default">
   <div class="panel-heading"> <%= event.title %> </div>
-  <div class="panel-body">
-    <%= render partial: 'events/event_content', locals: { event: event, from: 'thumb' } %>
-    <% 
-      case status
-      when 'upcoming' 
-        label_class = 'btn-info active'
-      when 'attended'
-        label_class = 'btn-success active'
-      when 'unfinished'
-        label_class = 'btn-warning active'
-      when 'finished'
-        label_class = 'btn-primary active'
-      end
-    %>
-    <a href="#" class="btn <%= label_class %> " role="button"> <%= status %> </a>
-    <% if status == 'unfinished' %>
-      <%= link_to 'Finish it!', finish_form_path(event), class: "btn btn-primary ", role: "button" %> 
+  <div class="panel-body row">
+    <div class="col-sm-8">
+      <%= render partial: 'events/event_content', locals: { event: event, from: 'thumb' } %>
+      <% 
+        case status
+        when 'upcoming' 
+          label_class = 'btn-info active'
+        when 'attended'
+          label_class = 'btn-success active'
+        when 'unfinished'
+          label_class = 'btn-warning active'
+        when 'finished'
+          label_class = 'btn-primary active'
+        end
+      %>
+      <a href="#" class="btn <%= label_class %> " role="button"> <%= status %> </a>
+      <% if status == 'unfinished' %>
+        <%= link_to 'Finish it!', finish_form_path(event), class: "btn btn-primary ", role: "button" %> 
+      <% end %>
+      <%= link_to 'Details', event_path(event), class: 'btn btn-primary' %>
+    </div>
+
+    <% if status == 'finished' %>
+      <div class='col-sm-4'>
+        <ul class="list-group">
+          <% event.events_categories.each do |event_category| %>
+             <li class="list-group-item">
+                <h5> <%= event_category.category_name %> </h5>  
+                <span> <%= event_category.pound %> pounds </span>
+             </li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
-    <%= link_to 'Details', event_path(event), class: 'btn btn-primary' %>
+
   </div>
 </div>

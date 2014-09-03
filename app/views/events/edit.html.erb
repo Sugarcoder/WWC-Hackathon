@@ -1,7 +1,7 @@
 <div class="row" %>
   <h1>Edit Event</h1>
 
-  <%= render 'form' %>
+  <%= render partial: 'form', locals: { type: 'edit' } %>
 
   <%= link_to 'Show', @event %> |
   <%= link_to 'Back', events_path %>

@@ -6,8 +6,8 @@ class UsersEvents < ActiveRecord::Base
    belongs_to :event
    belongs_to :user
 
-   after_commit :after_create_action, on: :create
-   after_commit :send_email_and_decrease_user_count, on: :destroy
+   after_create :after_create_action
+   after_destroy :send_email_and_decrease_user_count
 
   def event_validation
     event = Event.find_by_id(event_id)

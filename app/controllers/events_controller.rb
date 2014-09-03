@@ -183,8 +183,8 @@ class EventsController < ApplicationController
       @receipt = Image.create(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
     end
   
-    finish_event = FinishEvent.new(event, params['pound'], params['category_pounds'], params['category_ids'], params['user_ids'])
-    result = finish_event.run
+    finish_event = FinishEvent.new(params['pound'], params['category_pounds'], params['category_ids'], params['user_ids'])
+    result = finish_event.run(event)
 
     if result["error"]
       flash[:alert] = result['message']

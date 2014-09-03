@@ -1,25 +1,24 @@
 class FinishEvent
 
-  def initialize(event, total_pound, category_pounds, category_ids, attendee_ids)
-    @event = event
+  def initialize(total_pound, category_pounds, category_ids, attendee_ids)
     @total_pound = total_pound
     @category_pounds = category_pounds
     @category_ids = category_ids
     @attendee_ids = attendee_ids
   end
 
-  def run
-    return  { error: true, message: 'Event not found' } if @event.nil?
+  def run(event)
+    return  { error: true, message: 'Event not found' } if event.nil?
 
-    if @event.is_finished 
+    if event.is_finished 
       { error: true, message: 'The event is already finished' }
     else
-      if @event.update_attributes(is_finished: true, pound: @total_pound )
-        send_thank_you_email(@attendee_ids, @event)
-        record_pounds_for_each_category(@category_pounds, @category_ids, @event)
+      if event.update_attributes(is_finished: true, pound: @total_pound )
+        send_thank_you_email(@attendee_ids, event)
+        record_pounds_for_each_category(@category_pounds, @category_ids, event)
         { error: false, message: 'You successfully finished the event! thank you' }
       else
-        { error: true, message: @event.errors.full_messages.join(", ") }
+        { error: true, message: event.errors.full_messages.join(", ") }
       end
     end
   end
