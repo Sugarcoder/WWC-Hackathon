@@ -1,0 +1,48 @@
+<div class='row'>
+
+ 
+
+  <div class="btn-group">
+    <% @months.each do |month| %>
+      <%= link_to month.strftime("%B"), show_categories_pounds_path(date: month), class: "btn btn-default" %>
+    <% end %>
+  </div>
+
+  <h2> Pounds of every category In <%= @date_range.begin.strftime('%B') %> </h2>
+
+  <table class="table table-hover show_pounds_table">
+    <thead>
+      <tr>
+        <th> Name </th>
+        <th> Pound </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @categories.each do |category| %>
+        <tr class="category_pound_row">
+          <td> <%= category.name  %> </td>
+          <td> <%= category.total_pounds_within_range(@date_range) %> </td>
+
+          <td>
+          <ul class="list-group" style="display: none;">
+            <% category.pounds_per_day_within_range(@date_range).each do |pound_per_day| %>
+              <li class="list-group-item">
+                <span class="date"> <%= pound_per_day[0] %> </span>
+                <span class="pound"> <%= pound_per_day[1] %> </span>
+              </li>
+            <% end %>
+          </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+
+</div>
+
+<script>
+  $(document).on('click', '.category_pound_row', function(){
+    $(this).find('.list-group').toggle();
+  })
+</script>

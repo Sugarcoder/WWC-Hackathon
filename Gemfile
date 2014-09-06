@@ -12,6 +12,7 @@ gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.
 gem 'sdoc', '~> 0.4.0', group: :doc # bundle exec rake doc:rails generates the API under doc/api.
 gem 'spring', group: :development
 gem 'jquery-ui-rails'
+gem 'jquery-turbolinks'
 
 # gem 'therubyracer',  platforms: :ruby # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'bcrypt', '~> 3.1.7' # Use ActiveModel has_secure_password

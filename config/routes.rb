@@ -40,7 +40,7 @@ Rails.application.routes.draw do
 
   get   '/home', to: redirect('/')
   #Event
-  get   '/calendar(/:type)' => 'events#calendar', as: 'calendar'
+  get   '/calendar' => 'events#calendar', as: 'calendar'
   get   '/events/cancel/:id/recurring' => 'events#stop_attend_recurring', as: 'stop_attend_recurring_event'
   get   '/events/attend/:event_id/:status' => 'events#attend', as: 'attend_event'
   get   '/events/cancel/:event_id/:status' => 'events#cancel', as: 'cancel_event'
@@ -60,6 +60,7 @@ delete  '/comments/:id' => 'comments#destroy'
   get   '/admin' => 'admin#index', as: 'admin'
   post  '/admin/change-user-role' => 'admin#change_user_role', as: 'change_user_role'
   post  '/admin/assign-event' => 'admin#assign_event', as: 'assign_event'
+  get   '/admin/category/pounds' => 'admin#show_pounds_for_categories', as: 'show_categories_pounds'
 
   #search
   get   '/search/users(/:user_type)' => 'search#search_user', as: 'search_user'

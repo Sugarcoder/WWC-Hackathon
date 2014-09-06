@@ -12,6 +12,7 @@
 //
 
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
 //= require ./plugins/bootstrap-select.js
@@ -237,7 +238,7 @@ var ready = function(){
 };
 
 $(document).ready(ready);
-$(document).on('page:load', ready);
+
 
 
 $(document).on("keyup", "#comment_text", function(e) {

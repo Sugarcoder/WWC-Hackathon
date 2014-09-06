@@ -53,7 +53,7 @@ module EventsHelper
       # Log in button
       html += link_to "Log in", new_user_session_path(event_id: event.id), class: 'btn btn-primary'
       # Sign up buton
-      html += link_to "Sign up", new_user_registration_path(event_id: event.id), class: 'btn btn-success'
+      html += link_to "Sign up for an account", new_user_registration_path(event_id: event.id), class: 'btn btn-success'
     end
     html
   end
