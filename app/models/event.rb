@@ -6,9 +6,9 @@ class Event < ActiveRecord::Base
   belongs_to :category
   belongs_to :location
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
-  has_many :images, -> { where('is_receipt is not true') }
-  has_many :events_categories, foreign_key: 'event_id', class_name: "EventsCategories"
-  has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image'
+  has_many :images, -> { where('is_receipt is not true') }, dependent: :destroy
+  has_many :events_categories, foreign_key: 'event_id', class_name: "EventsCategories", dependent: :destroy
+  has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image', dependent: :destroy
 
   scope :within_time_range, ->(starting_time, ending_time) { where('starting_time >= ? AND ending_time <= ?', starting_time, ending_time).order('starting_time ASC') }
 
