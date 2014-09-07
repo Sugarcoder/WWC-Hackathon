@@ -8,7 +8,7 @@ class Category < ActiveRecord::Base
   end
 
   def pounds_per_day_within_range(date_range)
-    hash = self.events_categories.where(created_at: date_range).group_by{ |e| e.created_at.strftime("%-m-%-e") }
+    hash = self.events_categories.where(created_at: date_range).group_by{ |e| e.event_starting_time.strftime("%-m-%-e") }
     hash.each { |k, v|  hash[k] = v.map(&:pound).inject(0, :+) }
   end
 

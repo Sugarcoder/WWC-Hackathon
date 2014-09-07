@@ -65,8 +65,7 @@ class EventMailer < ActionMailer::Base
   def remind_leader_email(user, event)
     @user = user
     @event = event
-    subject = "Thank You for Leading RLC Event at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
+    subject = "Reminder: Finish your event online! Thank You for Leading RLC Event at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
     mail(to: user.email, subject: subject)
   end
 
