@@ -1,17 +1,29 @@
 <div class="row">
-<%= form_tag(finish_event_path, method: "post", role: "form", multipart: true, class: ['form-horizontal'], id: "finish_event") do %>
-    <%= hidden_field_tag "event_id", @event.id %>
+
+<% 
+  if @status == 'edit_finish'
+    url = update_finish_event_path(@event)
+    method = :put
+    form_id = 'edit_finish_event'
+  else
+    url = finish_event_path(@event)
+    method = :post
+    form_id = 'finish_event'
+  end 
+%>
+
+<%= form_tag( url, method: method, role: "form", multipart: true, class: ['form-horizontal'], id: form_id) do %>
     
     <div class="form-group">
       <div class="col-sm-4">
         <label>Who attended the event?</label>
         <ul class='list-group'>
-          <% @event_users.each do |user| %>
+          <% @event_attendees.each do |user| %>
               <li class="list-group-item">
                 <%= check_box_tag 'user_ids[]', user.id, true %>  
                 <span><%= user.full_name %></span>
               </li>
-          <% end %>
+          <% end if @event_attendees%>
         </ul>
       </div>
     </div>
@@ -19,26 +31,51 @@
     <div class="form-group" id="total-pound-group">
       <div class="col-sm-4">
         <label>How many pounds of food got delivered at this event?</label>
-        <%= text_field_tag 'pound', nil, class: 'form-control' %>
+        <%= text_field_tag 'pound', @event.pound, class: 'form-control' %>
       </div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4">
-        <label> pounds of food for category </label>
-        <%= text_field_tag 'category_pounds[]', nil, class: 'form-control' %>
-      </div>
-      <div class="col-sm-4">
-        <label> category </label>
-        <%= select_tag('category_ids[]', options_for_select( Category.all.collect {|category| [category.name, category.id]} ), { class: 'selectpicker form-control' }) %>
+    <% if @status == 'edit_finish' %>
+      <div class="form-group">
+        <button type="button" id='category-pound-add-button' class='btn btn-primary'> Add pound for new category </button>
       </div>
 
-      <div class="col-sm-2">
-          <button type="button" class="btn btn-default" id="category-pound-add-button">
-              <span class="glyphicon glyphicon-plus"></span>
-          </button>
+      <% @event.events_categories.each do |event_category_record| %>
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label> pounds of food for category </label>
+            <%= text_field_tag 'category_pounds[]', event_category_record.pound, class: 'form-control' %>
+          </div>
+          <div class="col-sm-4">
+            <label> category </label>
+            <%= select_tag('category_ids[]', options_for_select( Category.all.collect {|category| [category.name, category.id]},  event_category_record.category_id ), { class: 'selectpicker form-control' }) %>
+          </div>
+
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-default" id="category-pound-remove-button">
+                <span class="glyphicon glyphicon-minus"></span>
+            </button>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label> pounds of food for category </label>
+          <%= text_field_tag 'category_pounds[]', nil, class: 'form-control' %>
+        </div>
+        <div class="col-sm-4">
+          <label> category </label>
+          <%= select_tag('category_ids[]', options_for_select( Category.all.collect {|category| [category.name, category.id]} ), { class: 'selectpicker form-control' }) %>
+        </div>
+
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-default" id="category-pound-add-button">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <div class="form-group hide" id="category-pound-template">
       <div class="col-sm-4">
@@ -65,43 +102,18 @@
 
     <div class="form-group">
       <div class="col-sm-4">
-        <label> Upload event receipt </label>
+        <% receipt_label_text = @status == 'edit_finish' ? 'Reupload event receipt if pounds get changed' : 'Upload event receipt' %>
+        <label> <%= receipt_label_text %> </label>
         <%= file_field_tag 'receipt' %>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">Finish Event</button>
+        <% submit_button_text = @status == 'edit_finish' ? 'Update' : 'Finish Event' %>
+        <button type="submit" class="btn btn-primary"> <%= submit_button_text %></button>
        </div>
     </div>
 
 <% end %>
 </div>
-
-<script>
-  $('#finish_event').on('click', '#category-pound-add-button', function() {
-    var $template = $('#category-pound-template'),
-        $clone    = $template
-                        .clone()
-                        .removeClass('hide')
-                        .removeAttr('id')
-                        .insertBefore($template);
-        $category_pound_option = $clone.find('[name="category_pound[]"]');
-        $category_id_option    = $clone.find('[name="category_id[]"]');
-    $clone.find('.category_id_picker').selectpicker('refresh');
-    // Add new field
-    //$('#surveyForm').bootstrapValidator('addField', $option);
-  })
-  .on('click', '#category-pound-remove-button', function() {
-    var $row    = $(this).parents('.form-group'),
-        $category_pound_option = $row.find('[name="category_pound[]"]'),
-        $category_id_option    = $row.find('[name="category_id[]"]');
-
-    // Remove element containing the option
-    $row.remove();
-
-    // Remove field
-    //$('#surveyForm').bootstrapValidator('removeField', $option);
-  });
-</script>

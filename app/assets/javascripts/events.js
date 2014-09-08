@@ -21,6 +21,9 @@ var ready = function(){
   hide_event_modal($('#wait_event'));
   hide_event_modal($('#cancel_event'));
   hide_event_modal($('#cancel_waiting'));
+
+  create_category_pound_field($('#finish_event'));
+  create_category_pound_field($('#edit_finish_event'));
 };
 
 $(document).ready(ready);
@@ -44,6 +47,33 @@ $(document).on('click', '#confirm_stop_recurring', function(e){
     }
   });
 });
+
+function create_category_pound_field(form_element){
+  form_element.on('click', '#category-pound-add-button', function() {
+    var $template = $('#category-pound-template'),
+        $clone    = $template
+                        .clone()
+                        .removeClass('hide')
+                        .removeAttr('id')
+                        .insertBefore($template);
+        $category_pound_option = $clone.find('[name="category_pound[]"]');
+        $category_id_option    = $clone.find('[name="category_id[]"]');
+    $clone.find('.category_id_picker').selectpicker('refresh');
+    // Add new field
+    //$('#surveyForm').bootstrapValidator('addField', $option);
+  })
+  .on('click', '#category-pound-remove-button', function() {
+    var $row    = $(this).parents('.form-group'),
+        $category_pound_option = $row.find('[name="category_pound[]"]'),
+        $category_id_option    = $row.find('[name="category_id[]"]');
+
+    // Remove element containing the option
+    $row.remove();
+
+    // Remove field
+    //$('#surveyForm').bootstrapValidator('removeField', $option);
+  });
+}
 
 function hide_event_modal(el){
   el.on('click', function(e){ 

@@ -19,10 +19,12 @@
     <div> <strong><%= event.location_name if event.location %></strong> </div>
   </li>
 
-  <li class='event-meeting-location'>
-    <label> Meeting Location: </label>
-    <div> <strong><%= event.address %></strong> </div>
-  </li>
+  <% if user_signed_in? && current_user.attending_event?(event) %>
+    <li class='event-meeting-location'>
+      <label> Meeting Location: </label>
+      <div> <strong><%= event.address %></strong> </div>
+    </li>
+  <% end %>
 
   <li class='event-description'>
     <label> Description: </label>
@@ -39,7 +41,7 @@
     </div>
   </li>
 
-  <% if event.attending_user_count.to_i >= event.slot.to_i %>
+  <% if event.full? %>
     <li class='waiting-list-slot'>
       <label> Waiting list space: </label>
       <div> 
@@ -58,7 +60,7 @@
     </li>
   <% end %>
 
-  <% if from == 'detail_page' && event.instruction? %>
+  <% if from == 'detail_page' && event.instruction? && user_signed_in? && current_user.attending_event?(event) %>
     <li class='event-instruction'>
       <label> Instruction: </label>
       <div>  <strong><%= link_to 'link to instruction', event.instruction.url, target: "_blank" %></strong> </div>

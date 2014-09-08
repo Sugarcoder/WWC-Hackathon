@@ -12,7 +12,7 @@ class Ability
         can :manage, :all
     elsif user.admin?
         can [:crud, :loadmore] , Comment
-        can [:normal_user_event_action, :finish, :finish_form], Event
+        can [:normal_user_event_action, :finish, :finish_form, :edit_finish, :update_finish], Event
     elsif user.normal?
         can [:crud, :loadmore], Comment
         can [:normal_user_event_action], Event

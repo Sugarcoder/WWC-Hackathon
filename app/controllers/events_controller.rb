@@ -1,19 +1,16 @@
 class EventsController < ApplicationController
   include EventsHelper
   include ActiveModel::Dirty
+  include EventsCategoriesHelper
 
   load_and_authorize_resource 
   skip_authorize_resource only: [:calendar, :show]
   before_action :authenticate_user!, only: [:attend, :cancel, :stop_recurring, :finish]
 
-  # GET /events
-  # GET /events.json
   def index
     @events = Event.all
   end
 
-  # GET /events/1
-  # GET /events/1.json
   def show
     comments_per_page = 10 
     @comments = Comment.where(commentable_id: @event.id).paginate(page: 1, per_page: comments_per_page).order('created_at DESC')
@@ -24,19 +21,15 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/new
   def new
     @event = Event.new
   end
 
-  # GET /events/1/edit
   def edit
     @starting_time = @event.starting_date
     @ending_time = @event.ending_date
   end
 
-  # POST /events
-  # POST /events.json
   def create
     respond_to do |format|
       if @event.save
@@ -50,8 +43,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /events/1
-  # PATCH/PUT /events/1.json
   def update 
     respond_to do |format|
       if @event.update_attributes(event_params)
@@ -65,8 +56,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /events/1
-  # DELETE /events/1.json
   def destroy
     @event.destroy
     respond_to do |format|
@@ -167,24 +156,21 @@ class EventsController < ApplicationController
   end
 
   def finish_form
-    @status = 'unfinished'
-    user_ids = UsersEvents.where('event_id = ?', @event.id).map(&:user_id)
-    @event_users = User.where('id IN (?)', user_ids)
+    @status = 'edit_finish' if params[:status] == 'edit'
+    @event_attendees = @event.attendees
   end
 
   def finish
-    event = Event.find_by_id(params["event_id"])
-
     if params["image"].present?
-      @image = Image.create(event_id: params["event_id"], file: params["image"])
+      @image = Image.create(event_id: @event.id, file: params["image"])
     end
 
     if params["receipt"].present?
-      @receipt = Image.create(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
+      @receipt = Image.create(event_id: @event.id, file: params["receipt"], is_receipt: true)
     end
   
     finish_event = FinishEvent.new(params['pound'], params['category_pounds'], params['category_ids'], params['user_ids'])
-    result = finish_event.run(event)
+    result = finish_event.run(@event)
 
     if result["error"]
       flash[:alert] = result['message']
@@ -193,6 +179,23 @@ class EventsController < ApplicationController
     end
 
     redirect_to user_events_path(current_user, 'finished')
+  end
+
+  def update_finish
+    if params["image"].present?
+      @image = Image.create(event_id: params["event_id"], file: params["image"])
+    end
+
+    if params["receipt"].present?
+      old_receipt = Image.find_by_event_id_and_is_receipt(params["event_id"], true)
+      old_receipt.destroy if old_receipt
+      @receipt = Image.create(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
+    end
+
+    finish_event = FinishEvent.new(params['pound'], params['category_pounds'], params['category_ids'], params['user_ids'])
+    finish_event.update(@event)
+
+    redirect_to :back
   end
 
   def photo

@@ -77,6 +77,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def is_leader?(event)
+    id == event.leader_id
+  end
+
+  def can_edit_finish_event?(event)
+    is_leader?(event) || super_admin?
+  end
+
   private
 
   def upgrade_to_lead_rescuer(user)

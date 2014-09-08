@@ -16,10 +16,16 @@
         end
       %>
       <a href="#" class="btn <%= label_class %> " role="button"> <%= status %> </a>
+      
       <% if status == 'unfinished' %>
         <%= link_to 'Finish it!', finish_form_path(event), class: "btn btn-primary ", role: "button" %> 
       <% end %>
+      
       <%= link_to 'Details', event_path(event), class: 'btn btn-primary' %>
+      
+      <% if status == 'finished' %>
+        <%= link_to 'Edit finish', finish_event_path(event, status: 'edit'), class: "btn btn-primary ", role: "button" %> 
+      <% end %>
     </div>
 
     <% if status == 'finished' %>
