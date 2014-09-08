@@ -43,6 +43,7 @@ gem 'bootstrap-validator-rails'
 
 group :production do
   gem 'rails_12factor'
+  gem 'informant-rails'
 end
 
 group :development, :test do
