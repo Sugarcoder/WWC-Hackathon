@@ -32,6 +32,9 @@ GEM
       activesupport (>= 3.0)
       awesome_nested_set (>= 2.0)
     addressable (2.3.6)
+    appsignal (0.10.5)
+      rack
+      thread_safe
     arel (5.0.1.20140414130214)
     autoprefixer-rails (3.0.0.20140821)
       execjs
@@ -267,6 +270,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading
+  appsignal
   autoprefixer-rails
   aws-sdk
   bootstrap-sass (~> 3.2.0)
