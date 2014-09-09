@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  skip_before_action :verify_authenticity_token, if: :json_request?
 
   rescue_from CanCan::AccessDenied do |exception|
     @error_message = exception.message
@@ -14,5 +15,9 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up){ |u| u.permit(:username, :email, :password, :password_confirmation, :firstname, :lastname, :organization, :telephone, :is_under_eighteen) }
     devise_parameter_sanitizer.for(:account_update){ |u| u.permit(:username, :email, :password, :password_confirmation, :firstname, :lastname, :organization, :telephone, :current_password, :role, :avatar, :is_under_eighteen) }
+  end
+
+  def json_request?
+    request.format.json?
   end
 end
