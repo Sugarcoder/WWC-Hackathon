@@ -26,7 +26,7 @@
         <% @events_by_date[date.to_s].each do |event| %>
           <% full_event_class = event.full? ? "full" : "" %>
           <li class="word-crop <%= full_event_class %>">
-            <%= link_to event.title, event, remote: true, class: 'event-link' %>
+            <%= link_to event.title, event_path(event), remote: true, class: 'event-link' %>
             <div class='event-time'> 
               <span class='start-time'> <%= event.starting_hour %> </span>
               <% if event.ending_time %>

@@ -6,6 +6,7 @@ class Ability
     #
     alias_action :create, :read, :update, :destroy, :to => :crud
     alias_action :read, :attend, :cancel, :attend_recurring, :stop_attend_recurring, :photo, :to => :normal_user_event_action
+    alias_action :index, :show, :avatar, :upload_avatar, :events, :to => :user_action
 
     user ||= User.new # guest user (not logged in)
     if user.super_admin?
@@ -13,9 +14,11 @@ class Ability
     elsif user.admin?
         can [:crud, :loadmore] , Comment
         can [:normal_user_event_action, :finish, :new_finish, :edit_finish, :update_finish], Event
+        can :user_action, User
     elsif user.normal?
         can [:crud, :loadmore], Comment
         can [:normal_user_event_action], Event
+        can :user_action, User
     else
         can [:loadmore], Comment
         can :read, Event
