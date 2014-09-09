@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   get   '/events/attend/:event_id/:status' => 'events#attend', as: 'attend_event'
   get   '/events/cancel/:event_id/:status' => 'events#cancel', as: 'cancel_event'
 delete  '/events/recurring/:id' => 'events#stop_recurring', as: 'event_stop_recurring' #stop recurring event
-  get   '/events/:id/finish' => 'events#finish_form', as: 'finish_form'  #finish event form
+  get   '/events/:id/finish' => 'events#new_finish', as: 'new_finish'  #finish event form
   post  '/events/:id/finish' => 'events#finish', as: 'finish_event' #finish event
   put   '/events/:id/edit-finish' => 'events#update_finish', as: 'update_finish_event'
   post  '/events/attend/:id/recurring' => 'events#attend_recurring', as: 'attend_recurring_event'

@@ -47,7 +47,7 @@ module EventsHelper
       end
 
     else
-      html  +=  content_tag :span, class: ['text-info', 'register-notice'] do 
+      html  +=  content_tag :div, class: ['text-info', 'register-notice'] do 
                   ' You need to be a registered user to attend event :)'
                 end
       # Log in button

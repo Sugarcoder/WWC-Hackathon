@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+  authorize_resource :class => false
   include DateHelper
 
   def index

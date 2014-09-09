@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to :back, :alert => exception.message
+    @error_message = exception.message
+    render :file => "#{Rails.root}/public/403.html", :status => 403, :layout => false
   end
 
   protected

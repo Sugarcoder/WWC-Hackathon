@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  load_and_authorize_resource skip_load_resource only: [:create] 
+  authorize_resource
   before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   # GET /categories

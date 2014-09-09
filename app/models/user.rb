@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
     id == event.leader_id
   end
 
-  def can_edit_finish_event?(event)
+  def can_finish_event?(event)
     is_leader?(event) || super_admin?
   end
 

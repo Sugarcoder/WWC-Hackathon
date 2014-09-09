@@ -12,9 +12,6 @@ module EventsCategoriesHelper
   end
 
   def record_pounds_for_each_category(category_pounds, category_ids, event)
-    p '=========='
-    p category_pounds
-    p category_ids
     category_pounds = extract_array_params(category_pounds)
     category_ids = extract_array_params(category_ids)
     event_category_params = create_event_categories_params(category_pounds, category_ids, event.id)

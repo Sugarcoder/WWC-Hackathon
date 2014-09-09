@@ -101,7 +101,10 @@ footer{
 }
 
 .register-notice{
+  display: inline-block;
+  max-width: 200px;
   margin-right: 24px;
+  vertical-align: top;
 }
 
 .word-crop{
