@@ -11,7 +11,7 @@ class EventsController < ApplicationController
     @events = Event.all
   end
 
-  def show
+  def show 
     comments_per_page = 10 
     @comments = Comment.where(commentable_id: @event.id).paginate(page: 1, per_page: comments_per_page).order('created_at DESC')
     @users = User.joins(:users_events).where('event_id = ?', @event.id)

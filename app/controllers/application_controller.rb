@@ -7,8 +7,10 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     @error_message = exception.message
-    render :file => "#{Rails.root}/public/403.html", :status => 403, :layout => false
+    render file: "#{Rails.root}/public/403.html", status: 403, layout: 'public_page_layout'
   end
+
+  rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
   protected
 
@@ -19,5 +21,9 @@ class ApplicationController < ActionController::Base
 
   def json_request?
     request.format.json?
+  end
+
+  def record_not_found
+    render file: "#{Rails.root}/public/404.html", status: 404, layout: 'public_page_layout'
   end
 end
