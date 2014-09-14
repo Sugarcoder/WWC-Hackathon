@@ -131,6 +131,10 @@ class Event < ActiveRecord::Base
     waiting_list_slot <= waiting_user_count
   end
 
+  def participation_status_editable?
+    self.starting_time > Time.current
+  end
+
   def change_leader
     if leader_id_changed? && can_change_leader?
       #remove old leader from the event

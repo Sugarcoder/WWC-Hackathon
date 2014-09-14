@@ -3,7 +3,7 @@ module EventsHelper
   def event_button_group(event, from_page)
     html = ActiveSupport::SafeBuffer.new
     if user_signed_in?
-      if event.user_status_editable?
+      if event.participation_status_editable?
         user_event_relationship = UsersEvents.find_by_event_id_and_user_id(event.id, current_user.id)
         #Stop Attending button
         if current_user.attending_event?(event, user_event_relationship)
