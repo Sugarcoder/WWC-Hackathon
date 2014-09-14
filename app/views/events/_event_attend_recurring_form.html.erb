@@ -15,38 +15,40 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label class="control-label col-sm-3"> Repeats on</label>
-    <div class="col-sm-9">
-        <label class="checkbox-inline">
-          <%= check_box_tag("day[]", "0") %> S 
-        </label>
-      
-        <label class="checkbox-inline">
-          <%= check_box_tag("day[]", "1") %> M
-        </label>
+  <% if event.daily? %>
+    <div class="form-group">
+      <label class="control-label col-sm-3"> Repeats on</label>
+      <div class="col-sm-9">
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "0") %> S 
+          </label>
+        
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "1") %> M
+          </label>
 
-        <label class="checkbox-inline">
-          <%= check_box_tag("day[]", "2") %> T
-        </label>
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "2") %> T
+          </label>
 
-        <label class="checkbox-inline">
-          <%= check_box_tag("day[]", "3") %> W
-        </label>
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "3") %> W
+          </label>
 
-        <label class="checkbox-inline">
-          <%= check_box_tag("day[]", "4") %> T
-        </label>
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "4") %> T
+          </label>
 
-        <label class="checkbox-inline">
-          <%= check_box_tag("day[]", "5") %> F
-        </label>
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "5") %> F
+          </label>
 
-        <label class="checkbox-inline">
-          <%= check_box_tag("day[]", "6") %> Sa
-        </label>
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "6") %> Sa
+          </label>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="form-group">
     <label class="control-label col-sm-3"> End Date </label>

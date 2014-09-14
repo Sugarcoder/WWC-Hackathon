@@ -20,10 +20,12 @@ class Event < ActiveRecord::Base
   validate :starting_time_after_current_time, on: :create
   validate :starting_time_before_ending_time
   validate :finish_process, on: :update, if: Proc.new { |event| event.is_finished == true }
+  validate :leader_validation
+
   validates :ending_time, presence: true
   validates :starting_time, presence: true
   validates :title, presence: true
-  validates :slot,  presence: true
+  validates :slot,  presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :leader_id,  presence: true
 
   delegate :name, to: :location, prefix: true, allow_nil: true
@@ -120,10 +122,6 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def user_status_editable?
-    self.starting_time > Time.current
-  end
-
   def full?
     slot <= attending_user_count
   end
@@ -144,12 +142,8 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def is_leader?(user_id)
-    leader_id == user_id
-  end
-
   def is_not_leader?(user_id)
-    !is_leader?(user_id)
+    leader_id != user_id
   end
 
   def can_change_leader?
@@ -169,7 +163,7 @@ class Event < ActiveRecord::Base
   # Validation
   #####################################################################
   def starting_time_after_current_time
-    if self.starting_time && self.starting_time < 2.minutes.ago
+    if starting_time && starting_time < Time.current
       errors[:base] << "Event starting time can not be older than current time"
     end
   end
@@ -177,7 +171,7 @@ class Event < ActiveRecord::Base
   def starting_time_before_ending_time
     return if self.starting_time.nil? || self.ending_time.nil?
     if self.starting_time > self.ending_time
-      errors[:base] << "starting time can not after ending time"
+      errors[:base] << "Event starting time can not after ending time"
     end
   end
 
@@ -185,6 +179,13 @@ class Event < ActiveRecord::Base
     errors[:base] << "pound is required!" if pound.nil?
     if pound != 0 && self.receipt.nil?
       errors[:base] << "receipt is required!"
+    end
+  end
+
+  def leader_validation
+    if leader
+      return errors[:base] << "Only confirmed user can be leader of an event" unless leader.confirmed?
+      return errors[:base] << "Normal user can not be leader of an event" unless leader.admin?
     end
   end
   

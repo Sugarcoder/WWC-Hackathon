@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :user, aliases: [:leader] do
+  factory :user do
     firstname "Normal"
     sequence(:lastname) { |n| "User#{n}" }
     sequence(:username) { |n| "user#{n}" }
@@ -10,14 +10,23 @@ FactoryGirl.define do
     telephone '1234567890'
     role 0
 
-    trait :admin do
-      firstname "Admin"
-      role      1
+    after(:create) do |user|
+      user.confirm!
     end
 
-    trait :super_admin do
-      firstname "SuperAdmin"
-      role      2
+    trait :confirmed do
+      confirmed_at 1.day.ago
     end
   end
+
+  factory :leader, parent: :user do
+    firstname "Admin"
+    role      1
+  end
+
+  factory :super_admin, parent: :user do
+    firstname "SuperAdmin"
+    role      2
+  end
+
 end

@@ -203,22 +203,23 @@ class EventsController < ApplicationController
     @receipt = @event.receipt
   end
 
-  def attend_recurring
-
+  def attend_recurring  
     if @event.daily?
-      if params['day'] && params['attend_recurring_ending_date']
-        weekdays = params['day'].map(&:to_i)
-        weekly_count = params['weekly_count'].to_i
-        starting_date = @event.starting_time
-        ending_date = Event.parse_event_date(params['attend_recurring_ending_date'])
-
-        attend_recurring_event = AttendRecurringEvent.new(starting_date, ending_date, weekly_count, weekdays)
-        summary = attend_recurring_event.run(current_user, @event)    
-
-        flash[:notice] = summary
-      end
+      weekdays = params['day'].present? ? params['day'].map(&:to_i) : nil
+    elsif @event.weekly?
+      weekdays = [ @event.starting_time.wday ]
     end
 
+    weekly_count = params['weekly_count'].to_i
+    starting_date = @event.starting_time
+    ending_date =  params['attend_recurring_ending_date'].present? ? Event.parse_event_date(params['attend_recurring_ending_date']) : nil
+
+    attend_recurring_event = AttendRecurringEvent.new(starting_date, ending_date, weekly_count, weekdays)
+    result = attend_recurring_event.run(current_user, @event)    
+
+    flash_type = result[:error] ? :alert : :notice
+    flash[flash_type] = result[:message]
+ 
     redirect_to :back
   end
 

@@ -1,9 +1,87 @@
 require 'rails_helper'
 
 RSpec.describe Event, :type => :model do
+
+  describe "Validation when creating event" do
+    
+    it 'should has a title' do
+      event = build(:event, title: "")
+      event.valid?
+
+      expect(event.errors[:title][0]).to eq "can't be blank"
+    end
+
+    it 'should has a starting time' do
+      event = build(:event, starting_time: "")
+      event.valid?
+
+      expect(event.errors[:starting_time][0]).to eq "can't be blank"
+    end
+
+    it 'should has a ending time' do
+      event = build(:event, ending_time: "")
+      event.valid?
+
+      expect(event.errors[:ending_time][0]).to eq "can't be blank"
+    end
+
+    it 'should has a leader id' do
+      event = build(:event, leader_id: "")
+      event.valid?
+
+      expect(event.errors[:leader_id][0]).to eq "can't be blank"
+    end
+
+    it 'should has a slot' do
+      event = build(:event, slot: "")
+      event.valid?
+
+      expect(event.errors[:slot][0]).to eq "can't be blank"
+    end
+
+    it 'should has a slot that is greater than 0' do
+      event = build(:event, slot: 0)
+      event.valid?
+
+      expect(event.errors[:slot][0]).to eq "must be greater than 0"
+    end
+
+    it 'should has a starting time later than current time' do
+      event = build(:event, starting_time: 1.minute.ago)
+      event.valid?
+
+      expect(event.errors[:base][0]).to eq "Event starting time can not be older than current time"
+    end
+
+    it 'should has a starting time before ending time' do
+      event = build(:event, starting_time: Time.current + 2.minute, ending_time: Time.current + 1.minute)
+      event.valid?
+
+      expect(event.errors[:base][0]).to eq "Event starting time can not after ending time"
+    end
+
+    it 'should has a leader who is a confirmed user' do
+      user = build_stubbed(:user)
+      event = build(:event, leader_id: user.id)
+      allow(event).to receive(:leader) { user }
+      event.valid?
+
+      expect(event.errors[:base][0]).to eq "Only confirmed user can be leader of an event"
+    end
+
+    it 'should has a leader who is an admin user' do
+      user = build_stubbed(:user, :confirmed)
+      event = build(:event, leader_id: user.id)
+      allow(event).to receive(:leader) { user }
+      event.valid?
+
+      expect(event.errors[:base][0]).to eq "Normal user can not be leader of an event"
+    end
+  end
+
   describe "Event time formate" do
-    before(:each) do
-      @event = build(:event, starting_time: Time.zone.local(2014,3,24,14,50,0), ending_time: Time.zone.local(2014,3,24,16,50,0) )
+    before(:all) do
+      @event = build_stubbed(:event, starting_time: Time.zone.local(2014,3,24,14,50,0), ending_time: Time.zone.local(2014,3,24,16,50,0) )
     end
     
     context "#starting_date" do
@@ -71,16 +149,12 @@ RSpec.describe Event, :type => :model do
   describe "Create Event" do
     
     it 'should sign up leader after create' do
-      event = create(:event, slot: 1, attending_user_count: 0, leader_id: 1)
-      users_events = UsersEvents.find_by_user_id_and_event_id(1, event.id)
+      event = create(:event, slot: 1)
+      event.send(:sign_up_lead_rescuer)
+      users_events = UsersEvents.find_by_user_id_and_event_id(event.leader_id, event.id)
+
       expect(users_events).to be
       expect(users_events.attending?).to eq true
-    end
-
-    it 'should increase attending_user_count after create' do
-      event = create(:event, slot: 1, attending_user_count: 0, leader_id: 1)
-      event.reload
-      expect(event.attending_user_count).to eq 1
     end
 
   end

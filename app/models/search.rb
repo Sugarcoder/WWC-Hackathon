@@ -18,7 +18,7 @@ class Search
           term = str + '%'
           users = User.where('email Like (?) or firstname Like(?) or lastname Like(?)', term, term, term).where('role IN (?)', user_roles_range).limit(limit)
         end
-        users.each { |user| result << user.email }
+        users.each { |user| result << user.email if user.confirmed? }
       end
       result
     end

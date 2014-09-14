@@ -20,6 +20,9 @@ class UsersEvents < ActiveRecord::Base
       if event.wait_list_full? && self.status == 'waiting'
         errors[:base] << "Waiting list is full"
       end
+      if Time.now + 3.hours > event.starting_time
+        errors[:base] << "Need to sign up at least 3 hours before the event begin"
+      end
     end
   end
 

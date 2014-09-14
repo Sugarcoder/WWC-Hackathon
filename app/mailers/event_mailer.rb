@@ -19,7 +19,9 @@ class EventMailer < ActionMailer::Base
     @event_leader = event_leader
     @summary = summary
     subject = "Confirmation: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
+    if event.instruction?
+      attachments['instruction.pdf'] = File.read(open(event.instruction.url)) rescue nil
+    end
     mail(to: user.email, subject: subject)
   end
 
@@ -83,6 +85,9 @@ class EventMailer < ActionMailer::Base
 
   def attachment_image
     attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/RLC_LOGO_small.png")
+  end
+
+  def instruction_pdf
   end
 
 end

@@ -18,7 +18,7 @@ module EventsHelper
           html += link_to 'Attend Event', attend_event_path(event, 'attend'), id:'attend_event', class: 'btn btn-success'
         end
         #Waiting button
-        if event.full? && !current_user.waiting_event?(event, user_event_relationship)
+        if event.full? && !current_user.waiting_event?(event, user_event_relationship) && !current_user.attending_event?(event, user_event_relationship)
           html += link_to 'Waiting List', attend_event_path(event, 'wait'), id:'wait_event', class: 'btn btn-info'
         end
 
@@ -28,7 +28,9 @@ module EventsHelper
             html += link_to 'stop attend recurring', stop_attend_recurring_event_path(event), id: 'stop_attend_recurring', class: ['btn btn-danger', 'pull-left']
           else
             html += content_tag :button, 'Attend recurring', id:'attend_recurring', class: 'btn btn-primary pull-left', data: { placement: "right" }
-            html += content_tag :div, 'Attend Recurring' ,id: 'popover-head', class: 'hide'
+            html += content_tag :div, id: 'popover-head', class: 'hide' do
+                      "#{event.recurring_type.titleize} Recurring Event"
+                    end
             html += content_tag :div, id: 'popover-content', class: 'hide' do
                       render partial: 'event_attend_recurring_form', locals: { event: event}
                     end
