@@ -183,13 +183,13 @@ class EventsController < ApplicationController
 
   def update_finish
     if params["image"].present?
-      @image = Image.create(event_id: params["event_id"], file: params["image"])
+      @image = Image.create(event_id: @event.id, file: params["image"])
     end
 
     if params["receipt"].present?
-      old_receipt = Image.find_by_event_id_and_is_receipt(params["event_id"], true)
+      old_receipt = Image.find_by_event_id_and_is_receipt(@event.id, true)
       old_receipt.destroy if old_receipt
-      @receipt = Image.create(event_id: params["event_id"], file: params["receipt"], is_receipt: true)
+      @receipt = Image.create(event_id: @event.id, file: params["receipt"], is_receipt: true)
     end
 
     finish_event = FinishEvent.new(params['pound'], params['category_pounds'], params['category_ids'], params['user_ids'])

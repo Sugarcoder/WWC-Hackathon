@@ -64,6 +64,7 @@ var ready = function(){
         }
       },
       'receipt': {
+        enabled: false,
         validators: {
           notEmpty: {
             message: 'receipt is required and cannot be empty'

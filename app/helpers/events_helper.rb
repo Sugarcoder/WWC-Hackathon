@@ -42,6 +42,12 @@ module EventsHelper
       if (can? :show, event) && from_page != 'detail_page'
         html += link_to 'Details', event_path(event), class: 'btn btn-primary'
       end
+      #Show photos button
+      #Detail button
+      if (can? :photo, event) && from_page == 'detail_page'
+        html += link_to 'Photos', event_photo_path(event), class: 'btn btn-primary'
+      end
+
       #Edit & Destroy button
       if (can? :update, event) && (can? :destroy, event)
         html += link_to 'Edit', edit_event_path(event), class: 'btn btn-primary'

@@ -8,6 +8,15 @@ var ready = function(){
   
   $('.selectpicker').selectpicker();
 
+  //show event receipt in finish event page
+  $('#check-receipt-button').click(function(){
+    $('.modal-body').empty();
+    var title = $(this).attr("title");
+    $('.modal-title').html(title);
+    $($(this).next('#receipt_wrapper').html()).appendTo('.modal-body');
+    $('#imageModal').modal('show');
+  });
+
   //attend event js 
   var parent;
   if($('.modal').length > 0){

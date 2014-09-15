@@ -50,7 +50,7 @@ delete  '/events/recurring/:id' => 'events#stop_recurring', as: 'event_stop_recu
   put   '/events/:id/edit-finish' => 'events#update_finish', as: 'update_finish_event'
   post  '/events/attend/:id/recurring' => 'events#attend_recurring', as: 'attend_recurring_event'
 
-  get   '/events/photos/:id' => 'events#photo', as: 'event_photo'
+  get   '/events/:id/photos' => 'events#photo', as: 'event_photo'
 
   #Comment
   post  '/comments' => 'comments#create'

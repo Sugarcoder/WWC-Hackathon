@@ -3,15 +3,24 @@
 <div id="row">
   <h3> Photos </h3>
   <% if @images.present? %>
-    <% @images.each do |image| %>
-      <%= link_to image_tag(image.file.url(:large)), image.file.url(:large) %>
-    <% end %>
+    
+      <% @images.each do |image| %>
+        <div class="center-cropped"  style="background-image: url('<%= image.file.url(:large) %>');">
+          <%= link_to "", image.file.url(:large) %> 
+        </div>
+      <% end %>
+    </div>
   <% else %>
-    <h2> This event has no photo yet. <h2>
-  <% end %>
-
-  <% if current_user.admin? || current_user.super_admin? %>
-    <h3> Receipt </h3>
-    <%= link_to image_tag(@receipt.file.url(:large)), @receipt.file.url(:large) %>
+    <h2> This event has no photo <h2>
   <% end %>
 </div>
+
+<style>
+.center-cropped {
+    width: 200px;  
+    height: 200px; 
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+</style>

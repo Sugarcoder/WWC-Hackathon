@@ -1,5 +1,6 @@
 class Image < ActiveRecord::Base
- 
+  validates :event_id, presence: true
+
   before_create :set_orientation
 
   has_attached_file :file, styles: {
