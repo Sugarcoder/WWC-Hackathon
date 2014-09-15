@@ -11,7 +11,6 @@
       <th>Slot</th>
       <th>Attending user count</th>
       <th>Location</th>
-      <th>Description</th>
       <th>recurring type</th>
       <th>Pound</th>
       <th>Category</th>
@@ -26,12 +25,11 @@
       <tr>
         <td><%= event.title %></td>
         <td><%= (event.leader.full_name if event.leader) || nil %></td>
-        <td><%= event.starting_time %></td>
-        <td><%= event.ending_time %></td>
+        <td><%= event.starting_date %></td>
+        <td><%= event.ending_date %></td>
         <td><%= event.slot %></td>
         <td><%= event.attending_user_count %></td>
         <td><%= event.location.name if event.location %></td>
-        <td><%= event.description %></td>
         <td><%= event.recurring_type %></td>
         <td><%= event.pound %></td>
         <td><%= event.category.name %></td>

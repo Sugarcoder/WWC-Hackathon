@@ -59,6 +59,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'quiet_assets' # stop print asset in console
+  gem 'guard-rspec'
 end
 
 gem 'unicorn'
