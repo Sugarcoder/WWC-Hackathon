@@ -1,0 +1,11 @@
+<button type="button" class="btn btn-primary check_receipt_button" title="Event Receipt">
+  Check Receipt
+</button>
+<div id="receipt_wrapper" class="hide">
+  <% receipt = event.receipt %>
+  <% if receipt && receipt.file? %>
+    <%= image_tag receipt.file.url, style: "max-width: 800px;" %>
+  <% else %>
+    <h3> This event has no receipt </h3>
+  <% end %>
+</div>

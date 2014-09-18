@@ -1,26 +1,52 @@
 
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
-<div id="row">
-  <h3> Photos </h3>
+<div id="event_photo_wrapper">
   <% if @images.present? %>
     
-      <% @images.each do |image| %>
-        <div class="center-cropped"  style="background-image: url('<%= image.file.url(:large) %>');">
-          <%= link_to "", image.file.url(:large) %> 
+    <h2> <%= @event.title %> </h2>
+    <br/>
+
+    <div class="row">
+      <div id="event_photo_carousel" class="carousel slide" data-ride="carousel">
+
+        <ol class="carousel-indicators">
+          <% 1.upto(@images.length) do |i| %>
+            <% active_class = i == 1 ? 'active' : ''  %>
+            <li data-target="#event_photo_carousel" data-slide-to="<%= i %>" class="<%= active_class %>">
+            </li>
+          <% end %>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <% @images.each_index do |i| %>
+              <% active_class = i == 0 ? 'active' : ''  %>
+              <div class="item <%= active_class %>">
+                <%= image_tag @images[i].file.url(:large) %>
+              </div>
+            <% end %>
         </div>
-      <% end %>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#event_photo_carousel" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#event_photo_carousel" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="images">
+        <% @images.each do |image| %>
+          <div class="center-cropped"  style="background-image: url('<%= image.file.url(:large) %>');">
+            <%= link_to "", image.file.url(:large) %> 
+          </div>
+        <% end %>
+      </div>
     </div>
   <% else %>
     <h2> This event has no photo <h2>
   <% end %>
 </div>
-
-<style>
-.center-cropped {
-    width: 200px;  
-    height: 200px; 
-    background-position: center center;
-    background-repeat: no-repeat;
-    display: inline-block;
-}
-</style>

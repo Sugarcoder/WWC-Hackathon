@@ -107,17 +107,7 @@
         <%= file_field_tag 'receipt' %>
       </div>
       <div class="col-sm-2">
-        <button type="button" class="btn btn-primary" id="check-receipt-button" title="Event Receipt">
-            Check old receipt
-        </button>
-        <div id="receipt_wrapper" class="hide">
-          <% receipt = @event.receipt %>
-          <% if receipt && receipt.file? %>
-            <%= image_tag receipt.file.url, style: "max-width: 800px;" %>
-          <% else %>
-            <h3> This event has no receipt </h3>
-          <% end %>
-        </div>
+        <%= render partial: "check_receipt", locals: { event: @event } %>
       </div>
     </div>
 
@@ -131,21 +121,6 @@
 <% end %>
 </div>
 
-<div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg">
-  <div class="modal-content">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">×</button>
-    <h3 class="modal-title">Heading</h3>
-  </div>
-  <div class="modal-body">
-    
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-default" data-dismiss="modal">Close</button>
-  </div>
-   </div>
-  </div>
-</div>
+<%= render partial: "images/image_modal" %>
 
 

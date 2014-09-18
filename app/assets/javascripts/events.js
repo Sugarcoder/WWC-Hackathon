@@ -9,7 +9,7 @@ var ready = function(){
   $('.selectpicker').selectpicker();
 
   //show event receipt in finish event page
-  $('#check-receipt-button').click(function(){
+  $('.check_receipt_button').click(function(){
     $('.modal-body').empty();
     var title = $(this).attr("title");
     $('.modal-title').html(title);

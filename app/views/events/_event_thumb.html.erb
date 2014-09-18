@@ -25,6 +25,8 @@
       
       <% if status == 'finished' %>
         <%= link_to 'Edit finish', finish_event_path(event, status: 'edit'), class: "btn btn-primary ", role: "button" %> 
+        <%= render partial: "events/check_receipt", locals: { event: event} %>
+        <%= render partial: "images/image_modal" %>
       <% end %>
     </div>
 

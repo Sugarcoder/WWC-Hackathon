@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   has_attached_file :avatar, styles: {
     square: { geometry: '140x140#', format: 'jpg' }
-  }, :default_url => "/assets/user.png", :processors => [:cropper]
+  }, :default_url => "user.png", :processors => [:cropper]
   do_not_validate_attachment_file_type :avatar
 
  
