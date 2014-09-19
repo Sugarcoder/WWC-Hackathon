@@ -6,6 +6,10 @@
   <% if receipt && receipt.file? %>
     <%= image_tag receipt.file.url, style: "max-width: 800px;" %>
   <% else %>
-    <h3> This event has no receipt </h3>
+    <h3> 
+      This event has no receipt yet. 
+      <br><br>
+      Did you finish the event? Receipt will be uploaded after you finish event.
+    </h3>
   <% end %>
 </div>

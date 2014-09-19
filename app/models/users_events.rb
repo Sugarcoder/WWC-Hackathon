@@ -2,11 +2,13 @@ class UsersEvents < ActiveRecord::Base
    enum status: [ :not_decided, :attending, :waiting, :attended ]
    validate :event_validation
    validate :duplicate_validation
+   validate :can_attend?
 
    belongs_to :event
    belongs_to :user
 
    after_create :after_create_action
+   before_destroy :can_cancel?
    after_destroy :send_email_and_decrease_user_count
 
   def event_validation
@@ -20,9 +22,21 @@ class UsersEvents < ActiveRecord::Base
       if event.wait_list_full? && self.status == 'waiting'
         errors[:base] << "Waiting list is full"
       end
-      if Time.now + 3.hours > event.starting_time
-        errors[:base] << "Participation status can only be changed at least 3 hours before the event begin"
-      end
+    end
+  end
+
+  def can_attend?
+    can_change_participation_status?('attend')
+  end
+
+  def can_cancel?
+    can_change_participation_status?('cancel')
+    errors.blank?
+  end
+
+  def can_change_participation_status?(action)
+    if Time.now + 3.hours > event.starting_time && attending?
+      errors[:base] << "Sorry, you can only #{action} an event up to 3 hours before the event starts."
     end
   end
 

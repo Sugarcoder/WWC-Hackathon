@@ -106,9 +106,6 @@
         <label> <%= receipt_label_text %> </label>
         <%= file_field_tag 'receipt' %>
       </div>
-      <div class="col-sm-2">
-        <%= render partial: "check_receipt", locals: { event: @event } %>
-      </div>
     </div>
 
     <div class="form-group">
@@ -120,7 +117,5 @@
 
 <% end %>
 </div>
-
-<%= render partial: "images/image_modal" %>
 
 
