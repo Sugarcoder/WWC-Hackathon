@@ -33,16 +33,16 @@ class AttendRecurringEvent
     result = []
     case weekly_count
     when 1
-      events.each do | weekday, events_of_weekday |
-        events_of_weekday.each_with_index{ | event, index | result << event }
+      events.each do |weekday, events_of_weekday|
+        events_of_weekday.each_with_index{ |event, index| result << event }
       end
     when 2
       events.each do | weekday, events_of_weekday |
-        events_of_weekday.each_with_index do  { | event, index | result << event if index.even? }
+        events_of_weekday.each_with_index do  { |event, index| result << event if index.even? }
       end
     when 3
       events.each do | weekday, events_of_weekday |
-        events_of_weekday.each_with_index{ | event, index | result << event if index % 3 == 0 }
+        events_of_weekday.each_with_index{ |event, index| result << event if index % 3 == 0 }
       end
     end
     result
