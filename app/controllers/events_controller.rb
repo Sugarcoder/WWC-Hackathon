@@ -209,7 +209,6 @@ class EventsController < ApplicationController
     elsif @event.weekly?
       weekdays = [ @event.starting_time.wday ]
     end
-
     weekly_count = params['weekly_count'].to_i
     starting_date = @event.starting_time
     ending_date =  params['attend_recurring_ending_date'].present? ? Event.parse_event_date(params['attend_recurring_ending_date']) : nil
