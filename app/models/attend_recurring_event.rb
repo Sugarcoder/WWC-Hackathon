@@ -19,6 +19,7 @@ class AttendRecurringEvent
     summary = attend_recurring_summary(@weekly_count, @weekdays)
 
     event_ids = Event.select(:id).where('parent_event_id = ? and starting_time IN (?)', main_recurring_event_id, event_time_array).map(&:id) + [event.id]
+    #event_ids = Event.select(:id).where('parent_event_id = ? and extract(DOW FROM starting_time) IN (?)', main_recurring_event_id, @weekdays).map(&:id) + [event.id]
     users_events_params = event_ids.uniq.map{ |event_id| { event_id: event_id, status: 1, user_id: user.id, parent_id: main_recurring_event_id, summary: summary } }
     UsersEvents.create(users_events_params)
 
@@ -44,7 +45,7 @@ class AttendRecurringEvent
     when 1
       result = dates
     when 2
-      dates.each_with_index{ |date, index| result << date if index.even? }
+      dates.each_with_index{ |date, index|  result << date if index.even? }
     when 3
       dates.each_with_index { |date, index| result << date if index % 3 == 0 }
     end
