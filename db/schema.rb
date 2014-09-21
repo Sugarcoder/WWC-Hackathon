@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140903020728) do
+ActiveRecord::Schema.define(version: 20140921034305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20140903020728) do
   create_table "events", force: true do |t|
     t.string   "title"
     t.integer  "slot",                     default: 0
-    t.integer  "attending_user_count",     default: 0, null: false
+    t.integer  "attending_user_count",     default: 0,     null: false
     t.string   "address"
     t.integer  "location_id"
     t.text     "description"
@@ -52,12 +52,12 @@ ActiveRecord::Schema.define(version: 20140903020728) do
     t.datetime "starting_time"
     t.datetime "ending_time"
     t.integer  "category_id"
-    t.integer  "waiting_user_count",       default: 0, null: false
-    t.integer  "recurring_type",           default: 0, null: false
+    t.integer  "waiting_user_count",       default: 0,     null: false
+    t.integer  "recurring_type",           default: 0,     null: false
     t.integer  "pound",                    default: 0
     t.integer  "leader_id"
     t.integer  "parent_event_id"
-    t.boolean  "is_finished"
+    t.boolean  "is_finished",              default: false, null: false
     t.string   "instruction_file_name"
     t.string   "instruction_content_type"
     t.integer  "instruction_file_size"

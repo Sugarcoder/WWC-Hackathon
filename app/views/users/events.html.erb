@@ -1,7 +1,9 @@
 <%= render layout: 'user' do %>
-  <h4>Total <%= @type %> events: <%= @events.length %></h4>
+  <h4>Total <%= @type %> events: <%= @events_count %></h4>
   <br>
-  <% @events.each do |event| %>
-    <%= render partial: 'events/event_thumb', locals: { event: event, status: @type} %>
-  <% end %>
+  <div id="user_events_wrapper">
+    <% if @events.present? %>
+      <%= render partial: 'user_events', locals: { user: @user, events: @events, type: @type, page: @page } %>
+    <% end %>
+  </div>
 <% end %>

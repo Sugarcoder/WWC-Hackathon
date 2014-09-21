@@ -57,6 +57,20 @@ $(document).on('click', '#confirm_stop_recurring', function(e){
   });
 });
 
+//Load more events in user page
+$(document).on('click', "#loadmore_event", function(e){
+  url =  "/users/" + $(this).data('user-id') + "/events/" +  $(this).data('event-type') + "?page=" + $(this).data('page');
+  $.ajax({
+    url: url,
+    dataType: 'html',
+    context: $(this),
+    success: function(html){
+      $(this).fadeOut("slow", function() { $(this).remove(); });
+      $(this).closest('#user_events_wrapper').fadeIn( "slow", function(){ $(this).append(html) });
+    }
+  });
+});
+
 function create_category_pound_field(form_element){
   form_element.on('click', '#category-pound-add-button', function() {
     var $template = $('#category-pound-template'),

@@ -4,12 +4,6 @@ class User < ActiveRecord::Base
   enum role: [ :normal, :admin, :super_admin ]
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
   has_many :users_events, :foreign_key => 'user_id', :class_name => "UsersEvents"
-  has_many :leading_events, foreign_key: 'leader_id', class_name: 'Event'
-
-  has_many :attending_events, -> { where "status = 1" }, through: :users_events, source: :event
-  has_many :waiting_events, -> { where "status = 2" }, through: :users_events, source: :event
-  has_many :attended_events, -> { where "status = 3" }, through: :users_events, source: :event
-  has_many :attending_recurring_events, -> { where "status = 1 and parent_id is not null" }, through: :users_events, source: :event
   
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   has_attached_file :avatar, styles: {
@@ -17,7 +11,6 @@ class User < ActiveRecord::Base
   }, :default_url => "user.png", :processors => [:cropper]
   do_not_validate_attachment_file_type :avatar
 
- 
   def cropping?
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
   end
@@ -43,8 +36,20 @@ class User < ActiveRecord::Base
     end
   end
 
-  def finished_events
-    Event.includes(:events_categories).where('leader_id = ? and is_finished = true', id).order('updated_at DESC')
+  def attending_events( options = {} )
+    events( 'attending', options )
+  end
+
+  def attended_events( options = {} )
+    events( 'attended', options )
+  end
+
+  def unfinished_events( options = {} )
+    events( 'unfinished', options )
+  end
+
+  def finished_events( options = {} )
+    events( 'finished', options )
   end
 
   def attend_event(event)
@@ -95,7 +100,7 @@ class User < ActiveRecord::Base
         { error: true, message: user.errors.full_messages } 
       end
     else
-       { error: true, message: "The user is a #{user.role}. Only normal user could be upgraded"} 
+       { error: true, message: "The user is a #{user.role}. Only normal user could be upgraded" } 
     end
   end
 
@@ -107,7 +112,7 @@ class User < ActiveRecord::Base
         { error: true, message: user.errors.full_messages } 
       end
     else
-       { error: true, message: "The user is a #{user.role}. Only lead rescuer could be downgraded"} 
+       { error: true, message: "The user is a #{user.role}. Only lead rescuer could be downgraded" } 
     end
   end
 
@@ -123,6 +128,41 @@ class User < ActiveRecord::Base
     when 'recurring'
       user_event_relationship.attend_recurring?
     end
+  end
+
+  def events( event_type, options = {} )
+    events = []
+    page, per_page = paginate_option( options )
+
+    events =  case event_type
+              when 'attending'
+                Event.joins(:users_events).where( " user_id = #{id} AND status = 1 " ).start_after( Time.current ).order( 'starting_time ASC' )
+              when 'attended'
+                Event.joins(:users_events).where( " user_id = #{id} AND status = 3 " ).start_before( Time.current ).order( 'starting_time DESC' )
+              when 'unfinished'
+                if super_admin? 
+                  Event.not_finished.end_before( Time.current ).order( 'ending_time ASC' )
+                else
+                  Event.with_leader(id).not_finished.end_before( Time.current ).order( 'ending_time ASC' )
+                end
+              when 'finished'
+                if super_admin?
+                  Event.includes(:events_categories).finished.order( 'updated_at DESC' )
+                else
+                  Event.includes(:events_categories).with_leader(id).finished.order( 'updated_at DESC' )
+                end
+              end
+
+    return  [ [], 0 ] unless events.present?
+    count  = events.count
+    events = events.paginate( page: page, per_page: per_page )
+    return [ events, count ]
+  end
+
+  def paginate_option( options = {} )
+    page = options[:page].present? ? options[:page] : 1
+    per_page = options[:per_page].present? ? options[:per_page] : 10
+    [page, per_page]
   end
   
 end

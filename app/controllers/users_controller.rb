@@ -21,17 +21,24 @@ class UsersController < ApplicationController
   end
 
   def events
-    event_ids = UsersEvents.where(user_id: @user.id).map(&:event_id)
     @type = params['type']
+    @page = params['page'].to_i > 0 ?  params['page'].to_i : 1
+
     case @type 
     when 'upcoming' 
-      @events = Event.where('id IN (?) and starting_time > ?', event_ids, Time.now ).order('starting_time ASC')
+      @events, @events_count = @user.attending_events( page: @page, per_page: 3 )
     when 'attended'
-      @events = Event.where('id IN (?) and starting_time < ?', event_ids, Time.now ).order('starting_time DESC')
+      @events, @events_count = @user.attended_events( page: @page )
     when 'unfinished'
-      @events = Event.where('leader_id = ? and is_finished is not true and ending_time < ?', current_user.id, Time.current ).order('ending_time ASC')
+      @events, @events_count = @user.unfinished_events( page:@page )
     when 'finished'
-      @events = @user.finished_events
+      @events, @events_count = @user.finished_events( page: @page )
+    end
+
+    @page = @page + 1
+
+    if @page > 2
+      render partial: 'user_events', locals: { user: @user, events: @events, type: @type, page: @page }
     end
   end
 

@@ -13,6 +13,12 @@ class Event < ActiveRecord::Base
   has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image', dependent: :destroy
 
   scope :within_time_range, ->(starting_time, ending_time) { where('starting_time >= ? AND ending_time <= ?', starting_time, ending_time).order('starting_time ASC') }
+  scope :start_after,  ->(time) { where('starting_time > ?', time) }
+  scope :start_before, ->(time) { where('starting_time < ?', time) }
+  scope :end_before,   ->(time) { where('ending_time < ?', time) }
+  scope :finished,     ->       { where('is_finished = ?', true) }
+  scope :not_finished, ->       { where('is_finished != ?', true) }
+  scope :with_leader,  ->(leader_id) { where('leader_id = ?', leader_id) }
 
   after_commit :after_create_action, on: :create
   before_update :change_leader

@@ -1,0 +1,7 @@
+<% events.each do |event| %>
+  <%= render partial: 'events/event_thumb', locals: { event: event, status: type} %>
+<% end %>
+
+<% if events.total_pages > events.current_page %>
+  <div id="loadmore_event" data-user-id="<%= user.id %>" data-event-type="<%= type %>" data-page="<%= page %>"> Load More... </div>
+<% end %>
