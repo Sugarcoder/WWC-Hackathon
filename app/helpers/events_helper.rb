@@ -66,5 +66,15 @@ module EventsHelper
     html
   end
 
+  def event_background_color(event)
+    case
+    when event.full?
+      '#EEE'
+    when event.need_help?
+      '#FFDE00'
+    else
+      'inherit' 
+    end
+  end
 
 end

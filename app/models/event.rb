@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   belongs_to :category
   belongs_to :location
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
-  has_many :images, -> { where('is_receipt is not true') }, dependent: :destroy
+  has_many :images, -> { where.not(is_receipt: true) }, dependent: :destroy
   has_many :events_categories, foreign_key: 'event_id', class_name: "EventsCategories", dependent: :destroy
   has_many :users_events, foreign_key: 'event_id', class_name: "UsersEvents", dependent: :destroy
   has_many :attendees, through: :users_events, source: :user
@@ -16,8 +16,8 @@ class Event < ActiveRecord::Base
   scope :start_after,  ->(time) { where('starting_time > ?', time) }
   scope :start_before, ->(time) { where('starting_time < ?', time) }
   scope :end_before,   ->(time) { where('ending_time < ?', time) }
-  scope :finished,     ->       { where('is_finished = ?', true) }
-  scope :not_finished, ->       { where('is_finished != ?', true) }
+  scope :finished,     ->       { where(is_finished: true) }
+  scope :not_finished, ->       { where.not(is_finished: true) }
   scope :with_leader,  ->(leader_id) { where('leader_id = ?', leader_id) }
 
   after_commit :after_create_action, on: :create
@@ -130,6 +130,10 @@ class Event < ActiveRecord::Base
 
   def full?
     slot <= attending_user_count
+  end
+
+  def need_help?
+    starting_time.between?( Time.current, Time.current + 1.week ) && attending_user_count < (slot / 2)
   end
 
   def wait_list_full?
