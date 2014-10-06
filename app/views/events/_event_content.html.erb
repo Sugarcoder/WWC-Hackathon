@@ -60,10 +60,10 @@
     </li>
   <% end %>
 
-  <% if from == 'detail_page' && event.instruction? && user_signed_in? && current_user.attending_event?(event) %>
+  <% if from == 'detail_page' && event.instruction && event.instruction.file? && user_signed_in? && current_user.attending_event?(event) %>
     <li class='event-instruction'>
       <label> Instruction: </label>
-      <div>  <strong><%= link_to 'link to instruction', event.instruction.url, target: "_blank" %></strong> </div>
+      <div>  <strong><%= link_to 'link to instruction', event.instruction.file.url, target: "_blank" %></strong> </div>
     </li>
   <% end %>
 

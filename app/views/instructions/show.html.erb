@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @instruction.description %>
+</p>
+
+<p>
+  <strong> Instruction: </strong>
+  <%= link_to 'link to instruction', @instruction.file.url, target: "_blank" %>
+</p>
+
+<%= link_to 'Edit', edit_instruction_path(@instruction) %>
+

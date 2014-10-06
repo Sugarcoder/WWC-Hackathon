@@ -159,4 +159,80 @@ RSpec.describe Event, :type => :model do
 
   end
 
+  describe "Calculate Recurring Event Time" do
+    before(:all) do
+      @starting_time = Time.zone.local(2014, 10, 1, 14, 50, 0) # 2014.10.10 14:50:00
+      @ending_time = Time.zone.local(2014, 10, 1, 16, 50, 0) # 2014.10.10 16:50:00
+      
+      @monthly_event = build_stubbed(:event, starting_time: @starting_time, ending_time: @ending_time, recurring_type: 3 )
+    end
+
+    context 'when daily events' do
+      before(:all) {  @daily_event = build_stubbed(:event, starting_time: @starting_time, ending_time: @ending_time, recurring_type: 1 ) }
+      # 10.1 - 10.10 weekdays 3, 4, 5, 6, 0, 1, 2, 3, 4, 5
+
+      it 'return same starting & ending time with all week days' do
+        selected_time = Event.calculate_recurring_time( @daily_event, "10/10/2014 06:20 PM", [0, 1, 2, 3, 4, 5, 6] )
+        expect( selected_time.length ).to eq 9
+        expect( selected_time.map{ |hash| hash[:starting_time].wday } ).to eq [4, 5, 6, 0, 1, 2, 3, 4, 5]
+        expect( selected_time.map{ |hash| hash[:ending_time].wday } ).to eq [4, 5, 6, 0, 1, 2, 3, 4, 5]
+        expect( selected_time.map{ |hash| hash[:starting_time].to_s(:time) }.count('14:50') ).to eq 9
+        expect( selected_time.map{ |hash| hash[:ending_time].to_s(:time) }.count('16:50') ).to eq 9
+      end
+
+      it 'return same starting & ending time with selected days' do
+        selected_time = Event.calculate_recurring_time( @daily_event, "10/10/2014 06:20 PM", [0, 2, 3] )
+        expect( selected_time.length ).to eq 3
+        expect( selected_time.map{ |hash| hash[:starting_time].wday } ).to eq [0, 2, 3]
+        expect( selected_time.map{ |hash| hash[:ending_time].wday } ).to eq [0, 2, 3]
+        expect( selected_time.map{ |hash| hash[:starting_time].to_s(:time) }.count('14:50') ).to eq 3
+        expect( selected_time.map{ |hash| hash[:ending_time].to_s(:time) }.count('16:50') ).to eq 3
+      end
+
+      it 'does not return event start after recurring ending time' do
+        selected_time = Event.calculate_recurring_time( @daily_event, "10/10/2014 10:20 AM", [5] )
+        expect( selected_time.length ).to eq 1
+        expect( selected_time.first[:starting_time].mday ).to eq 3
+      end
+
+    end
+
+    context 'when weekly events' do
+      before(:all) { @weekly_event = build_stubbed(:event, starting_time: @starting_time, ending_time: @ending_time, recurring_type: 2 ) }
+
+      it 'return the weekyday that event start at' do
+        selected_time = Event.calculate_recurring_time( @weekly_event, "10/31/2014 06:20 PM" )
+        expect( selected_time.length ).to eq 4
+        expect( selected_time.map{ |hash| hash[:starting_time].wday }.count(3) ).to eq 4
+        expect( selected_time.map{ |hash| hash[:starting_time].to_s(:time) }.count('14:50') ).to eq 4
+        expect( selected_time.map{ |hash| hash[:ending_time].to_s(:time) }.count('16:50') ).to eq 4
+      end
+
+    end
+
+    context 'when monthly events' do
+      before(:all) { @monthly_event = build_stubbed(:event, starting_time: @starting_time, ending_time: @ending_time, recurring_type: 3 ) }
+
+      it 'return the month day that event start at' do
+        selected_time = Event.calculate_recurring_time( @monthly_event, "12/31/2014 06:20 PM" )
+        expect( selected_time.length ).to eq 2
+        expect( selected_time.map{ |hash| hash[:starting_time].mday }.count(1) ).to eq 2
+        expect( selected_time.map{ |hash| hash[:starting_time].to_s(:time) }.count('14:50') ).to eq 2
+        expect( selected_time.map{ |hash| hash[:ending_time].to_s(:time) }.count('16:50') ).to eq 2
+      end
+
+      #November does not have 31 days
+      it 'escape the month if that month does not have the day that event start at' do
+        event = build_stubbed(:event, starting_time: Time.zone.local(2014, 10, 31, 14, 50, 0), ending_time: Time.zone.local(2014, 10, 31, 16, 50, 0), recurring_type: 3 )
+        selected_time = Event.calculate_recurring_time( event, "12/31/2014 06:20 PM" )
+        expect( selected_time.length ).to eq 1
+        expect( selected_time.first[:starting_time].month ).to eq 12
+      end
+
+    end
+
+
+
+  end
+
 end

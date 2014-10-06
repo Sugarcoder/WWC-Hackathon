@@ -80,38 +80,83 @@
     </div>
   </div>
 
-  <% is_disabled = @event.recurring_type != 'not_recurring' %>
   <div class="form-group">
     <div class="col-sm-4">
-      <%= f.select(:recurring_type, [ ['not recurring', 'not_recurring'], ['daily', 'daily'], ['every other day', 'every_other_day'], ['weekly', 'weekly'], ['monthly', 'monthly'] ], {}, { id: 'event_recurring_type', class: 'event_recurring_type selectpicker show-menu-arrow', disabled: is_disabled }) %>
-      <% unless @event.not_recurring? %>
+      <%= f.select(:instruction_id, Instruction.all.collect {|i| [i.description, i.id]}, {}, { class: 'selectpicker' }) %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-4">
+      <%= f.select(:recurring_type, [ ['not recurring', 'not_recurring'], ['daily', 'daily'], ['weekly', 'weekly'], ['monthly', 'monthly'] ], {}, { id: 'event_recurring_type', class: 'event_recurring_type selectpicker show-menu-arrow', disabled: true }) %>
+      <% if @event.not_recurring? %>
+        <%= link_to 'start recurring', '#', class: 'btn btn-primary', id: 'start_recurring' %>
+        <%= link_to 'stop recurring', '#', data: { toggle: "modal", target: '#confirm-stop-recurring-block' }, class: 'btn btn-warning', id: 'stop_recurring', style: 'display: none;' %>
+      <% else %>
+        <%= link_to 'start recurring', '#', class: 'btn btn-primary', id: 'start_recurring', style: 'display: none;' %>
         <%= link_to 'stop recurring', '#', data: { toggle: "modal", target: '#confirm-stop-recurring-block' }, class: 'btn btn-warning', id: 'stop_recurring' %>
       <% end %>
     </div>
   </div>
 
-  <div class="form-group">
-    <div class="col-sm-4">
-      <div class='input-group date' id='recurring-time' style='display: none;'>
-        <input type='text' name='recurring_ending_date' id='recurring_ending_date' class="form-control" placeholder='when should the event stop recurring?'/>
-        <span class="input-group-addon">
-          <span class="glyphicon glyphicon-calendar"></span>
-        </span>
+  <div id="recurring-wrapper" style="display: none;">
+    <div class="form-group"> 
+      <label class="control-label col-sm-1"> Repeats </label>
+      <div class="col-sm-8">
+        <%= select_tag(:recurring_type, options_for_select([ ['daily', 'daily'], ['weekly', 'weekly'], ['monthly', 'monthly'] ]), {id: 'create_recurring_type'}) %>
       </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <div class="col-sm-4">
-      <p> Upload event instruction </p>
-      <%= f.file_field(:instruction, accept: 'application/pdf') %>
+    <div class="form-group" id="recurring-day">
+      <label class="control-label col-sm-1"> Repeats on </label>
+      <div class="col-sm-9">
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "0") %> S 
+          </label>
+        
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "1") %> M
+          </label>
+
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "2") %> T
+          </label>
+
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "3") %> W
+          </label>
+
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "4") %> T
+          </label>
+
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "5") %> F
+          </label>
+
+          <label class="checkbox-inline">
+            <%= check_box_tag("day[]", "6") %> Sa
+          </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-1"> End date </label>
+      <div class="col-sm-3">
+        <div class='input-group date' id='recurring-time'>
+          <input type='text' name='recurring_ending_date' id='recurring_ending_date' class="form-control" />
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="form-group">
     <div class="col-sm-10">
       <% button_text = type == 'new' ? 'Create' : 'Update' %>
-      <%= f.submit button_text, class: "btn btn-success" %>
+      <%= f.submit button_text, class: "btn btn-success", id: "event_submit_button" %>
     </div>
   </div>
 
@@ -141,14 +186,38 @@
 
 <script>
   $('#recurring-time').datetimepicker();
+  $('#event_recurring_type').selectpicker();
+  $('#create_recurring_type').selectpicker();
 
-  $(document).on('change', '#event_recurring_type', function(){
-    var recurring_ending_date = $('#recurring_ending_date');
-    if($(this).val() !== 'not_recurring'){ 
-      recurring_ending_date.parent().show();
+  // toggle the create recurring block 
+  $(document).on("click", "#start_recurring", function(e){
+    e.preventDefault();
+    var $event_recurring_type = $('#event_recurring_type');
+    if( $event_recurring_type.val() === 'not_recurring' ){
+      $('#event_recurring_type').selectpicker('val', 'daily');
     }
     else{
-      recurring_ending_date.parent().hide();
+      $('#event_recurring_type').selectpicker('val', 'not_recurring');
     }
+
+    $("#recurring-wrapper").toggle();
+  });  
+
+  //show recurring day selection if recurring type is daily. otherwise, hide it.
+  $(document).on('change', '#create_recurring_type', function(){
+    $('#event_recurring_type').selectpicker('val', $(this).val());
+
+    var recurring_day = $('#recurring-day');
+    if($(this).val() !== 'daily'){ 
+      recurring_day.hide();
+    }
+    else{
+      recurring_day.show();
+    }
+  });
+
+  $(document).on('click', '#event_submit_button', function(){
+    $('#event_recurring_type').prop('disabled', false);
+    $('#event_recurring_type').selectpicker('refresh');
   });
 </script>

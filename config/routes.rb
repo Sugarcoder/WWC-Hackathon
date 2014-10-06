@@ -1,6 +1,8 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :instructions
+
   resources :locations
 
   resources :categories
@@ -18,6 +20,7 @@ Rails.application.routes.draw do
   get   '/users/:id/events/:type' => 'users#events', as: 'user_events'
   post  '/users/check-username' => 'users#check_username'
   post  '/users/check-email' => 'users#check_email'
+
   #static page
   get   '/about'    => 'high_voltage/pages#show', id: 'about'
   get   '/contact'  => 'high_voltage/pages#show', id: 'contact'
@@ -36,9 +39,8 @@ Rails.application.routes.draw do
   get   '/policy' => 'high_voltage/pages#show', id: 'policy'
   get   '/volunteer' => 'high_voltage/pages#show', id: 'volunteer'
 
-  
-
   get   '/home', to: redirect('/')
+
   #Event
   get   '/calendar' => 'events#calendar', as: 'calendar'
   get   '/events/cancel/:id/recurring' => 'events#stop_attend_recurring', as: 'stop_attend_recurring_event'

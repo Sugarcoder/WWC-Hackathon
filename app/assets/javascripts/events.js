@@ -8,15 +8,6 @@ var ready = function(){
   
   $('.selectpicker').selectpicker();
 
-  //show event receipt in finish event page
-  $('.check_receipt_button').click(function(){
-    $('.modal-body').empty();
-    var title = $(this).attr("title");
-    $('.modal-title').html(title);
-    $($(this).next('#receipt_wrapper').html()).appendTo('.modal-body');
-    $('#imageModal').modal('show');
-  });
-
   //attend event js 
   var parent;
   if($('.modal').length > 0){
@@ -42,7 +33,7 @@ $(document).on('click', '#confirm_stop_recurring', function(e){
   e.preventDefault();
   url =  "/events/recurring/" + $(this).data('event-id');
   $.ajax({
-    type : 'delete',
+    type : 'DELETE',
     url : url,
     context: this,
     dataType : 'json',
@@ -50,9 +41,8 @@ $(document).on('click', '#confirm_stop_recurring', function(e){
       $('#stop_recurring').hide();
       var event_recurring_type = $('#event_recurring_type');
       event_recurring_type.selectpicker('val', 'not_recurring');
-      event_recurring_type.prop('disabled',false);
-      event_recurring_type.selectpicker('refresh');
       $(this).closest('.modal').modal('hide');
+      $('#start_recurring').show();
     }
   });
 });
@@ -69,6 +59,15 @@ $(document).on('click', "#loadmore_event", function(e){
       $(this).closest('#user_events_wrapper').fadeIn( "slow", function(){ $(this).append(html) });
     }
   });
+});
+
+//show event receipt in finish event page
+$(document).on('click', '.check_receipt_button', function(){
+  $('.modal-body').empty();
+  var title = $(this).attr("title");
+  $('.modal-title').html(title);
+  $($(this).next('#receipt_wrapper').html()).appendTo('.modal-body');
+  $('#imageModal').modal('show');
 });
 
 function create_category_pound_field(form_element){

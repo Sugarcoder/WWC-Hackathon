@@ -32,7 +32,7 @@ module EventsHelper
                       "#{event.recurring_type.titleize} Recurring Event"
                     end
             html += content_tag :div, id: 'popover-content', class: 'hide' do
-                      render partial: 'event_attend_recurring_form', locals: { event: event}
+                      render partial: 'attend_recurring_event_form', locals: { event: event }
                     end
           end
         end

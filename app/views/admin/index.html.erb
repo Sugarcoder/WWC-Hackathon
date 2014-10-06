@@ -24,6 +24,14 @@
   </div>
 
   <div class="panel panel-default">
+    <div class="panel-heading"> Instructions </div>
+    <div class="panel-body">
+      <p><%= link_to 'New Instruction', new_instruction_path, class: 'btn btn-primary' %></p>
+      <p><%= link_to 'All Instructions', instructions_path, class: 'btn btn-primary' %></p>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
     <div class="panel-heading"> Upgrade User/ Downgrade User </div>
     <div class="panel-body">
       <%= form_tag(change_user_role_path, method: "post", role: "form", class: 'form-horizontal', id: "upgrade_user") do %>

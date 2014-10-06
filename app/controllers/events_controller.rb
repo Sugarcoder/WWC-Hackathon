@@ -33,7 +33,7 @@ class EventsController < ApplicationController
   def create
     respond_to do |format|
       if @event.save
-        Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
+        Event.create_recurring_events( @event, params['recurring_ending_date'], params['day'] )
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
@@ -46,7 +46,7 @@ class EventsController < ApplicationController
   def update 
     respond_to do |format|
       if @event.update_attributes(event_params)
-        Event.create_recurring_events(params['event']['recurring_type'], params['recurring_ending_date'], @event)
+        Event.create_recurring_events( @event, params['recurring_ending_date'], params['day'] )
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -211,7 +211,7 @@ class EventsController < ApplicationController
     end
     weekly_count = params['weekly_count'].to_i
     starting_date = @event.starting_time
-    ending_date =  params['attend_recurring_ending_date'].present? ? Event.parse_event_date(params['attend_recurring_ending_date']) : nil
+    ending_date =  params['recurring_ending_date'].present? ? Event.parse_event_date(params['recurring_ending_date']) : nil
 
     attend_recurring_event = AttendRecurringEvent.new(starting_date, ending_date, weekly_count, weekdays)
     result = attend_recurring_event.run(current_user, @event)    
@@ -237,7 +237,7 @@ class EventsController < ApplicationController
       params['event']['ending_time'] = Event.parse_event_date(params['event']['ending_time'])  if params['event']['ending_time'].present?
       params['event']['leader_id'] = get_leader_id_from_email(params['leader_email'])
      
-      params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :recurring_type, :category_id, :leader_id, :pound, :is_finished, :parent_event_id, :instruction)
+      params.require(:event).permit(:title, :date, :starting_time, :ending_time, :slot, :slot_remaing, :address, :location_id, :description, :recurring_type, :category_id, :leader_id, :pound, :is_finished, :parent_event_id, :instruction_id)
     end
 
     def get_leader_id_from_email(email)

@@ -1,16 +1,17 @@
 include EventsHelper
 
 class Event < ActiveRecord::Base
-  enum recurring_type: [ :not_recurring, :daily, :every_other_day, :weekly, :monthly ]
+  enum recurring_type: [ :not_recurring, :daily, :weekly, :monthly ]
 
   belongs_to :category
   belongs_to :location
+  belongs_to :instruction
   belongs_to :leader, foreign_key: 'leader_id', class_name: 'User'
   has_many :images, -> { where.not(is_receipt: true) }, dependent: :destroy
   has_many :events_categories, foreign_key: 'event_id', class_name: "EventsCategories", dependent: :destroy
   has_many :users_events, foreign_key: 'event_id', class_name: "UsersEvents", dependent: :destroy
   has_many :attendees, through: :users_events, source: :user
-  has_one :receipt, -> { where('is_receipt is true') }, foreign_key: 'event_id', class_name: 'Image', dependent: :destroy
+  has_one :receipt, -> { where(is_receipt: true) }, foreign_key: 'event_id', class_name: 'Image', dependent: :destroy
 
   scope :within_time_range, ->(starting_time, ending_time) { where('starting_time >= ? AND ending_time <= ?', starting_time, ending_time).order('starting_time ASC') }
   scope :start_after,  ->(time) { where('starting_time > ?', time) }
@@ -39,8 +40,6 @@ class Event < ActiveRecord::Base
 
   acts_as_commentable #could adding comment to it
 
-  has_attached_file :instruction, styles: {thumbnail: "60x60#"}
-  validates_attachment :instruction, content_type: { content_type: "application/pdf" }
 
   def after_create_action
     sign_up_lead_rescuer
@@ -105,29 +104,6 @@ class Event < ActiveRecord::Base
     slot.even? ? slot/2 : slot.to_i/2 + 1
   end
   
-  # different than class method create_recurring_events
-  def create_recurring_events(recurring_ending_date, &block)
-    return nil if recurring_ending_date.nil? || self.starting_time.nil? || self.ending_time.nil?
-    current_date = yield(self.starting_time)
-    current_ending_date = yield(self.ending_time)
-    while current_date < recurring_ending_date
-      event = self.dup
-      event.starting_time = current_date
-      event.ending_time = current_ending_date
-      event.parent_event_id = self.id
-      event.attending_user_count = 0
-      event.waiting_user_count = 0
-      event.pound = 0
-      if event.save
-      else
-        p '------------------------------'
-        p event.errors.full_messages
-      end
-      current_date = yield(current_date)
-      current_ending_date = yield(current_ending_date)
-    end
-  end
-
   def full?
     slot <= attending_user_count
   end
@@ -205,34 +181,54 @@ class Event < ActiveRecord::Base
   
   class << self
 
-    def create_recurring_events(recurring_event_type, recurring_ending_date, event)
-        return if recurring_event_type == 'not_recurring' || event.nil? || !recurring_ending_date.present? #no recurring event
-        recurring_ending_date = self.parse_event_date(recurring_ending_date)
-        case recurring_event_type
-        when 'daily'
-          event.create_recurring_events(recurring_ending_date, &self.adding_day)
-        when 'weekly'
-          event.create_recurring_events(recurring_ending_date, &self.adding_week)
-        when 'monthly'
-          event.create_recurring_events(recurring_ending_date, &self.adding_month)
-        end
+    def create_recurring_events( event, recurring_ending_date, event_days = nil )
+      return if event.nil? || event.not_recurring? || !recurring_ending_date.present? #no recurring event
+      selected_time = self.calculate_recurring_time( event, recurring_ending_date, event_days )
+
+      parent_event_id = event.parent_event_id || event.id
+      event_params = selected_time.map do |time|
+        {  
+          title: event.title,
+          description: event.description,
+          slot: event.slot,
+          address: event.address,
+          location_id: event.location_id,
+          category_id: event.category_id,
+          instruction_id: event.instruction_id,
+          recurring_type: event.recurring_type,
+          leader_id: event.leader_id,
+          parent_event_id: parent_event_id,
+          starting_time: time[:starting_time],
+          ending_time: time[:ending_time]
+        }
+      end
+
+      e = Event.create(event_params)
+    end
+
+    def calculate_recurring_time( event, recurring_ending_date, event_days = nil )
+      event_days = event_days.map { |day| day.to_i } if event_days
+      starting_date = event.starting_time.to_date + 1.day
+      ending_date = parse_event_date(recurring_ending_date)
+      # check if ending date time is later than the event ending time, exclude or include the ending day depends on the result
+      ending_date = ending_date.seconds_since_midnight > event.starting_time.seconds_since_midnight ? ending_date.to_date : (ending_date - 1.day).to_date
+
+      if event.daily?
+        selected_date = (starting_date..ending_date).to_a.select {|date| event_days.include?(date.wday) }
+      elsif event.weekly?
+        selected_date = (starting_date..ending_date).to_a.select {|date| event.starting_time.wday == date.wday }
+      elsif event.monthly?
+        selected_date = (starting_date..ending_date).to_a.select {|date| event.starting_time.mday == date.mday }
+      end
+
+      selected_time = selected_date.map do |date| 
+        { starting_time: date + event.starting_time.seconds_since_midnight.seconds, ending_time: date + event.ending_time.seconds_since_midnight.seconds } 
+      end
     end
 
     def parse_event_date(time_string)
       date = Date._strptime(time_string, '%m/%d/%Y %I:%M %p')
       Time.zone.local(date[:year], date[:mon], date[:mday], date[:hour], date[:min], 0)
-    end
-
-    def adding_month
-      lambda { |time| time.next_month }
-    end
-
-    def adding_week
-      lambda { |time| time + 7.days }
-    end
-
-    def adding_day
-      lambda { |time| time.tomorrow }
     end
 
   end

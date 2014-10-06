@@ -19,8 +19,8 @@ class EventMailer < ActionMailer::Base
     @event_leader = event_leader
     @summary = summary
     subject = "Confirmation: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    if event.instruction?
-      attachments['instruction.pdf'] = File.read(open(event.instruction.url)) rescue nil
+    if event.instruction && event.instruction.file?
+      attachments['instruction.pdf'] = File.read(open(event.instruction.file.url)) rescue nil
     end
     mail(to: user.email, subject: subject)
   end
@@ -30,7 +30,9 @@ class EventMailer < ActionMailer::Base
     @event = event
     @attend_user_list = attend_user_list
     subject = "Attendance for RLC Event #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
+    if event.instruction && event.instruction.file?
+      attachments['instruction.pdf'] = File.read(open(event.instruction.file.url)) rescue nil
+    end
     mail(to: leader.email, subject: subject)
   end
 
@@ -53,7 +55,9 @@ class EventMailer < ActionMailer::Base
     @event = event
     @event_leader = event_leader
     subject = "Reminder: Rescuing Leftover Cuisine at #{event.title.titleize} on #{event.starting_time.strftime('%B %e')}"
-    attachments['instruction.pdf'] = File.read(open(event.instruction.url)) if event.instruction?
+    if event.instruction && event.instruction.file?
+      attachments['instruction.pdf'] = File.read(open(event.instruction.file.url)) rescue nil
+    end
     mail(to: user.email, subject: subject)
   end
 
