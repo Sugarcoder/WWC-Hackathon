@@ -102,7 +102,8 @@ var ready = function(){
             },
             remote: {
               message: 'The username is taken by other user',
-              url: '/users/check-username'
+              url: '/users/check-username',
+              type: 'POST'
             },
             stringLength: {
                 min: 4,
@@ -122,8 +123,9 @@ var ready = function(){
               message: 'Email is required and cannot be empty'
             },
             remote: {
-                message: 'The username is taken by other user',
-                url: '/users/check-email'
+              message: 'The username is taken by other user',
+              url: '/users/check-email',
+              type: 'POST'
             }
           }
         },
