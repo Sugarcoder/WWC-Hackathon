@@ -65,6 +65,8 @@ delete  '/comments/:id' => 'comments#destroy'
   post  '/admin/assign-event' => 'admin#assign_event', as: 'assign_event'
   get   '/admin/category/pounds' => 'admin#show_pounds_for_categories', as: 'show_categories_pounds'
 
+  get   '/admin/get-user-reports' => 'admin#get_user_reports', as: 'get_user_reports'
+
   #search
   get   '/search/users(/:user_type)' => 'search#search_user', as: 'search_user'
 
