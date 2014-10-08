@@ -30,9 +30,8 @@ class AdminController < ApplicationController
 
   def show_pounds_for_categories
     @months = months_of_current_year
-    starting_date = params['date'] ? Date.parse(params['date']) : Date.today.beginning_of_month
-    ending_date = starting_date.end_of_month
-    @date_range = starting_date..ending_date
+    @starting_date = params['date'] ? Date.parse(params['date']) : Date.today.beginning_of_month
+    @ending_date = @starting_date.end_of_month
 
     @categories = Category.all
   end

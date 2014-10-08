@@ -8,7 +8,7 @@
     <% end %>
   </div>
 
-  <h2> Pounds of every category In <%= @date_range.begin.strftime('%B') %> </h2>
+  <h2> Pounds of every category In <%= @starting_date.strftime('%B') %> </h2>
 
   <table class="table table-hover show_pounds_table">
     <thead>
@@ -21,11 +21,11 @@
       <% @categories.each do |category| %>
         <tr class="category_pound_row">
           <td> <%= category.name  %> </td>
-          <td> <%= category.total_pounds_within_range(@date_range) %> </td>
+          <td> <%= category.total_pounds_within_range(@starting_date, @ending_date) %> </td>
 
           <td>
           <ul class="list-group" style="display: none;">
-            <% category.pounds_per_day_within_range(@date_range).each do |pound_per_day| %>
+            <% category.pounds_per_day_within_range(@starting_date, @ending_date).each do |pound_per_day| %>
               <li class="list-group-item">
                 <span class="date"> <%= pound_per_day[0] %> </span>
                 <span class="pound"> <%= pound_per_day[1] %> </span>
