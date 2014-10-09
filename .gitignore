@@ -84,3 +84,6 @@ tsu.log
 /.DS_Store
 /*/.DS_Store
 .env
+
+
+config/aws.yml

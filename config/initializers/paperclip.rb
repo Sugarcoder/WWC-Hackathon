@@ -1,5 +1,5 @@
 Paperclip::Attachment.default_options.merge!({
-  bucket: "rlc-#{Rails.env}",
+  bucket: Rails.configuration.aws[:bucket],
   :storage => :s3,
   s3_credentials: Rails.configuration.aws,
   s3_host_name:  's3.amazonaws.com'
