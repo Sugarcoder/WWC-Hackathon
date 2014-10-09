@@ -86,4 +86,4 @@ tsu.log
 .env
 
 
-config/aws.yml
+/config/aws.yml
