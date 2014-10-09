@@ -36,10 +36,22 @@
   </script>
 
   <!-- Heap Analytics -->
-  <script type="text/javascript">
-    window.heap=window.heap||[],heap.load=function(t,e){window.heap.appid=t,window.heap.config=e;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(t){return function(){heap.push([t].concat(Array.prototype.slice.call(arguments,0)))}},p=["identify","track"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
-    heap.load("1029241066");
-  </script>
+  <% if Rails.env.production? %>
+    <script type="text/javascript">
+      window.heap=window.heap||[],heap.load=function(t,e){window.heap.appid=t,window.heap.config=e;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(t){return function(){heap.push([t].concat(Array.prototype.slice.call(arguments,0)))}},p=["identify","track"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
+      heap.load("1029241066");
+    </script>
+
+    <% if current_user %>
+      heap.identify({ 
+        name: '<%= current_user.full_name %>',
+        username: '<%= current_user.username %>',
+        id: '<%= current_user.id %>',
+        email: '<%= current_user.email %>',
+        role: '<%= current_user.role %>'
+      });
+    <% end %>
+  <% end %>
 
 </head>
 <body>
