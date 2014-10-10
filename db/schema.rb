@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20141005235122) do
 
   create_table "events", force: true do |t|
     t.string   "title"
-    t.integer  "slot",                 default: 0
+    t.integer  "slot"
     t.integer  "attending_user_count", default: 0,     null: false
     t.string   "address"
     t.integer  "location_id"

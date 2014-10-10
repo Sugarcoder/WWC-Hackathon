@@ -4,13 +4,9 @@ development:
  database: calendar_development
  #database: evac_development
  pool: 5
- username: marunbai
- password: 123456654321
 
 test: &TEST
  adapter: postgresql
  encoding: utf8
  database: calendar_test
  pool: 5
- username: marunbai
- password: 123456654321

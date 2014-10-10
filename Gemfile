@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+  source 'https://rubygems.org'
 
 gem 'rails', '4.1.1'
 
@@ -24,7 +24,7 @@ gem 'high_voltage' #static page creator
 gem 'devise'
 
 gem 'autoprefixer-rails'
-gem "cancancan"
+gem "cancancan" # authorization gem
 gem 'premailer-rails'
 gem 'acts_as_commentable_with_threading'
 gem 'will_paginate', '~> 3.0'
