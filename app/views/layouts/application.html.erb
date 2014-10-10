@@ -60,9 +60,8 @@
       <div class="navbar-header">
         <%= image_tag('RLC_LOGO.png', class: 'pull-left', style: "height: 80px") %>
         <%= link_to site_name, site_url, :class => "navbar-brand", style: 'font-size: 25px; padding-top: 30px; margin-left: 0;' %>
-      </div>
-      <div class="collapse navbar-collapse" style='padding-top: 21px; font-size: 16px;'>
-        <ul class="nav nav-pills pull-right">
+
+        <ul class="nav nav-pills pull-right" style='padding-top: 21px; font-size: 16px;'>
           <% if user_signed_in? %>
             <% if current_user.super_admin? %>
               <li> <%= link_to 'Admin', admin_path %> </li>
@@ -74,7 +73,8 @@
             <li> <%= link_to "Sign up", new_user_registration_path %> </li>
           <% end %>
         </ul>
-      </div><!-- /.nav-collapse -->
+      </div>
+      
     </div><!-- /.container -->
 
   </div><!-- /.navbar -->

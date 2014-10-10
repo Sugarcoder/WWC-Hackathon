@@ -15,7 +15,7 @@ class Category < ActiveRecord::Base
   end
 
   def sponsorship_within_range(starting_date, ending_date)
-    EventsCategories.joins(:event).where('events_categories.category_id = ? AND starting_time BETWEEN ? AND ?', self.id, starting_date, ending_date)
+    EventsCategories.joins(:event).where('events_categories.category_id = ? AND starting_time BETWEEN ? AND ?', self.id, starting_date, ending_date + 1.day)
   end
 
 end
