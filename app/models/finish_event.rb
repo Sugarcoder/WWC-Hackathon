@@ -40,12 +40,8 @@ class FinishEvent
 
     # Update attendees' user_event_relationship to
     unfinished_users_events = participations.where('user_id IN (?) AND status = 1', attendee_ids)
-    p '==============='
-    p unfinished_users_events
-    unfinished_users_events.update_all("status = 3")
-    p '*****************==============='
-    p unfinished_users_events
     unfinished_user_ids = unfinished_users_events.map(&:user_id)  
+    unfinished_users_events.update_all("status = 3")
 
     send_thank_you_email(unfinished_user_ids, event)
   end
