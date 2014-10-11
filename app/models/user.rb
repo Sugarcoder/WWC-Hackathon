@@ -69,6 +69,10 @@ class User < ActiveRecord::Base
     check_user_event_relationship(event, 'recurring', user_event_relationship = nil)
   end
 
+  def attended_event?(event, user_event_relationship = nil)
+    check_user_event_relationship(event, 'attended', user_event_relationship = nil)
+  end
+
   def change_user_role(email, type)
     return { error: true, message: 'Only super admin could upgrade user'} unless self.super_admin?
     return { error: true, message: 'Email is required'} unless email.present?
@@ -127,6 +131,8 @@ class User < ActiveRecord::Base
       user_event_relationship.waiting?
     when 'recurring'
       user_event_relationship.attend_recurring?
+    when 'attended'
+      user_event_relationship.attended?
     end
   end
 

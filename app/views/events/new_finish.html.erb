@@ -20,7 +20,11 @@
         <ul class='list-group'>
           <% @event_attendees.each do |user| %>
               <li class="list-group-item">
-                <%= check_box_tag 'user_ids[]', user.id, true %>  
+                <% if @status == 'edit_finish' %>
+                  <%= check_box_tag 'user_ids[]', user.id, user.attended_event?(@event) %> 
+                <% else %>
+                  <%= check_box_tag 'user_ids[]', user.id, true %> 
+                <% end %> 
                 <span><%= user.full_name %></span>
               </li>
           <% end if @event_attendees%>

@@ -2,7 +2,7 @@ class UsersEvents < ActiveRecord::Base
    enum status: [ :not_decided, :attending, :waiting, :attended ]
    validate :event_validation
    validate :duplicate_validation
-   validate :can_attend?
+   validate :can_attend?, on: :create
 
    belongs_to :event
    belongs_to :user

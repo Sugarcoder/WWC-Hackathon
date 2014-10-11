@@ -5,7 +5,7 @@ class FinishEvent
     @total_pound = total_pound
     @category_pounds = category_pounds
     @category_ids = category_ids
-    @attendee_ids = attendee_ids
+    @attendee_ids = attendee_ids || []
   end
 
   def run(event)
@@ -33,8 +33,16 @@ class FinishEvent
   end
 
   def confirm_user_attendence(attendee_ids, event)
+    participations = event.users_events
+
+    # Update attendee's user_event_relationship to unfinished if it was set wrong
+    finished_user_ids = participations.where(status: 3).map(&:user_id)
+    user_ids = finished_user_ids - attendee_ids
+    finished_users_events = participations.where('user_id IN (?) AND status = 3', user_ids)
+    finished_users_events.update_all("status = 1")
+
     # Update attendees' user_event_relationship to finished
-    unfinished_users_events =  UsersEvents.where('user_id IN (?) AND event_id = ? AND status != 3', attendee_ids, event.id)
+    unfinished_users_events = participations.where('user_id IN (?) AND status = 1', attendee_ids) 
     unfinished_users_events.update_all("status = 3")
 
     unfinished_user_ids = unfinished_users_events.map(&:user_id)
