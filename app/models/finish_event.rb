@@ -11,7 +11,6 @@ class FinishEvent
   def run(event)
     return  { error: true, message: 'Event not found' } if event.nil?
     return  { error: true, message: 'The event is already finished' } if event.is_finished 
-    
     if event.update_attributes(is_finished: true, pound: @total_pound )
       confirm_user_attendence(@attendee_ids, event)
       record_pounds_for_each_category(@category_pounds, @category_ids, event)
@@ -23,9 +22,7 @@ class FinishEvent
 
   def update(event)
     return  { error: true, message: 'Event not found' } if event.nil?
-    
     confirm_user_attendence(@attendee_ids, event)
-
     event.update_attribute(:pound, @total_pound)
 
     event.events_categories.destroy_all
@@ -41,11 +38,15 @@ class FinishEvent
     finished_users_events = participations.where('user_id IN (?) AND status = 3', user_ids)
     finished_users_events.update_all("status = 1")
 
-    # Update attendees' user_event_relationship to finished
-    unfinished_users_events = participations.where('user_id IN (?) AND status = 1', attendee_ids) 
+    # Update attendees' user_event_relationship to
+    unfinished_users_events = participations.where('user_id IN (?) AND status = 1', attendee_ids)
+    p '==============='
+    p unfinished_users_events
     unfinished_users_events.update_all("status = 3")
+    p '*****************==============='
+    p unfinished_users_events
+    unfinished_user_ids = unfinished_users_events.map(&:user_id)  
 
-    unfinished_user_ids = unfinished_users_events.map(&:user_id)
     send_thank_you_email(unfinished_user_ids, event)
   end
 
