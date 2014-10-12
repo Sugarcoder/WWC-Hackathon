@@ -28,6 +28,7 @@ gem "cancancan" # authorization gem
 gem 'premailer-rails'
 gem 'acts_as_commentable_with_threading'
 gem 'will_paginate', '~> 3.0'
+gem 'will_paginate-bootstrap' # bootstrap css with will_paginate
 gem 'aws-sdk'
 gem 'paperclip'
 gem 'redis'

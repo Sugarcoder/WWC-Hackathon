@@ -26,19 +26,13 @@ class UsersController < ApplicationController
 
     case @type 
     when 'upcoming' 
-      @events, @events_count = @user.attending_events( page: @page, per_page: 3 )
+      @events, @events_count = @user.attending_events( page: @page )
     when 'attended'
       @events, @events_count = @user.attended_events( page: @page )
     when 'unfinished'
       @events, @events_count = @user.unfinished_events( page:@page )
     when 'finished'
       @events, @events_count = @user.finished_events( page: @page )
-    end
-
-    @page = @page + 1
-
-    if @page > 2
-      render partial: 'user_events', locals: { user: @user, events: @events, type: @type, page: @page }
     end
   end
 

@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Event id:</strong>
+  <%= @image.event_id %>
+</p>
+
+<p>
+  <strong>Event Images:</strong>
+  <%= link_to 'link to event photo page', event_photo_path(@image.event_id), target: "_blank" %>
+</p>
+
+<p>
+  <%= image_tag @image.file.url %>
+</p>
+
+<%= link_to 'Edit', edit_image_path(@image) %> |
+<%= link_to 'Back', images_path %>

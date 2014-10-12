@@ -32,6 +32,14 @@
   </div>
 
   <div class="panel panel-default">
+    <div class="panel-heading"> Photos </div>
+    <div class="panel-body">
+      <p><%= link_to 'New Photo', new_image_path, class: 'btn btn-primary' %></p>
+      <p><%= link_to 'All Photos', images_path, class: 'btn btn-primary' %></p>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
     <div class="panel-heading"> Upgrade User/ Downgrade User </div>
     <div class="panel-body">
       <%= form_tag(change_user_role_path, method: "post", role: "form", class: 'form-horizontal', id: "upgrade_user") do %>
