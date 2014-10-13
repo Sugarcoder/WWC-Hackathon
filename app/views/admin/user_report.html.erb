@@ -1,0 +1,27 @@
+<h1>User Report</h1>
+
+<table class='table' id="user-report" >
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th># of Events Attended</th>
+      <th># of Events Missed</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @report.each do |user| %>
+      <tr>
+        <td><%= user[:id] %></td>
+        <td><%= user[:name] %></td>
+        <td><%= user[:email] %></td>
+        <td><%= user[:attened_event_count] %></td>
+        <td><%= user[:missed_event_count] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

@@ -33,6 +33,7 @@ gem 'aws-sdk'
 gem 'paperclip'
 gem 'redis'
 gem 'sidekiq'
+gem 'jquery-tablesorter' #table sorter for user report
 
 #bootstrap
 gem 'bootstrap-sass', '~> 3.2.0'

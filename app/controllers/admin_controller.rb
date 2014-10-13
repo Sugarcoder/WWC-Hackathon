@@ -36,4 +36,9 @@ class AdminController < ApplicationController
     @categories = Category.all
   end
 
+  def user_report
+    create_user_report = CreateUserReport.new('normal')
+    @report = create_user_report.run
+  end
+
 end

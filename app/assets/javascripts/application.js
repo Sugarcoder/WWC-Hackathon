@@ -18,6 +18,8 @@
 //= require ./plugins/bootstrap-select.js
 //= require ./plugins/jquery.form.js
 //= require moment
+//= require jquery-tablesorter/jquery.tablesorter
+//= require jquery-tablesorter/jquery.tablesorter.widgets
 //= require bootstrap-datetimepicker
 //= require bootstrapValidator.min
 //= require bootstrap-sprockets
