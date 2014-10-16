@@ -5,7 +5,7 @@ class FinishEvent
     @total_pound = total_pound
     @category_pounds = category_pounds
     @category_ids = category_ids
-    @attendee_ids = attendee_ids || []
+    @attendee_ids = attendee_ids.map{ |id| id.to_i } || []
   end
 
   def run(event)
@@ -40,7 +40,7 @@ class FinishEvent
 
     # Update attendees' user_event_relationship to
     unfinished_users_events = participations.where('user_id IN (?) AND status = 1', attendee_ids)
-    unfinished_user_ids = unfinished_users_events.map(&:user_id)  
+    unfinished_user_ids = unfinished_users_events.map(&:user_id) 
     unfinished_users_events.update_all("status = 3")
 
     send_thank_you_email(unfinished_user_ids, event)

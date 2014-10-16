@@ -52,7 +52,7 @@
           </div>
           <div class="col-sm-4">
             <label> category </label>
-            <%= select_tag('category_ids[]', options_for_select( Category.all.collect {|category| [category.name, category.id]},  event_category_record.category_id ), { class: 'selectpicker form-control' }) %>
+            <%= select_tag('category_ids[]', options_for_select( Category.all.order('name').collect {|category| [category.name, category.id]},  event_category_record.category_id ), { class: 'selectpicker form-control' }) %>
           </div>
 
           <div class="col-sm-2">
@@ -70,7 +70,7 @@
         </div>
         <div class="col-sm-4">
           <label> category </label>
-          <%= select_tag('category_ids[]', options_for_select( Category.all.collect {|category| [category.name, category.id]} ), { class: 'selectpicker form-control' }) %>
+          <%= select_tag('category_ids[]', options_for_select( Category.all.order('name').collect {|category| [category.name, category.id]} ), { class: 'selectpicker form-control' }) %>
         </div>
 
         <div class="col-sm-2">
@@ -88,7 +88,7 @@
       </div>
       <div class="col-sm-4">
         <label> category </label>
-        <%= select_tag('category_ids[]', options_for_select( Category.all.collect {|category| [category.name, category.id]} ), { class: 'category_id_picker form-control' }) %>
+        <%= select_tag('category_ids[]', options_for_select( Category.all.order('name').collect {|category| [category.name, category.id]} ), { class: 'category_id_picker form-control' }) %>
       </div>
       <div class="col-sm-2">
           <button type="button" class="btn btn-default" id="category-pound-remove-button">

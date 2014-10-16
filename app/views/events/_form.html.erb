@@ -76,7 +76,7 @@
 
   <div class="form-group">
     <div class="col-sm-4">
-      <%= f.select(:category_id, Category.all.collect {|ca| [ca.name, ca.id]}, {}, { class: 'selectpicker' }) %>
+      <%= f.select(:category_id, Category.all.order('name').collect {|ca| [ca.name, ca.id]}, {}, { class: 'selectpicker' }) %>
     </div>
   </div>
 
