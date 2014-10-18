@@ -153,9 +153,9 @@ class User < ActiveRecord::Base
                 end
               when 'finished'
                 if super_admin?
-                  Event.includes(:events_categories).finished.order( 'updated_at DESC' )
+                  Event.includes(:events_categories).finished.order( 'starting_time DESC' )
                 else
-                  Event.includes(:events_categories).with_leader(id).finished.order( 'updated_at DESC' )
+                  Event.includes(:events_categories).with_leader(id).finished.order( 'starting_time DESC' )
                 end
               end
 
