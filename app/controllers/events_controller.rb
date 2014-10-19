@@ -65,45 +65,32 @@ class EventsController < ApplicationController
   end
 
   def calendar
-    if params[:date]
-      @date = Date.parse(params[:date])
-      starting_time = @date.to_time.beginning_of_month
-      ending_time = @date.to_time.end_of_month
-    else
-      @date = Date.today
-      starting_time = Time.current.beginning_of_month
-      ending_time = Time.current.end_of_month
-    end
+    @date = params[:date].present? ? Date.parse(params[:date]) :  Date.today    
+    starting_time = @date.to_time.beginning_of_month
+    ending_time = @date.to_time.end_of_month
 
-    @location_name = params["location"]
-
-    if @location_name && @location_name != "all"
-      location = Location.find_by_name(params["location"])
-      @events = location.events.within_time_range(starting_time, ending_time) if location
-    else
-      @events = Event.within_time_range(starting_time, ending_time)
-    end
-
+    @location_name = params["location"] 
+    location = Location.find_by_name(params["location"])
+    @events = location ? location.events.within_time_range(starting_time, ending_time) :  Event.within_time_range(starting_time, ending_time)
     @events_by_date = @events.group_by{|e| e.starting_time.strftime("%Y-%m-%d")}
    
     @locations = Location.all.sort_by{ |location| location.name.downcase }
-   
-    render 'daily_calendar' if params[:type] == 'daily'
   end
 
   def attend
     @type = params[:status]
     @event = Event.find_by_id(params[:event_id])
-    return render 'attend' if @event.nil?
+    return redirect_to calendar_path, alert: "Event not found." if @event.nil?
 
     case @type
     when 'attend'
-      users_events = UsersEvents.new(user_id: current_user.id, event_id: params[:event_id], status: 1)
+      status = 1
       notice = 'You successfully registered for this event.'
     when 'wait'
-      users_events = UsersEvents.new(user_id: current_user.id, event_id: params[:event_id], status: 2)
+      status = 2
       notice = 'You successfully joined the waiting list for this event.'
     end
+    users_events = UsersEvents.new(user_id: current_user.id, event_id: params[:event_id], status: status)
 
     respond_to do |format|
       if users_events.save
@@ -200,7 +187,6 @@ class EventsController < ApplicationController
 
   def photo
     @images = @event.images
-    @receipt = @event.receipt
   end
 
   def attend_recurring  
@@ -226,7 +212,8 @@ class EventsController < ApplicationController
     users_events = UsersEvents.joins(:event).where('user_id = ? and parent_id = ? and starting_time >= ?', current_user.id, @event.main_recurring_event_id, @event.starting_time )
     users_events.destroy_all
     flash[:alert] = 'all future events that is related to this recurring event canceled'
-    return redirect_to :back
+    
+    redirect_to :back
   end
 
   private
