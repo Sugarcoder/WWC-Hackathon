@@ -3,7 +3,7 @@ search_autocomplete('#upgrade_to_leader_rescuer_input', '/search/users/normal_us
 search_autocomplete('#downgrade_to_normal_user_input', '/search/users/lead_rescuer', function(){});
 search_autocomplete('#assign_event_to_leader_input', '/search/users/lead_rescuer', function(){});
 search_autocomplete('#assign_event_user_input', '/search/users', function(){});
-
+search_autocomplete('#cancel_event_user_input', '/search/users', function(){});
 
 
 

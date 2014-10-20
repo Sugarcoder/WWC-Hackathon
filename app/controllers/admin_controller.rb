@@ -28,6 +28,20 @@ class AdminController < ApplicationController
     end
   end
 
+  def cancel_event
+    user = User.find_by_email(params['email'])
+    event = Event.find_by_id(params['event_id'])
+    return redirect_to :back, alert: 'User not found' if user.nil?
+    return redirect_to :back, alert: 'Event not found' if event.nil?
+    user_event_relationship = UsersEvents.find_by(user_id: user.id, event_id: event.id, status: 1)
+    return redirect_to :back, alert: "#{user.full_name} did not attend #{event.title.titleize} with id #{event.id}" if user_event_relationship.nil?
+    if user_event_relationship.destroy
+      redirect_to :back, notice: "Canceled #{user.full_name} to event #{event.title.titleize} on #{event.starting_date}"
+    else
+      redirect_to :back, alert: user_event_relationship.errors.full_messages.join(', ')
+    end
+  end
+
   def show_pounds_for_categories
     @months = months_of_current_year
     @starting_date = params['date'] ? Date.parse(params['date']) : Date.today.beginning_of_month

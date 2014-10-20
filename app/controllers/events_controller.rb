@@ -115,7 +115,7 @@ class EventsController < ApplicationController
     end
 
     respond_to do |format|
-      if users_events.destroy
+      if users_events.can_cancel? && users_events.destroy
         notice = 'You canceled this event.'
         format.html { redirect_to :back, alert: notice }
         format.json { render json: { event_id: @event.id} }

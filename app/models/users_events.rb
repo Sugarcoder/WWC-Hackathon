@@ -8,7 +8,6 @@ class UsersEvents < ActiveRecord::Base
    belongs_to :user
 
    after_create :after_create_action
-   before_destroy :can_cancel?
    after_destroy :send_email_and_decrease_user_count
 
   def event_validation

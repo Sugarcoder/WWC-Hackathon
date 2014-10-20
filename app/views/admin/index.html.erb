@@ -69,8 +69,21 @@
         <label> User ID, Name or Email </label>
         <%= text_field_tag 'email', nil, class: 'form-control', id: 'assign_event_user_input' %>
         <label> Event ID </label>
-        <%= text_field_tag 'event_id', nil, class: 'form-control', id: 'assign_event_user' %>
+        <%= text_field_tag 'event_id', nil, class: 'form-control' %>
         <%= submit_tag 'Assign', class: 'btn btn-success' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading"> Cancel Event </div>
+    <div class="panel-body">
+      <%= form_tag admin_cancel_event_path, method: 'post', role: 'form', class: 'form-horizontal', id: "cancel_event" do %>
+        <label> User ID, Name or Email </label>
+        <%= text_field_tag 'email', nil, class: 'form-control', id: 'cancel_event_user_input' %>
+        <label> Event ID </label>
+        <%= text_field_tag 'event_id', nil, class: 'form-control' %>
+        <%= submit_tag 'Cancel', class: 'btn btn-danger' %>
       <% end %>
     </div>
   </div>

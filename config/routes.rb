@@ -65,6 +65,7 @@ delete  '/comments/:id' => 'comments#destroy'
   get   '/admin' => 'admin#index', as: 'admin'
   post  '/admin/change-user-role' => 'admin#change_user_role', as: 'change_user_role'
   post  '/admin/assign-event' => 'admin#assign_event', as: 'assign_event'
+  post  '/admin/cancel-event' => 'admin#cancel_event', as: 'admin_cancel_event'
   get   '/admin/category/pounds' => 'admin#show_pounds_for_categories', as: 'show_categories_pounds'
   get   '/admin/user-report' => 'admin#user_report', as: 'user_report'
 
