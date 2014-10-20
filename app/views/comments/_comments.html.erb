@@ -1,8 +1,10 @@
 <% comments.each do |comment| %>
   <% user = comment.user %>
-  <li class="media">
-   <%= render partial: '/comments/comment', locals: { user: user, comment: comment } %>
-  </li>
+  <% if user %>
+    <li class="media">
+     <%= render partial: '/comments/comment', locals: { user: user, comment: comment } %>
+    </li>
+  <% end %>
 <% end if comments %>
 
 <% if comments.total_pages > comments.current_page %>

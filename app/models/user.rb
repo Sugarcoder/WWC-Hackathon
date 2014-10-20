@@ -3,7 +3,9 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   enum role: [ :normal, :admin, :super_admin ]
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
-  has_many :users_events, :foreign_key => 'user_id', :class_name => "UsersEvents"
+  has_many :users_events, :foreign_key => 'user_id', :class_name => "UsersEvents", dependent: :destroy
+
+  after_destroy :destroy_comments
   
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   has_attached_file :avatar, styles: {
@@ -19,6 +21,10 @@ class User < ActiveRecord::Base
     @geometry ||= {}
     path = (avatar.options[:storage]==:s3) ? avatar.url(style) : avatar.path(style)
     @geometry[style] ||= Paperclip::Geometry.from_file(path)
+  end
+
+  def destroy_comments
+    Comment.where(user_id: id).destroy_all
   end
 
   def full_name

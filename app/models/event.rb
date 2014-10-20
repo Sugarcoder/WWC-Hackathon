@@ -23,6 +23,7 @@ class Event < ActiveRecord::Base
 
   after_commit :after_create_action, on: :create
   before_update :change_leader
+  after_destroy :destroy_comments
 
   validate :starting_time_after_current_time, on: :create
   validate :starting_time_before_ending_time
@@ -44,6 +45,10 @@ class Event < ActiveRecord::Base
   def after_create_action
     sign_up_lead_rescuer
     send_email_to_lead_rescuer
+  end
+
+  def destroy_comments
+    self.comment_threads.destroy_all
   end
 
   def sign_up_lead_rescuer
