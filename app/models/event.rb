@@ -212,7 +212,7 @@ class Event < ActiveRecord::Base
     end
 
     def calculate_recurring_time( event, recurring_ending_date, event_days = nil )
-      event_days = event_days.map { |day| day.to_i } if event_days
+      event_days = event_days ? event_days.map { |day| day.to_i } : []
       starting_date = event.starting_time.to_date + 1.day
       ending_date = parse_event_date(recurring_ending_date)
       # check if ending date time is later than the event ending time, exclude or include the ending day depends on the result
