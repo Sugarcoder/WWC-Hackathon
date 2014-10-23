@@ -1,11 +1,11 @@
 class FinishEvent
   include EventsCategoriesHelper
 
-  def initialize(total_pound, category_pounds, category_ids, attendee_ids)
+  def initialize(total_pound, category_pounds, category_ids, attendee_ids = [])
     @total_pound = total_pound
     @category_pounds = category_pounds
     @category_ids = category_ids
-    @attendee_ids = attendee_ids.map{ |id| id.to_i } || []
+    @attendee_ids = attendee_ids.map{ |id| id.to_i }
   end
 
   def run(event)
