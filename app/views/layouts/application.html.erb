@@ -88,8 +88,16 @@
       <li><a href="#team">Our Team</a></li>
       <li><a href="#thanks">Special Thanks</a></li>
       <li class="divider"></li>
-      <li><a href="#">Sign In</a></li>
-      <li><a href="#">Sign Up</a></li>
+      <% if user_signed_in? %>
+        <% if current_user.super_admin? %>
+          <li> <%= link_to 'Admin', admin_path %> </li>
+        <% end %>
+        <li> <%= link_to current_user.firstname, user_path(current_user), style: 'margin-top: -30px;' %></li>
+        <li ><%= link_to "Log out", destroy_user_session_path, method: 'delete' %></li>
+      <% else %>
+        <li> <%= link_to "Log in", new_user_session_path %> </li>
+        <li> <%= link_to "Sign up", new_user_registration_path %> </li>
+      <% end %>
     </ul>
   </div><!-- /.navbar-collapse -->
 
@@ -106,7 +114,7 @@
     <img src="img/logo.png" alt="">
     <div class="text">
       <h1>WHAT WE DO</h1>
-      <p>Text goes here</p>
+      <p>We’re a non-profit organization on a mission to redefine food rescue and end food waste.</p>
     </div>
     <!-- /.text -->
   </div>
@@ -117,7 +125,7 @@
 <section class="section2">
   <div class="left">
     <h3>Urban hunger</h3>
-    <p>text goes here</p>
+    <p>1 in 7 Americans face food insecurity. 14.5% of households, or 49 million Americans, were hungry, or at risk of hunger, in 2012.</p>
   </div>
   <!-- /.left -->
   <div class="right">
@@ -131,8 +139,19 @@
 <section class="main-section red">
   <div class="left">
     <div class="inner-container">
-      <h1>Header</h1>
-      <p>Content goes here</p>
+      <h1>Become a Rescuer</h1>
+      <br>
+
+      <p>Rescuers help bring food from our partners to a local NYC homeless shelter. It takes less than an hour and you can set your own schedule, whether you want to help out daily, weekly, or sporadically.
+      </p>
+      <br>
+
+      <p>
+      2 BILLION PEOPLE could be fed yearly with the amount of food America throws away each year – that is enough to end food hunger in the world. Be a part of the solution and join us and other rescuers to help deliver excess food to those who need it.
+      </p>
+      <br>
+
+      <p><%= link_to "Sign Up with RLC", new_user_registration_path , class: "rlc-button contribute-button btn btn-success text-center" %></p>
     </div>
     <!-- /.inner-container -->
   </div>
@@ -150,7 +169,7 @@
 <section class="main-section yellow">
   <div class="left">
     <div class="inner-container">
-      <h1>Header</h1>
+      <h1>Become a Partner</h1>
       <p>Content goes here</p>
     </div>
     <!-- /.inner-container -->
@@ -169,7 +188,7 @@
 <section class="main-section blue">
   <div class="left">
     <div class="inner-container">
-      <h1>Header</h1>
+      <h1>Donate</h1>
       <p>Content goes here</p>
     </div>
     <!-- /.inner-container -->
