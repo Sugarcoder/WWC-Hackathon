@@ -69,8 +69,8 @@
     <a href="#">Sign up</a>
   </div>
   <!-- /.top -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+  <div class="navbar-header2">
+    <button type="button" class="collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -79,56 +79,71 @@
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="main-navigation collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <div class="main-navigation collapse in" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-      <li class="donate"><a href="#donate">Donate</a></li>
+      <li class="donate">
+        <a href="#donate">
+          <i class="fa fa-gift"></i>
+          <span>Donate</span>
+        </a>
+      </li>
       <li class="active"><a href="#mission">Mission</a></li>
       <li><a href="#schedule">Volunteer Schedule</a></li>
       <li><a href="#partner">Become a Partner</a></li>
       <li><a href="#team">Our Team</a></li>
       <li><a href="#thanks">Special Thanks</a></li>
-      <li class="divider"></li>
-      <li><a href="#">Sign In</a></li>
-      <li><a href="#">Sign Up</a></li>
+      <li class="mobile-show"><a href="#">Sign In</a></li>
+      <li class="mobile-show"><a href="#">Sign Up</a></li>
     </ul>
   </div><!-- /.navbar-collapse -->
 
 </header>
 
 <div class="announcement">
-  <a href="#" class="close">x</a>
+  <a href="#" class="close"><i class="fa fa-times"></i></a>
   <p>Announcement goes here</p>
 </div>
 <!-- /.announcement -->
 
-<section class="jumbotron">
-  <div class="container">
-    <img src="img/logo.png" alt="">
-    <div class="text">
-      <h1>WHAT WE DO</h1>
-      <p>Text goes here</p>
+<section class="jumbo" style="background-image: url(/assets/homepage-image.jpg);">
+  <div class="inner">
+    <div class="container">
+      <div class="table-wrapper">
+        <div class="img">
+          <%= image_tag('RLC_LOGO.png') %>
+        </div>
+        <!-- /.img -->
+        <div class="text">
+          <h1>WHAT WE DO</h1>
+          <p>Text goes here</p>
+          <section class="row section2">
+            <div class="left col-md-6">
+              <div class="orange-line"></div>
+              <h3>Urban hunger</h3>
+              <p>text goes here</p>
+            </div>
+            <!-- /.left -->
+            <div class="right col-md-6">
+              <div class="green-line"></div>
+              <h3>Food Waste</h3>
+              <p>text goes here</p>
+            </div>
+            <!-- /.right -->
+          </section>
+          <!-- /.section2 -->
+        </div>
+        <!-- /.text -->
+      </div>
+      <!-- /.table-wrapper -->
     </div>
-    <!-- /.text -->
+    <!-- /.container -->
   </div>
-  <!-- /.container -->
+  <!-- /.inner -->
 </section>
-<!-- /.jumbotron -->
+<!-- /.jumbo -->
 
-<section class="section2">
-  <div class="left">
-    <h3>Urban hunger</h3>
-    <p>text goes here</p>
-  </div>
-  <!-- /.left -->
-  <div class="right">
-    <h3>Food Waste</h3>
-    <p>text goes here</p>
-  </div>
-  <!-- /.right -->
-</section>
-<!-- /.section2 -->
 
-<section class="main-section red">
+<section class="main-section green">
   <div class="left">
     <div class="inner-container">
       <h1>Header</h1>
@@ -145,7 +160,7 @@
   </div>
   <!-- /.right -->
 </section>
-<!-- /.red -->
+<!-- /.green -->
 
 <section class="main-section yellow">
   <div class="left">
@@ -166,6 +181,25 @@
 </section>
 <!-- /.yellow -->
 
+<section class="main-section red">
+  <div class="left">
+    <div class="inner-container">
+      <h1>Header</h1>
+      <p>Content goes here</p>
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.left -->
+  <div class="right">
+    <div class="inner-container">
+      form goes here
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.right -->
+</section>
+<!-- /.red -->
+
 <section class="main-section blue">
   <div class="left">
     <div class="inner-container">
@@ -184,6 +218,25 @@
   <!-- /.right -->
 </section>
 <!-- /.blue -->
+
+<section class="main-section orange">
+  <div class="left">
+    <div class="inner-container">
+      <h1>Header</h1>
+      <p>Content goes here</p>
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.left -->
+  <div class="right">
+    <div class="inner-container">
+      form goes here
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.right -->
+</section>
+<!-- /.orange -->
 
 
 
