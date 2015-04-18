@@ -11,7 +11,7 @@
 
   <title><%= full_title(yield(:title)) %></title>
   <%= favicon_link_tag 'favicon.ico' %>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 
@@ -55,6 +55,138 @@
 
 </head>
 <body>
+<header class="main-header">
+  <div class="logo">
+    <a href="#">
+      <%= image_tag('RLC_LOGO.png') %>
+      Rescuing Leftover Cuisine
+    </a>
+  </div>
+  <!-- /.logo -->
+  <div class="top">
+    <a href="#">Log in</a>
+    &nbsp; 
+    <a href="#">Sign up</a>
+  </div>
+  <!-- /.top -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="main-navigation collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li class="donate"><a href="#donate">Donate</a></li>
+      <li class="active"><a href="#mission">Mission</a></li>
+      <li><a href="#schedule">Volunteer Schedule</a></li>
+      <li><a href="#partner">Become a Partner</a></li>
+      <li><a href="#team">Our Team</a></li>
+      <li><a href="#thanks">Special Thanks</a></li>
+      <li class="divider"></li>
+      <li><a href="#">Sign In</a></li>
+      <li><a href="#">Sign Up</a></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+
+</header>
+
+<div class="announcement">
+  <a href="#" class="close">x</a>
+  <p>Announcement goes here</p>
+</div>
+<!-- /.announcement -->
+
+<section class="jumbotron">
+  <div class="container">
+    <img src="img/logo.png" alt="">
+    <div class="text">
+      <h1>WHAT WE DO</h1>
+      <p>Text goes here</p>
+    </div>
+    <!-- /.text -->
+  </div>
+  <!-- /.container -->
+</section>
+<!-- /.jumbotron -->
+
+<section class="section2">
+  <div class="left">
+    <h3>Urban hunger</h3>
+    <p>text goes here</p>
+  </div>
+  <!-- /.left -->
+  <div class="right">
+    <h3>Food Waste</h3>
+    <p>text goes here</p>
+  </div>
+  <!-- /.right -->
+</section>
+<!-- /.section2 -->
+
+<section class="main-section red">
+  <div class="left">
+    <div class="inner-container">
+      <h1>Header</h1>
+      <p>Content goes here</p>
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.left -->
+  <div class="right">
+    <div class="inner-container">
+      form goes here
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.right -->
+</section>
+<!-- /.red -->
+
+<section class="main-section yellow">
+  <div class="left">
+    <div class="inner-container">
+      <h1>Header</h1>
+      <p>Content goes here</p>
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.left -->
+  <div class="right">
+    <div class="inner-container">
+      form goes here
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.right -->
+</section>
+<!-- /.yellow -->
+
+<section class="main-section blue">
+  <div class="left">
+    <div class="inner-container">
+      <h1>Header</h1>
+      <p>Content goes here</p>
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.left -->
+  <div class="right">
+    <div class="inner-container">
+      form goes here
+    </div>
+    <!-- /.inner-container -->
+  </div>
+  <!-- /.right -->
+</section>
+<!-- /.blue -->
+
+
+
   <div class="navbar navbar-static-top" role="navigation">
     <div class="container">
       <div class="navbar-header">

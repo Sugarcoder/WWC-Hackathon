@@ -23,268 +23,268 @@ $static-text-color: #09C; /* Orange */
 @import "bootstrap";
 @import "bootstrap-datetimepicker";
 
-html, body{
-  height: 100%;
+.bgeffect{
+  -webkit-transition: background 0.3s ease;
+  -moz-transition: background 0.3s ease;
+  -ms-transition: background 0.3s ease;
+  -o-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+}
+.noeffect{
+  -webkit-transition: all 0 ease;
+  -moz-transition: all 0 ease;
+  -ms-transition: all 0 ease;
+  -o-transition: all 0 ease;
+  transition: all 0 ease;
+}
+.effect{
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
+$yellowbg: yellow;
+$bluebg: blue;
+$redbg: red;
 
-.navbar{
-  .navbar-header{
-    width: 100%;
-    min-width: 700px;
+body{
+  font-size: 100%;
+  font-family: Arial, sans-serif;
+}
+a{
+  color: blue;
+  &:hover,
+  &:active,
+  &:focus{
+    color: #000;
+    text-decoration: none;
   }
 }
-
-#main-container{
-  min-height: 500px;
+h1,h2,h3,h4,h5,h6{
+  font-weight: bold;
+}
+.clear{
+  display: block;
+  content: '';
+  clear: both;
 }
 
-footer{
-  margin-top: 100px;
-  font-family: 'Proxima';
-  padding: 30px 50px 30px 50px;
-  background: #000 image-url("footer_background.png");
-  color: #FFF;
-  .left-block{
-    padding: 20px;
-
-    ol{
-      margin-top: 20px;
-      font-size: 20px;
-      font-style: italic;
-      font-family: Georgia, Times, serif;
-      font-size: 20px;
-      color: #bfe1f1;
-      vertical-align: middle;
-      a{
-        color: white;
-        font-size: 16px;
-        border-left: 1px solid #eee;
-        padding: 8px;
-      }
-    }
-
-  }
-
-  #copyright{
-    padding: 20px;
-    margin-top: 20px;
-    #mc_embed_signup_footer{
-      label{
-        display: block;
-        font-size: 16px;
-        padding-bottom: 10px;
-        font-weight: bold;
-      }
-      .form-group{
-        margin-left: 0;
-      }
-
-      input.email{
-        max-width: 300px;
-        margin-bottom: 0;
-      }
-
-      input#mc-embedded-subscribe {
-        &:hover{
-          background: #6ccd8f;
-        }
-        width: 165px;
-        font-weight: bold;
-        font-size: 18px;
-        background: #C3C3C3;
-        color: white;
-      }
-    }
-  }
-}
-
-// nav bar
-#menu{
-  margin-bottom: 60px;
-}
-
-.sign_in_wrapper{
-  margin-top: 20px;
-}
-
-.register-notice{
+.button{
   display: inline-block;
-  max-width: 200px;
-  margin-right: 24px;
-  vertical-align: top;
+  border: 1px solid #d5a244;
+  border-radius: 3px;
+  color: #d5a244;
+  padding: 5px 30px;
+  &:hover{
+    color: #d08e14;
+    border-color: #d08e14;
+    background-color: #fcf5eb;
+  }
+}
+.mobile-show{
+  display: none!important;
+}
+.mobile-hidden{
+  display: block!important;
 }
 
-.word-crop{
+.container{
+  max-width: 1050px;
+}
+
+/*--------------------- SECTIONS ---------------------*/
+.main-section {
+  display: table;
+  width: 100%;
+  font-size: 1.4em;
+  .left {
+    display: table-cell;
+    vertical-align: top;
+    overflow: hidden;
+    .inner-container {
+      float: right;
+    }
+  }
+  .right {
+    text-align: left;
+    overflow: hidden;
+    .inner-container {
+      float: left;
+    }
+  }
+  .inner-container {
+    width: 585px;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.1);
+  }
+}
+/*--------------------- HEADER ---------------------*/
+.main-header {
   overflow: hidden;
-  white-space: nowrap; /* Don't forget this one */
-  text-overflow: ellipsis;
-}
-
-.popover {
-  max-width: 700px;
-  width: auto;
-}
-
-// static page text wrapper
-#static-text-wrapper {
-  font-family: 'Proxima';
-
-  padding: 0 20px 50px 20px;
-  line-height: 1.5;
-  font-size: 20px;
-
-  .color-text{
-    color: $static-text-color;
-  }
-
-  .rlc-button{
-    padding: 10px 40px;
-  }
-
-  //home page
-  #mission{
-    border-bottom: solid 1px #CCC;
-    border-top: solid 1px #CCC;
-    font-size: 24px;
-    padding: 80px 20px 60px 20px;
-    margin: 60px;
-  }
-
-  #home-page-left-column{
+  .logo {
+    float: left;
     padding: 20px;
-    border: solid 1px #CCC;
-    margin-top: 20px 10px 0 0;
-    box-shadow: 2px 5px 20px #888;
     img{
-      width: 600px;
+      width: 50px;
+      margin-right: 10px;
+      height: auto;
+    }
+    a{
+      font-size: 1.8em;
+      color: #000;
     }
   }
-
-  .home-page-right-block{
-    padding: 20px;
-    margin-bottom: 20px;
-    position: relative;
-    .textover {
-      z-index: 100;
-      position: absolute;
-      color: #FFF;
-      font-size: 18px;
-      left: 30px;
-      top: 180px;
-      padding: 5px 20px;
-      background-color: #333;
-    }
-    img{
-      opacity: 0.8;
-      box-shadow: 2px 5px 20px #888;
-      width: 368px;
-      &:hover{
-        opacity: 1.0;
+  .top{
+    text-align: right;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    a{
+      color: #555;
+      &:hover,
+      &:focus,
+      &:active{
+        color: #1c2e5a;
       }
     }
   }
-
-  .box-wrapper{
-    margin-top: 50px;
-  }
-
-  .box {
-    background-image: image-url("background_grid_noise.png");
-    .member-title{
-      color: $static-text-color;
-    }
-    &:nth-child(n+1){
-      margin-top: 30px;
-    }
-    .thumbnail{
-      padding: 20px;
-      background-image: image-url("background_grid_noise.png");
-      border: 0;
-    }
-  }
-
-  //Contributor page
-  .contributor-box, .donate-funds-box{
-    min-height: 300px;
-    padding: 0 20px 20px 20px;
-  }
-
-  .contributor-box{
-    .contributor-logo{
-      height: 133px;
-      img{
-        margin-top: 32px;
+}
+/*--------------------- MAIN-NAVIGATION ---------------------*/
+.main-navigation>.nav {
+  &>li{
+    display: inline-block;
+    padding-left: 1px;
+    &>a{
+      background-color: rgba(104,174,195,0.5);
+      padding: 2px 15px;
+      font-size: 1.2em;
+      color: #fff;
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: #68aec3;
+        color: #fff;
       }
     }
-    .google-logo{
-      margin-left: 15px;
+    &.active a {
+      background-color: #68aec3;
     }
   }
-
-  //Donate Funds page
-  .donate-funds-title{
-     height: 100px;
-     padding: 40px 0;
+}
+/*--------------------- RED ---------------------*/
+.red {
+  .left {
+    background-color: $redbg;
+    color: #fff;
   }
-  .donate-funds-description{
-    font-size: 16px;
+  .right {
+    
   }
-
-  //donate Food page
-  #become-member-button{
-    padding: 10px 40px;
-    margin-bottom: 20px;
+}
+.yellow {
+  .left {
+    background-color: $yellowbg;
+    color: #fff;
   }
-  .donate-food-text-block{
-    padding: 20px;
-    ul{
-      font-size: 18px;
-      li{ 
-        margin-bottom: 10px;
-      }
+  .right {
+    
+  }
+}
+.blue {
+  .left {
+    background-color: $bluebg;
+    color: #fff;
+  }
+  .right {
+    
+  }
+}
+.navbar-header {
+  .icon-bar{
+    background-color: #ccc;
+  }
+}
+.navbar {
+  position: relative;
+}
+.main-navigation {
+  float: right;
+}
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------------  ---------------------*/
+/*---------------- SMALL DESKTOP ----------------*/
+@media (max-width: 1199px){
+  .main-section {
+    .inner-container {
+      width: 485px;
     }
   }
-
-  //about page
-  #about-box{
-    padding: 10px;
-  }
-
-  //challenge page
-  .challenge-map{
-    width: 500px;
-    margin: auto;
-  }
-  #challenge-upset-block{
-    margin-top: 30px;
-    border: 2px solid #999;
-    .description{
-      padding: 80px 60px;
+}
+/*---------------- TABLET & DESKTOP ONLY ----------------*/
+@media (min-width: 768px) {
+}
+/*---------------- DESKTOP ONLY ----------------*/
+@media (min-width: 992px) {
+}
+@media (min-width: 1200px) {
+}
+/*---------------- TABLET & MOBILE ----------------*/
+@media (max-width: 991px) {
+  .main-section {
+    .inner-container {
+      width: 375px;
     }
   }
-  #challenge-button-block{
-    margin-top: 30px;
-    .issue{
-      color: #FF6262;
+}
+/*---------------- TABLET ----------------*/
+@media (min-width: 768px) and (max-width: 992px) {
+}
+/*---------------- MOBILE ----------------*/
+@media (max-width: 767px) {
+  .main-section {
+    display: block;
+    .left, .right {
+      display: block;
     }
-    .action{
-      color: #59c780;
+    .inner-container {
+      width: 100%;
     }
   }
-
-  //contribute page
-  .contribute-button{
-    font-size: 20px;
+  .red .right{
+    background-color: $redbg;
+    color: #fff;
   }
-  
-
+  .yellow .right{
+    background-color: $yellowbg;
+    color: #fff;
+  }
+  .blue .right{
+    background-color: $bluebg;
+    color: #fff;
+  }
+}
+/*---------------- SMALL MOBILE ----------------*/
+@media (max-width: 600px) {
+}
+/*---------------- SMALL MOBILE ----------------*/
+@media (max-width: 480px) {
 }
 
+
+/*---------------- CUSTOM ----------------*/
+@media (min-width: 680px) and (max-width: 991px) {
+}
+@media (max-width: 679px) {
+}
 
 
 
