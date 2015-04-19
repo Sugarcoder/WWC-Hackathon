@@ -97,6 +97,7 @@ h1,h2,h3,h4,h5,h6{
   display: table;
   width: 100%;
   font-size: 1.4em;
+  border-bottom: 1px solid #000;
   .left {
     display: table-cell;
     vertical-align: top;
@@ -124,6 +125,7 @@ h1,h2,h3,h4,h5,h6{
   .logo {
     float: left;
     padding: 20px;
+    padding-left: 0;
     img{
       width: 50px;
       margin-right: 10px;
@@ -138,6 +140,7 @@ h1,h2,h3,h4,h5,h6{
     text-align: right;
     font-size: 1.2em;
     padding: 10px 20px;
+    padding-right: 0;
     a{
       color: #555;
       &:hover,
@@ -190,7 +193,7 @@ h1,h2,h3,h4,h5,h6{
 .yellow {
   .left {
     background-color: $yellowbg;
-    color: #fff;
+    color: #2e2e2e;
   }
   .right {
     
@@ -234,7 +237,9 @@ h1,h2,h3,h4,h5,h6{
   padding: 1px 20px;
   font-size: 1.2em;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.4);
-  position: relative;
+  .container{
+    position: relative;
+  }
   .close{
     position: absolute;
     right: 15px;
@@ -249,9 +254,11 @@ h1,h2,h3,h4,h5,h6{
 /*--------------------- JUMBO ---------------------*/
 .jumbo {
   padding-top: 1px;
+  background-image: url(homepage-image.jpg);
+  background-size: cover;
   .inner {
     margin-top: 200px;
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,0.6);
     .table-wrapper{
       display: table;
       width: 100%;
@@ -296,6 +303,9 @@ h1,h2,h3,h4,h5,h6{
 .green-line{
   border-top: 20px solid #a0d698;
 }
+.member{
+  margin-bottom: 20px;
+}
 /*---------------------  ---------------------*/
 /*---------------------  ---------------------*/
 /*---------------------  ---------------------*/
@@ -338,6 +348,9 @@ h1,h2,h3,h4,h5,h6{
     .left, .right {
       display: block;
     }
+    .right{
+      padding-top: 0;
+    }
     .inner-container {
       width: 100%;
     }
@@ -348,7 +361,7 @@ h1,h2,h3,h4,h5,h6{
   }
   .yellow .right{
     background-color: $yellowbg;
-    color: #fff;
+    color: #2e2e2e;
   }
   .blue .right{
     background-color: $bluebg;

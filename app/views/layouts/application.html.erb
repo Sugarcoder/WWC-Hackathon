@@ -56,56 +56,62 @@
 </head>
 <body>
 <header class="main-header">
-  <div class="logo">
-    <a href="#">
-      <%= image_tag('RLC_LOGO.png') %>
-      Rescuing Leftover Cuisine
-    </a>
-  </div>
-  <!-- /.logo -->
-  <div class="top">
-    <a href="#">Log in</a>
-    &nbsp; 
-    <a href="#">Sign up</a>
-  </div>
-  <!-- /.top -->
-  <div class="navbar-header2">
-    <button type="button" class="collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-  </div>
+  <div class="container">
+    <div class="logo">
+      <a href="#">
+        <%= image_tag('RLC_LOGO.png') %>
+        Rescuing Leftover Cuisine
+      </a>
+    </div>
+    <!-- /.logo -->
+    <div class="top">
+      <a href="#">Log in</a>
+      &nbsp; 
+      <a href="#">Sign up</a>
+    </div>
+    <!-- /.top -->
+    <div class="navbar-header2">
+      <button type="button" class="collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="main-navigation collapse in" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
-      <li class="donate">
-        <a href="#donate">
-          <i class="fa fa-gift"></i>
-          <span>Donate</span>
-        </a>
-      </li>
-      <li class="active"><a href="#mission">Mission</a></li>
-      <li><a href="#schedule">Volunteer Schedule</a></li>
-      <li><a href="#partner">Become a Partner</a></li>
-      <li><a href="#team">Our Team</a></li>
-      <li><a href="#thanks">Special Thanks</a></li>
-      <li class="mobile-show"><a href="#">Sign In</a></li>
-      <li class="mobile-show"><a href="#">Sign Up</a></li>
-    </ul>
-  </div><!-- /.navbar-collapse -->
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="main-navigation collapse in" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="donate">
+          <a href="#donate">
+            <i class="fa fa-gift"></i>
+            <span>Donate</span>
+          </a>
+        </li>
+        <li class="active"><a href="#mission">Mission</a></li>
+        <li><a href="#schedule">Volunteer Schedule</a></li>
+        <li><a href="#partner">Become a Partner</a></li>
+        <li><a href="#team">Our Team</a></li>
+        <li><a href="#thanks">Special Thanks</a></li>
+        <li class="mobile-show"><a href="#">Sign In</a></li>
+        <li class="mobile-show"><a href="#">Sign Up</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
 
+  </div>
+  <!-- /.container -->
 </header>
 
 <div class="announcement">
-  <a href="#" class="close"><i class="fa fa-times"></i></a>
-  <p>Announcement goes here</p>
+  <div class="container">
+    <a href="#" class="close"><i class="fa fa-times"></i></a>
+    <p>Announcement goes here</p>
+  </div>
+  <!-- /.container -->
 </div>
 <!-- /.announcement -->
 
-<section class="jumbo" style="background-image: url(/assets/homepage-image.jpg);">
+<section class="jumbo">
   <div class="inner">
     <div class="container">
       <div class="table-wrapper">
@@ -154,7 +160,7 @@
   <!-- /.left -->
   <div class="right">
     <div class="inner-container">
-      form goes here
+      <iframe src="https://www.google.com/calendar/embed?src=c7hicosufi768rsbm8e941l1ligg5lqv%40import.calendar.google.com&ctz=America/Los_Angeles" style="border: 0" width="100%" height="400" frameborder="0" scrolling="no"></iframe>
     </div>
     <!-- /.inner-container -->
   </div>
@@ -173,7 +179,37 @@
   <!-- /.left -->
   <div class="right">
     <div class="inner-container">
-      form goes here
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">Name</label>
+          <div class="col-sm-10">
+            <input type="name" class="form-control" id="name" placeholder="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email" class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="email" placeholder="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="org" class="col-sm-2 control-label">Organization</label>
+          <div class="col-sm-10">
+            <input type="name" class="form-control" id="org" placeholder="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message" class="col-sm-2 control-label">Message</label>
+          <div class="col-sm-10">
+            <textarea name="" class="form-control" id="message" cols="30" rows="5"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Send</button>
+          </div>
+        </div>
+      </form>
     </div>
     <!-- /.inner-container -->
   </div>
@@ -192,7 +228,35 @@
   <!-- /.left -->
   <div class="right">
     <div class="inner-container">
-      form goes here
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="name2" class="col-sm-2 control-label">Name</label>
+          <div class="col-sm-10">
+            <input type="name2" class="form-control" id="name" placeholder="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email2" class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email2" class="form-control" id="email" placeholder="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="org" class="col-sm-2 control-label">Options</label>
+          <div class="col-sm-10">
+            <select name="" id="" class="form-control">
+              <option value="">$10</option>
+              <option value="">$100</option>
+              <option value="">$200</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Donate</button>
+          </div>
+        </div>
+      </form>
     </div>
     <!-- /.inner-container -->
   </div>
@@ -211,7 +275,28 @@
   <!-- /.left -->
   <div class="right">
     <div class="inner-container">
-      form goes here
+      <div class="row member">
+        <div class="col-xs-3">
+          <img src="http://placehold.it/200x200" class="img-responsive" alt="">
+        </div>
+        <!-- /.col-xs-3 -->
+        <div class="col-xs-9">
+          <p>text goes here</p>
+        </div>
+        <!-- /.col-xs-9 -->
+      </div>
+      <!-- /.row member -->
+      <div class="row member">
+        <div class="col-xs-3">
+          <img src="http://placehold.it/200x200" class="img-responsive" alt="">
+        </div>
+        <!-- /.col-xs-3 -->
+        <div class="col-xs-9">
+          <p>text goes here</p>
+        </div>
+        <!-- /.col-xs-9 -->
+      </div>
+      <!-- /.row member -->
     </div>
     <!-- /.inner-container -->
   </div>
