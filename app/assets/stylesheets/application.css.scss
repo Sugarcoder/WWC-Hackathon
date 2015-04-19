@@ -312,7 +312,86 @@ h1,h2,h3,h4,h5,h6{
 .navbar-toggle{
   margin-right: 0 !important;
 }
-/*---------------------  ---------------------*/
+.back-to-top{
+  width: 50px;
+  height: 50px;
+  display: block;
+  border-radius: 50%;
+  background-color: $bluebg;
+  text-align: center;
+  font-size: 2em;
+  color: #fff;
+  line-height: 50px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  box-shadow: 0 2px 4px 1px rgba(0,0,0,0.2);
+}
+html{
+  position: relative;
+}
+/*--------------------- FOOTER ---------------------*/
+footer {
+  font-family: 'Proxima';
+  padding: 30px 50px 30px 50px;
+  background: black url(/assets/footer_background.png);
+  color: #FFF;
+}
+/* line 53, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer .left-block {
+  padding: 20px;
+}
+/* line 56, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer .left-block ol {
+  margin-top: 20px;
+  font-size: 20px;
+  font-style: italic;
+  font-family: Georgia, Times, serif;
+  font-size: 20px;
+  color: #bfe1f1;
+  vertical-align: middle;
+}
+/* line 64, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer .left-block ol a {
+  color: white;
+  font-size: 16px;
+  border-left: 1px solid #eee;
+  padding: 8px;
+}
+/* line 74, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer #copyright {
+  padding: 20px;
+  margin-top: 20px;
+}
+/* line 78, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer #copyright #mc_embed_signup_footer label {
+  display: block;
+  font-size: 16px;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+/* line 84, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer #copyright #mc_embed_signup_footer .form-group {
+  margin-left: 0;
+}
+/* line 88, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer #copyright #mc_embed_signup_footer input.email {
+  max-width: 300px;
+  margin-bottom: 0;
+}
+/* line 93, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer #copyright #mc_embed_signup_footer input#mc-embedded-subscribe {
+  width: 165px;
+  font-weight: bold;
+  font-size: 18px;
+  background: #C3C3C3;
+  color: white;
+}
+/* line 94, /Users/marunbai/Documents/volunteer/app/assets/stylesheets/application.css.scss */
+footer #copyright #mc_embed_signup_footer input#mc-embedded-subscribe:hover {
+  background: #6ccd8f;
+}
 /*---------------------  ---------------------*/
 /*---------------------  ---------------------*/
 /*---------------------  ---------------------*/
@@ -349,24 +428,6 @@ h1,h2,h3,h4,h5,h6{
 }
 /*---------------- MOBILE ----------------*/
 @media (max-width: 767px) {
-  .main-header{
-    background-color: #68aec3;
-    .logo{
-      padding-top: 10px;
-      padding-bottom: 10px;
-      a,a:hover,a:focus,a:active{
-        color: #fff;
-      }
-    }
-    .top{
-      display: none;
-    }
-  }
-  .navbar-header .icon-bar{
-    background-color: #fff;
-    margin-right: 15px !important;
-    margin-top: 8px;
-  }
   .main-section {
     display: block;
     .left, .right {
@@ -401,27 +462,6 @@ h1,h2,h3,h4,h5,h6{
   .green .right{
     background-color: $greenbg;
     color: #fff;
-  }
-  .main-navigation{
-    float: none;
-    &>.nav{
-      .mobile-show{
-        display: block;
-      }
-      &>li{
-        display: block;
-        &>a{
-          padding-top: 10px;
-          padding-bottom: 10px;
-          font-size: 1.4em;
-          &:hover,
-          &:focus,
-          &:active{
-            background-color: rgba(255,255,255,0.3);
-          }
-        }
-      }
-    }
   }
 }
 /*---------------- SMALL MOBILE ----------------*/
@@ -477,50 +517,101 @@ h1,h2,h3,h4,h5,h6{
 // }
 
 @media (max-width: 991px) {
-    .navbar-header {
-        float: none;
-    }
-    .navbar-toggle {
-        display: block;
-    }
-    .navbar-collapse {
-        border-top: 1px solid transparent;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-    }
-    .navbar-collapse.collapse {
-        display: none!important;
-    }
-    .navbar-nav {
-        float: none!important;
-        margin: 7.5px -15px;
-    }
-    .navbar-nav>li {
-        float: none;
-    }
-    .navbar-nav>li>a {
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-    .navbar-text {
-        float: none;
-        margin: 15px 0;
-    }
-    /* since 3.1.0 */
-    .navbar-collapse.collapse.in { 
-        display: block!important;
-    }
-    .collapsing {
-        overflow: hidden!important;
-    }
+  .navbar-header {
+      float: none;
+  }
+  .navbar-toggle {
+      display: block;
+  }
+  .navbar-collapse {
+      border-top: 1px solid transparent;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .navbar-collapse.collapse {
+      display: none!important;
+  }
+  .navbar-nav {
+      float: none!important;
+      margin: 7.5px -15px;
+  }
+  .navbar-nav>li {
+      float: none;
+  }
+  .navbar-nav>li>a {
+      padding-top: 10px;
+      padding-bottom: 10px;
+  }
+  .navbar-text {
+      float: none;
+      margin: 15px 0;
+  }
+  /* since 3.1.0 */
+  .navbar-collapse.collapse.in { 
+      display: block!important;
+  }
+  .collapsing {
+      overflow: hidden!important;
+  }
 
-    .main-navigation {
-      margin-top: 0;
-      margin-right: 0 !important;
+  .main-navigation {
+    margin-top: 0;
+    margin-right: 0 !important;
+  }
+  .navbar-nav{
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .main-header{
+    background-color: #68aec3;
+    .logo{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      a,a:hover,a:focus,a:active{
+        color: #fff;
+      }
     }
-    .navbar-nav{
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
+    .top{
+      display: none;
     }
+  }
+  .navbar-header .icon-bar{
+    background-color: #fff;
+    margin-right: 15px !important;
+    margin-top: 8px;
+  }
+  .main-navigation{
+    float: none;
+    &>.nav{
+      .mobile-show{
+        display: block;
+      }
+      &>li{
+        display: block;
+        &.donate{
+          a{
+            color: #fff;
+            padding-left: 15px;
+            i{
+              font-size: 1.2em;
+              position: static;
+              margin-right: 3px;
+            }
+          }
+        }
+        &>a{
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-size: 1.4em;
+          &:hover,
+          &:focus,
+          &:active{
+            background-color: rgba(255,255,255,0.3);
+          }
+        }
+      }
+    }
+  }
 }
 
 
