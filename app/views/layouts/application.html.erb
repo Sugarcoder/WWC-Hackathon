@@ -92,7 +92,6 @@
       <li><a href="#partner">Become a Partner</a></li>
       <li><a href="#team">Our Team</a></li>
       <li><a href="#thanks">Special Thanks</a></li>
-      <li class="divider"></li>
       <% if user_signed_in? %>
         <% if current_user.super_admin? %>
           <li> <%= link_to 'Admin', admin_path %> </li>

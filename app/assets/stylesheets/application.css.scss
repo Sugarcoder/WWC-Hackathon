@@ -156,6 +156,7 @@ h1,h2,h3,h4,h5,h6{
 /*--------------------- MAIN-NAVIGATION ---------------------*/
 .main-navigation {
   margin-top: 25px;
+  margin-right: -15px!important;
   float: right;
 }
 .main-navigation>.nav {
@@ -233,7 +234,7 @@ h1,h2,h3,h4,h5,h6{
 /*---------------------  ---------------------*/
 .announcement {
   background-color: #f1f2f2;
-  padding: 1px 20px;
+  padding: 1px 0;
   font-size: 1.2em;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.4);
   .container{
@@ -291,6 +292,9 @@ h1,h2,h3,h4,h5,h6{
 }
 .section2{
   margin-top: 30px;
+  &>div{
+    margin-bottom: 15px;
+  }
   h3{
     font-size: 1.4em;
     margin: 5px 0 2px 0;
@@ -304,6 +308,9 @@ h1,h2,h3,h4,h5,h6{
 }
 .member{
   margin-bottom: 20px;
+}
+.navbar-toggle{
+  margin-right: 0 !important;
 }
 /*---------------------  ---------------------*/
 /*---------------------  ---------------------*/
@@ -357,13 +364,18 @@ h1,h2,h3,h4,h5,h6{
   }
   .navbar-header .icon-bar{
     background-color: #fff;
+    margin-right: 15px !important;
+    margin-top: 8px;
   }
   .main-section {
     display: block;
     .left, .right {
       display: block;
     }
-    .right{
+    .left{
+      padding-bottom: 0;
+    }
+    .right .inner-container{
       padding-top: 0;
     }
     .inner-container {
@@ -389,6 +401,27 @@ h1,h2,h3,h4,h5,h6{
   .green .right{
     background-color: $greenbg;
     color: #fff;
+  }
+  .main-navigation{
+    float: none;
+    &>.nav{
+      .mobile-show{
+        display: block;
+      }
+      &>li{
+        display: block;
+        &>a{
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-size: 1.4em;
+          &:hover,
+          &:focus,
+          &:active{
+            background-color: rgba(255,255,255,0.3);
+          }
+        }
+      }
+    }
   }
 }
 /*---------------- SMALL MOBILE ----------------*/
@@ -428,29 +461,6 @@ h1,h2,h3,h4,h5,h6{
           }
         }
       }
-    }
-  }
-}
-@media (max-width: 900px) {
-  .main-navigation{
-    // display: none;
-  }
-  .main-navigation{
-    margin-top: 0;
-    float: none;
-    &>.nav{
-      &>li{
-        &>a{
-          &:hover,
-          &:focus,
-          &:active{
-
-          }
-        }
-      }
-    }
-    .mobile-show{
-      display: block !important;
     }
   }
 }
@@ -501,6 +511,15 @@ h1,h2,h3,h4,h5,h6{
     }
     .collapsing {
         overflow: hidden!important;
+    }
+
+    .main-navigation {
+      margin-top: 0;
+      margin-right: 0 !important;
+    }
+    .navbar-nav{
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
     }
 }
 
