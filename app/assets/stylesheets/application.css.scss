@@ -258,7 +258,7 @@ h1,h2,h3,h4,h5,h6{
   background-size: cover;
   .inner {
     margin-top: 200px;
-    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(255,255,255,0.7);
     .table-wrapper{
       display: table;
       width: 100%;
@@ -327,6 +327,9 @@ h1,h2,h3,h4,h5,h6{
   right: 20px;
   z-index: 999;
   box-shadow: 0 2px 4px 1px rgba(0,0,0,0.2);
+  &:focus,&:active{
+    color: #fff;
+  }
 }
 html{
   position: relative;
@@ -557,6 +560,7 @@ footer #copyright #mc_embed_signup_footer input#mc-embedded-subscribe:hover {
     margin-top: 0;
     margin-right: 0 !important;
   }
+  
   .navbar-nav{
     margin-top: 0 !important;
     margin-bottom: 0 !important;
@@ -575,11 +579,13 @@ footer #copyright #mc_embed_signup_footer input#mc-embedded-subscribe:hover {
       display: none;
     }
   }
+  
   .navbar-header .icon-bar{
     background-color: #fff;
     margin-right: 15px !important;
     margin-top: 8px;
   }
+  
   .main-navigation{
     float: none;
     &>.nav{
@@ -612,6 +618,16 @@ footer #copyright #mc_embed_signup_footer input#mc-embedded-subscribe:hover {
       }
     }
   }
+
+  .jumbo .inner{
+    .img{
+      display: none;
+    }
+    .text{
+      display: block;
+    }
+  }
+
 }
 
 
