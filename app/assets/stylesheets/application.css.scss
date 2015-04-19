@@ -98,6 +98,11 @@ h1,h2,h3,h4,h5,h6{
   width: 100%;
   font-size: 1.4em;
   border-bottom: 1px solid #000;
+  .inner-container {
+    width: 585px;
+    padding: 20px;
+    // background-color: rgba(0,0,0,0.1);
+  }
   .left {
     display: table-cell;
     vertical-align: top;
@@ -111,12 +116,8 @@ h1,h2,h3,h4,h5,h6{
     overflow: hidden;
     .inner-container {
       float: left;
+      padding: 50px 20px;
     }
-  }
-  .inner-container {
-    width: 585px;
-    padding: 20px;
-    // background-color: rgba(0,0,0,0.1);
   }
 }
 /*--------------------- HEADER ---------------------*/
