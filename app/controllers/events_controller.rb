@@ -8,12 +8,11 @@ class EventsController < ApplicationController
   before_action :authenticate_user!, only: [:attend, :cancel, :stop_recurring, :finish]
 
   def index
+    render layout: false
     @events = Event.all
   end
 
   def show 
-
-    
     comments_per_page = 10 
     @comments = Comment.where(commentable_id: @event.id).paginate(page: 1, per_page: comments_per_page).order('created_at DESC')
     @users = User.joins(:users_events).where('event_id = ?', @event.id)
