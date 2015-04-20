@@ -1,5 +1,5 @@
 # Women Who Code Hackathon
-## Rescuing Leftover Cuisine
+## Rescuing Leftover Cuisine Website Redesign
 
 ### User Stories: 
 - Users are able to navigate the website easily.
