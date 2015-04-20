@@ -1,4 +1,4 @@
-# Women Who Code Hackathon - Rescuing Leftover Cuisine
+## Women Who Code Hackathon - Rescuing Leftover Cuisine
 
 ### User Stories: 
 - Users are able to navigate the website easily.
