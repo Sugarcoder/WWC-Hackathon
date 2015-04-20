@@ -1,4 +1,4 @@
-### Women Who Code Hackathon
+# Women Who Code Hackathon
 ## Rescuing Leftover Cuisine
 
 ### User Stories: 
